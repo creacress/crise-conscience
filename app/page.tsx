@@ -6,7 +6,7 @@ const quickLinks = [
   {
     title: "Comprendre les mécanismes",
     desc: "Signaux d’alerte, emprise, manipulation…",
-    href: "/articles",
+    href: "/blog/signeaux-emprise",
     icon: "🧠",
   },
   {
@@ -294,7 +294,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* MISSION + NEWSLETTER */}
+      {/* MISSION */}
       <section className="mt-14 grid gap-6 lg:grid-cols-3">
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6 lg:col-span-2">
           <SectionTitle title="Notre mission" desc="Une approche pédagogique, empathique et factuelle." />
@@ -326,23 +326,6 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <div className="text-sm text-white/70">Newsletter</div>
-          <div className="mt-2 text-lg font-semibold">Recevoir les nouveautés</div>
-          <p className="mt-2 text-sm text-white/60 leading-relaxed">
-            Résumés d’articles, ressources, actus. (Branchement via n8n + Brevo/Mailchimp)
-          </p>
-          <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/65">
-            Astuce : une newsletter mensuelle est souvent plus saine qu’un spam quotidien.
-          </div>
-          <Link
-            href="/contact"
-            className="mt-5 inline-flex w-full justify-center rounded-xl bg-white/10 px-4 py-2 font-semibold text-white hover:bg-white/15 transition"
-          >
-            S’inscrire
-          </Link>
         </div>
       </section>
 
