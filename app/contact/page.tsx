@@ -1,9 +1,14 @@
-
-
 export const metadata = {
   title: "Contact – Crise Conscience",
   description:
     "Contactez Crise Conscience : questions, signalements, partenariats. Formulaire sécurisé et coordonnées.",
+};
+
+// --- À PERSONNALISER
+const CONTACT_EMAIL = "contact@criseconscience.org";
+const SOCIAL = {
+  linkedin: "linkedin.com/in/association-crise-conscience-58a5173a8",
+  x: "https://x.com/TON_COMPTE",
 };
 
 export default function ContactPage() {
@@ -132,10 +137,35 @@ export default function ContactPage() {
           <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
             <h3 className="text-sm font-semibold text-white">Coordonnées</h3>
             <p className="mt-3 text-sm leading-6 text-white/70">
-              Email : <span className="text-white/85">contact@criseconscience.org</span>
-              <br />
-              Réseaux : <span className="text-white/85">à venir</span>
+              Email : <span className="text-white/85">{CONTACT_EMAIL}</span>
             </p>
+
+            <div className="mt-4 flex items-center gap-2">
+              <a
+                href={SOCIAL.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.02] text-white/80 transition hover:bg-white/[0.06] hover:text-white"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-current">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.6 0 4.265 2.37 4.265 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 114.126 0c0 1.14-.925 2.065-2.063 2.065zM6.814 20.452H3.86V9h2.954v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </a>
+
+              <a
+                href={SOCIAL.x}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="X (Twitter)"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.02] text-white/80 transition hover:bg-white/[0.06] hover:text-white"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-current">
+                  <path d="M18.244 2H21l-6.53 7.458L22.5 22h-6.2l-4.86-6.45L5.8 22H3l7.02-8.02L1.5 2h6.36l4.4 5.87L18.244 2zm-1.09 18h1.72L6.94 3.93H5.1L17.154 20z"/>
+                </svg>
+              </a>
+
+            </div>
             <div className="mt-4 flex flex-wrap gap-2">
               <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
                 Réponse 48–72h

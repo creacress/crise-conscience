@@ -18,9 +18,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="absolute top-40 right-10 h-72 w-72 rounded-full bg-orange-500/25" />
         </div>
 
+        <style>{`
+          /* Page transitions (App Router) */
+          @keyframes cc-page-enter {
+            from { opacity: 0; transform: translateY(10px); filter: blur(4px); }
+            to   { opacity: 1; transform: translateY(0);  filter: blur(0); }
+          }
+
+          /* The layout persists between navigations, so animate the page root element (children) */
+          .cc-page-slot > * {
+            animation: cc-page-enter 360ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .cc-page-slot > * { animation: none !important; }
+          }
+        `}</style>
+
         <div className="relative">
           <SiteHeader />
-          <main className="pt-10">{children}</main>
+          <main className="pt-10">
+            <div className="cc-page-slot">{children}</div>
+          </main>
           <SiteFooter />
         </div>
       </body>
