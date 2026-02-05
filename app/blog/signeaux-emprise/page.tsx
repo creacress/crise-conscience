@@ -1,5 +1,3 @@
-
-
 // app/blog/signe-emprise/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -163,18 +161,33 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-black/20 p-5">
-            <p className="text-sm font-semibold text-white">Mini‑checklist (à garder en tête)</p>
-            <ul className="mt-3 space-y-2 text-sm text-white/70">
-              <li>• Isolement progressif + rupture avec les proches</li>
-              <li>• Dépendance (affective, financière, cognitive)</li>
-              <li>• Contrôle du temps, de l’info, des choix</li>
-              <li>• Pressions / culpabilisation / menaces</li>
-              <li>• Promesses “miracles” + exigences croissantes</li>
-            </ul>
-            <p className="mt-4 text-xs text-white/50">
-              L’important : regarder la dynamique de contrôle, pas l’étiquette du groupe.
-            </p>
+          <div className="w-full max-w-sm space-y-4">
+            <figure className="overflow-hidden rounded-2xl border border-white/10 bg-black/20">
+              <img
+                src="https://cms-imgp.jw-cdn.org/img/p/1011580/univ/art/1011580_univ_pnr_md.jpg"
+                alt="Illustration : Dieu vous remarque-t-il ?"
+                className="h-56 w-full object-cover"
+                loading="lazy"
+                referrerPolicy="no-referrer"
+              />
+              <figcaption className="p-4 text-xs text-white/55">
+                Image d’illustration (source : jw-cdn.org)
+              </figcaption>
+            </figure>
+
+            <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+              <p className="text-sm font-semibold text-white">Mini‑checklist (à garder en tête)</p>
+              <ul className="mt-3 space-y-2 text-sm text-white/70">
+                <li>• Isolement progressif + rupture avec les proches</li>
+                <li>• Dépendance (affective, financière, cognitive)</li>
+                <li>• Contrôle du temps, de l’info, des choix</li>
+                <li>• Pressions / culpabilisation / menaces</li>
+                <li>• Promesses “miracles” + exigences croissantes</li>
+              </ul>
+              <p className="mt-4 text-xs text-white/50">
+                L’important : regarder la dynamique de contrôle, pas l’étiquette du groupe.
+              </p>
+            </div>
           </div>
         </div>
       </header>

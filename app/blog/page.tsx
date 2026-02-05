@@ -23,27 +23,7 @@ const POSTS: Post[] = [
     date: "2026-01-10",
     readTime: "6 min",
     href: "/blog/signeaux-emprise",
-  },
-  {
-    id: "2",
-    title: "Témoignage : “Je pensais aider… jusqu’à perdre ma liberté”",
-    excerpt:
-      "Un récit anonymisé sur la progression de l’emprise, les mécanismes de peur, et le déclic qui permet de sortir du brouillard.",
-    category: "Témoignages",
-    date: "2026-01-08",
-    readTime: "8 min",
-    href: "/blog",
-  },
-  {
-    id: "3",
-    title: "Ressources : numéros utiles, associations, démarches",
-    excerpt:
-      "Un point rapide sur les bons contacts et les étapes pour se faire aider (proches, pros, institutions).",
-    category: "Actualités",
-    date: "2026-01-05",
-    readTime: "4 min",
-    href: "/ressources",
-  },
+  }
 ];
 
 const CATEGORIES = ["Tous", "Témoignages", "Analyses", "Actualités"] as const;

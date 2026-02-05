@@ -25,6 +25,15 @@ function formatFR(iso?: string) {
   return d.toLocaleDateString("fr-FR", { year: "numeric", month: "short", day: "2-digit" });
 }
 
+function resolveUrlMaybe(url: any, base: string) {
+  const u = typeof url === "string" ? url.trim() : url == null ? "" : String(url).trim();
+  if (!u) return "";
+  if (u.startsWith("http://") || u.startsWith("https://")) return u;
+  // URL relative du site (ex: /uploads/cover.webp)
+  if (u.startsWith("/")) return base ? `${base}${u}` : u;
+  return u;
+}
+
 export default async function ArticlesPage() {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? "";
   const res = await fetch(`${base}/api/articles`, {
@@ -138,8 +147,21 @@ export default async function ArticlesPage() {
             const date = formatFR(a.publishedAt);
             const metaLine = [date, a.readingTime].filter(Boolean).join(" • ");
 
-            const key = a.url ? a.id : a.id;
-            const slugOrId = (a as any).slug || a.id; // compat si l'API renvoie slug
+            // Tolérance aux différents noms de champs venant de n8n/API
+            const rawCover =
+              a.coverUrl ??
+              (a as any).coverImage ??
+              (a as any).cover_image ??
+              (a as any).cover_url ??
+              (a as any).imageUrl ??
+              (a as any).image_url ??
+              (a as any).photo_url ??
+              (a as any).photoUrl ??
+              "";
+
+            const cover = resolveUrlMaybe(rawCover, base);
+
+            const slugOrId = (a as any).slug || (a as any).id || a.id; // compat si l'API renvoie slug
             const href = `/articles/${encodeURIComponent(String(slugOrId))}`;
 
             return (
@@ -149,10 +171,10 @@ export default async function ArticlesPage() {
                 className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 hover:bg-white/10 transition"
               >
                 <div className="relative z-10 h-36 w-full overflow-hidden">
-                  {a.coverUrl ? (
+                  {cover ? (
                     <>
                       <img
-                        src={a.coverUrl}
+                        src={cover}
                         alt={a.title}
                         className="h-full w-full object-cover opacity-90"
                         loading="lazy"
