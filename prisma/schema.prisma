@@ -1,0 +1,39 @@
+// Prisma schema
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  // Standard Prisma Client generator for Node.js/TypeScript
+  provider = "prisma-client-js"
+
+  // Keep your custom output if you want the generated client inside your repo.
+  // If you prefer the default (node_modules/@prisma/client), delete this line.
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ArticleStatus {
+  draft
+  ready
+  published
+}
+
+model Article {
+  id           String        @id @default(cuid())
+  title        String
+  slug         String        @unique
+  excerpt      String?
+  contentHtml  String
+  coverImage   String?
+  tags         String[]      @default([])
+  status       ArticleStatus @default(draft)
+  publishedAt  DateTime?
+  notionPageId String?       @unique
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([status, publishedAt])
+}
