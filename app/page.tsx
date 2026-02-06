@@ -234,7 +234,7 @@ export default async function HomePage() {
         <SectionTitle
           eyebrow="Derniers articles"
           title="Extraits récents"
-          desc="Cette zone est prête pour l’automatisation (n8n + Strapi / RSS → /api/articles)."
+          desc="Cette zone est généré par N8N."
         />
 
         <div className="grid gap-4 lg:grid-cols-2">
