@@ -37,14 +37,26 @@ function resolveUrlMaybe(url: any, base: string) {
   if (!u) return "";
   if (u.startsWith("http://") || u.startsWith("https://")) return u;
   // URL relative du site (ex: /uploads/cover.webp)
-  if (u.startsWith("/")) return base ? `${base}${u}` : u;
+  if (u.startsWith("/")) return base ? `${base.replace(/\/$/, "")}${u}` : u;
   return u;
 }
 
+function getSiteBaseUrl() {
+  // Prefer explicit public URL
+  const explicit = (process.env.NEXT_PUBLIC_SITE_URL ?? "").trim();
+  if (explicit) return explicit.replace(/\/$/, "");
+
+  // Vercel provides VERCEL_URL without protocol (e.g. "my-app.vercel.app")
+  const vercel = (process.env.VERCEL_URL ?? "").trim();
+  if (vercel) return `https://${vercel}`;
+
+  // Local fallback
+  return "http://localhost:3000";
+}
+
 export default async function ArticlesPage() {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const base = getSiteBaseUrl();
   const res = await fetch(`${base}/api/articles`, {
-    // en dev, NEXT_PUBLIC_SITE_URL peut être vide => fetch relatif OK
     cache: "no-store",
   }).catch(() => null);
 

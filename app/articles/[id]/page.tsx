@@ -23,8 +23,13 @@ function asStr(v: unknown): string {
 }
 
 function siteBaseUrl(): string {
-  const v = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  return v.replace(/\/$/, "");
+  const explicit = (process.env.NEXT_PUBLIC_SITE_URL ?? "").trim();
+  if (explicit) return explicit.replace(/\/$/, "");
+
+  const vercel = (process.env.VERCEL_URL ?? "").trim();
+  if (vercel) return `https://${vercel}`;
+
+  return "http://localhost:3000";
 }
 
 function stripDangerousHtml(html: string): string {
@@ -140,7 +145,8 @@ function estimateReadingTimeMinutes(text: string): number {
 
 async function fetchArticleByIdOrSlug(idOrSlug: string): Promise<Article | null> {
   const base = siteBaseUrl();
-  const key = encodeURIComponent(idOrSlug);
+  const raw = decodeURIComponent(idOrSlug ?? "").trim();
+  const key = encodeURIComponent(raw);
 
   // Some of your API versions expect:
   // - /api/articles/:idOrSlug
@@ -221,7 +227,7 @@ async function fetchArticleByIdOrSlug(idOrSlug: string): Promise<Article | null>
       const items = Array.isArray(data?.items) ? data.items : Array.isArray(data) ? data : [];
       const found = items.find((x: any) => {
         const sid = asStr(x?.slug || x?.id);
-        return sid === idOrSlug || sid === decodeURIComponent(idOrSlug);
+        return sid === raw;
       });
 
       if (found) {
