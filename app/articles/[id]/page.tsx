@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 type Article = {
   id: string;
@@ -143,14 +144,9 @@ async function fetchArticleByIdOrSlug(idOrSlug: string): Promise<Article | null>
 
   // Some of your API versions expect:
   // - /api/articles/:idOrSlug
-  // Others expect:
-  // - /api/articlesTheOne?slug=...
   // So we try a small cascade.
   const candidates = [
     `${base}/api/articles/${key}`,
-    `${base}/api/articles?slug=${key}`,
-    `${base}/api/articles?i=${key}`,
-    `${base}/api/articles?id=${key}`,
   ];
 
   let lastErrText = "";
@@ -212,6 +208,52 @@ async function fetchArticleByIdOrSlug(idOrSlug: string): Promise<Article | null>
     return null;
   }
 
+  // Last chance: if you only have a list API (/api/articles) returning { items: [...] },
+  // fetch it and find the article locally.
+  try {
+    const res = await fetch(`${base}/api/articles`, {
+      cache: "no-store",
+      headers: { accept: "application/json" },
+    });
+
+    if (res.ok) {
+      const data = (await res.json().catch(() => null)) as any;
+      const items = Array.isArray(data?.items) ? data.items : Array.isArray(data) ? data : [];
+      const found = items.find((x: any) => {
+        const sid = asStr(x?.slug || x?.id);
+        return sid === idOrSlug || sid === decodeURIComponent(idOrSlug);
+      });
+
+      if (found) {
+        const a = found as any;
+        return {
+          id: asStr(a.id || a.identifiant),
+          slug: asStr(a.slug || a.limace || a.id),
+          title: asStr(a.title || a.titre),
+          excerpt: asStr(a.excerpt || a.extrait) || null,
+          coverImage:
+            asStr(
+              a.coverImage ||
+                a.coverimage ||
+                a.image_de_couverture ||
+                a.image ||
+                a.cover
+            ) || null,
+          tags: Array.isArray(a.tags || a.etiquettes)
+            ? (a.tags || a.etiquettes)
+                .map((s: unknown) => asStr(s))
+                .filter(Boolean)
+            : null,
+          publishedAt: asStr(a.publishedAt || a.publieA || a.published_at) || null,
+          contentHtml: asStr(a.contentHtml || a.content_html || a.content || a.html) || null,
+          sourceUrl: asStr(a.sourceUrl || a.source_url || a.source) || null,
+        };
+      }
+    }
+  } catch {
+    // ignore; treat as not found
+  }
+
   return null;
 }
 
@@ -234,7 +276,9 @@ export async function generateMetadata(
     openGraph: {
       title,
       description,
-      images: article.coverImage ? [{ url: article.coverImage }] : undefined,
+      images: article.coverImage
+        ? [{ url: article.coverImage.startsWith("http") ? article.coverImage : `${siteBaseUrl()}${article.coverImage}` }]
+        : undefined,
       type: "article",
     },
   };

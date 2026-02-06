@@ -2,12 +2,19 @@ import Container from "../components/Container";
 import SectionTitle from "../components/SectionTitle";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 type Article = {
   id: string;
+  slug?: string;
   title: string;
   excerpt: string;
-  theme: string;
+  theme?: string;
+  tags?: string[];
+  status?: string;
   coverUrl?: string;
+  coverImage?: string;
   url?: string; // url publique (si n8n publie ailleurs)
   publishedAt?: string;
   readingTime?: string;
@@ -62,7 +69,13 @@ export default async function ArticlesPage() {
   const count = data.meta?.count ?? items.length;
 
   // Thèmes uniques (UI simple)
-  const themes = Array.from(new Set(items.map((a) => a.theme).filter(Boolean))).slice(0, 12);
+  const themes = Array.from(
+    new Set(
+      items
+        .map((a) => a.theme || (Array.isArray((a as any).tags) ? (a as any).tags[0] : ""))
+        .filter(Boolean)
+    )
+  ).slice(0, 12);
 
   return (
     <Container>
@@ -164,6 +177,8 @@ export default async function ArticlesPage() {
             const slugOrId = (a as any).slug || (a as any).id || a.id; // compat si l'API renvoie slug
             const href = `/articles/${encodeURIComponent(String(slugOrId))}`;
 
+            const theme = a.theme || (Array.isArray((a as any).tags) ? (a as any).tags[0] : "") || "Article";
+
             return (
               <Link
                 key={a.id}
@@ -189,7 +204,7 @@ export default async function ArticlesPage() {
                 <div className="relative z-10 p-5">
                   <div className="flex items-center justify-between gap-3 text-xs text-white/60">
                     <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-2 py-0.5">
-                      {a.theme || "Article"}
+                      {theme}
                     </span>
                     {metaLine ? <span>{metaLine}</span> : <span />}
                   </div>
