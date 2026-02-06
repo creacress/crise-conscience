@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { assertIngestAuth } from "@/lib/ingestAuth";
+import { revalidatePath } from "next/cache";
 
 export const runtime = "nodejs";
 
@@ -72,6 +73,10 @@ export async function POST(req: NextRequest) {
     update: data,
     select: { id: true, slug: true, updatedAt: true },
   });
+
+  // Ensure the UI reflects newly ingested content (ISR / caching)
+  revalidatePath("/articles");
+  revalidatePath(`/articles/${slug}`);
 
   return NextResponse.json({ ok: true, article: saved });
 }
