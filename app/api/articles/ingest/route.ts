@@ -8,6 +8,18 @@ function asStr(v: unknown) {
   return typeof v === "string" ? v : v == null ? "" : String(v);
 }
 
+function normalizeStatus(v: unknown) {
+  const s = asStr(v).trim().toLowerCase();
+  if (["published", "publish", "ready", "ok", "live"].includes(s)) return "published";
+  return "draft";
+}
+
+function parseDateOrNull(v: unknown) {
+  if (!v) return null;
+  const d = new Date(asStr(v));
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
 export async function POST(req: NextRequest) {
   const auth = assertIngestAuth(req);
   if (!auth.ok) {
@@ -39,14 +51,17 @@ export async function POST(req: NextRequest) {
         .filter((s: string) => Boolean(s))
     : [];
 
+  const status = normalizeStatus(body?.status);
+  const publishedAt = status === "published" ? parseDateOrNull(body?.publishedAt) ?? new Date() : null;
+
   const data = {
     title,
     slug,
     excerpt: asStr(body?.excerpt || "").trim() || null,
     coverImage: asStr(body?.coverImage || "").trim() || null,
     contentHtml,
-    status: (asStr(body?.status || "draft").trim() || "draft") as any,
-    publishedAt: body?.publishedAt ? new Date(body.publishedAt) : null,
+    status: status as any,
+    publishedAt,
     tags,
     notionPageId: asStr(body?.notionPageId || "").trim() || null,
   };
