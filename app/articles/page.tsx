@@ -1,6 +1,7 @@
 import Container from "../components/Container";
 import SectionTitle from "../components/SectionTitle";
 import Link from "next/link";
+import { getBaseUrl } from "@/lib/base-url";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -21,7 +22,10 @@ type Article = {
 };
 
 type ApiResponse = {
-  items: Article[];
+  ok?: boolean;
+  items?: Article[];
+  error?: string;
+  reason?: string;
   meta?: { ok?: boolean; reason?: string; count?: number };
 };
 
@@ -37,47 +41,39 @@ function resolveUrlMaybe(url: any, base: string) {
   if (!u) return "";
   if (u.startsWith("http://") || u.startsWith("https://")) return u;
   // URL relative du site (ex: /uploads/cover.webp)
-  if (u.startsWith("/")) return base ? `${base.replace(/\/$/, "")}${u}` : u;
+  if (u.startsWith("/")) return base ? `${base}${u}` : u;
   return u;
 }
 
-function getSiteBaseUrl() {
-  // Prefer explicit public URL
-  const explicit = (process.env.NEXT_PUBLIC_SITE_URL ?? "").trim();
-  if (explicit) return explicit.replace(/\/$/, "");
-
-  // Vercel provides VERCEL_URL without protocol (e.g. "my-app.vercel.app")
-  const vercel = (process.env.VERCEL_URL ?? "").trim();
-  if (vercel) return `https://${vercel}`;
-
-  // Local fallback
-  return "http://localhost:3000";
-}
-
 export default async function ArticlesPage() {
-  const base = getSiteBaseUrl();
+  const base = await getBaseUrl();
   const res = await fetch(`${base}/api/articles`, {
     cache: "no-store",
   }).catch(() => null);
 
-  let data: ApiResponse = { items: [], meta: { ok: false, reason: "API /api/articles indisponible" } };
+  let data: ApiResponse = { items: [], ok: false, reason: "API /api/articles indisponible" };
   if (res && res.ok) {
     try {
       data = (await res.json()) as ApiResponse;
     } catch {
-      data = { items: [], meta: { ok: false, reason: "Réponse JSON invalide" } };
+      data = { items: [], ok: false, reason: "Réponse JSON invalide" };
     }
   }
 
-  // On considère la sync OK si l'API répond et qu'on a des items
-  const items = (data.items ?? []).slice().sort((a, b) => {
-    const da = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
-    const db = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
-    return db - da;
+  const rawItems = Array.isArray((data as any)?.items) ? ((data as any).items as Article[]) : [];
+
+  // Tri robuste: publishedAt desc, sinon updatedAt desc, sinon rien
+  const items = rawItems.slice().sort((a: any, b: any) => {
+    const da = a?.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+    const db = b?.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+    if (db !== da) return db - da;
+    const ua = a?.updatedAt ? new Date(a.updatedAt).getTime() : 0;
+    const ub = b?.updatedAt ? new Date(b.updatedAt).getTime() : 0;
+    return ub - ua;
   });
 
-  const ok = (data.meta?.ok ?? res?.ok ?? false) || items.length > 0;
-  const reason = data.meta?.reason ?? "";
+  const ok = Boolean((data as any)?.ok ?? data.meta?.ok ?? res?.ok) || items.length > 0;
+  const reason = (data as any)?.reason ?? (data as any)?.error ?? data.meta?.reason ?? "";
   const count = data.meta?.count ?? items.length;
 
   // Thèmes uniques (UI simple)
@@ -215,9 +211,16 @@ export default async function ArticlesPage() {
                 </div>
                 <div className="relative z-10 p-5">
                   <div className="flex items-center justify-between gap-3 text-xs text-white/60">
-                    <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-2 py-0.5">
-                      {theme}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-2 py-0.5">
+                        {theme}
+                      </span>
+                      {a.status ? (
+                        <span className="inline-flex rounded-full border border-white/10 bg-black/20 px-2 py-0.5 text-[11px] text-white/65">
+                          {String(a.status)}
+                        </span>
+                      ) : null}
+                    </div>
                     {metaLine ? <span>{metaLine}</span> : <span />}
                   </div>
 

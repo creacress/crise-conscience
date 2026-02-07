@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getBaseUrl } from "@/lib/base-url";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -22,15 +23,6 @@ function asStr(v: unknown): string {
   return typeof v === "string" ? v : v == null ? "" : String(v);
 }
 
-function siteBaseUrl(): string {
-  const explicit = (process.env.NEXT_PUBLIC_SITE_URL ?? "").trim();
-  if (explicit) return explicit.replace(/\/$/, "");
-
-  const vercel = (process.env.VERCEL_URL ?? "").trim();
-  if (vercel) return `https://${vercel}`;
-
-  return "http://localhost:3000";
-}
 
 function stripDangerousHtml(html: string): string {
   // Minimal safety net: remove script tags.
@@ -144,7 +136,7 @@ function estimateReadingTimeMinutes(text: string): number {
 }
 
 async function fetchArticleByIdOrSlug(idOrSlug: string): Promise<Article | null> {
-  const base = siteBaseUrl();
+  const base = await getBaseUrl();
   const raw = decodeURIComponent(idOrSlug ?? "").trim();
   const key = encodeURIComponent(raw);
 
@@ -275,6 +267,7 @@ export async function generateMetadata(
 
   const title = article.title || "Article";
   const description = article.excerpt || "";
+  const base = await getBaseUrl();
 
   return {
     title,
@@ -283,7 +276,7 @@ export async function generateMetadata(
       title,
       description,
       images: article.coverImage
-        ? [{ url: article.coverImage.startsWith("http") ? article.coverImage : `${siteBaseUrl()}${article.coverImage}` }]
+        ? [{ url: article.coverImage.startsWith("http") ? article.coverImage : `${base}${article.coverImage}` }]
         : undefined,
       type: "article",
     },
@@ -296,6 +289,8 @@ export default async function ArticlePage(
   const { id } = await params;
   const key = decodeURIComponent(id ?? "").trim();
   if (!key) notFound();
+
+  const base = await getBaseUrl();
 
   const article = await fetchArticleByIdOrSlug(key);
   if (!article) notFound();
@@ -373,7 +368,7 @@ export default async function ArticlePage(
           <div className="mt-7 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_12px_40px_-28px_rgba(0,0,0,0.8)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={article.coverImage}
+              src={article.coverImage.startsWith("http") ? article.coverImage : `${base}${article.coverImage}`}
               alt=""
               className="h-[240px] w-full object-cover md:h-[380px]"
               loading="lazy"

@@ -4,6 +4,8 @@ import { assertIngestAuth } from "@/lib/ingestAuth";
 import { revalidatePath } from "next/cache";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 function asStr(v: unknown) {
   return typeof v === "string" ? v : v == null ? "" : String(v);
@@ -11,8 +13,9 @@ function asStr(v: unknown) {
 
 function normalizeStatus(v: unknown) {
   const s = asStr(v).trim().toLowerCase();
-  if (["published", "publish", "ready", "ok", "live"].includes(s)) return "published";
-  return "draft";
+  if (["published", "publish", "live", "public"].includes(s)) return "published" as const;
+  if (["ready", "review", "ok"].includes(s)) return "ready" as const;
+  return "draft" as const;
 }
 
 function parseDateOrNull(v: unknown) {
@@ -53,7 +56,9 @@ export async function POST(req: NextRequest) {
     : [];
 
   const status = normalizeStatus(body?.status);
-  const publishedAt = status === "published" ? parseDateOrNull(body?.publishedAt) ?? new Date() : null;
+  const publishedAt = status === "published"
+    ? parseDateOrNull(body?.publishedAt) ?? new Date()
+    : null;
 
   const data = {
     title,
@@ -61,22 +66,33 @@ export async function POST(req: NextRequest) {
     excerpt: asStr(body?.excerpt || "").trim() || null,
     coverImage: asStr(body?.coverImage || "").trim() || null,
     contentHtml,
-    status: status as any,
+    status,
     publishedAt,
     tags,
     notionPageId: asStr(body?.notionPageId || "").trim() || null,
   };
 
-  const saved = await prisma.article.upsert({
-    where: { slug },
-    create: data,
-    update: data,
-    select: { id: true, slug: true, updatedAt: true },
-  });
+  try {
+    const saved = await prisma.article.upsert({
+      where: { slug },
+      create: data,
+      update: data,
+      select: { id: true, slug: true, updatedAt: true },
+    });
 
-  // Ensure the UI reflects newly ingested content (ISR / caching)
-  revalidatePath("/articles");
-  revalidatePath(`/articles/${slug}`);
+    // Ensure the UI reflects newly ingested content (ISR / caching)
+    revalidatePath("/articles");
+    revalidatePath(`/articles/${slug}`);
 
-  return NextResponse.json({ ok: true, article: saved });
+    return NextResponse.json(
+      { ok: true, article: saved },
+      { headers: { "Cache-Control": "no-store" } }
+    );
+  } catch (e: any) {
+    console.error("/api/articles/ingest POST failed", e);
+    return NextResponse.json(
+      { ok: false, reason: "db_error" },
+      { status: 500, headers: { "Cache-Control": "no-store" } }
+    );
+  }
 }
