@@ -165,10 +165,11 @@ export default function Page() {
             <figure className="overflow-hidden rounded-2xl border border-white/10 bg-black/20">
               <img
                 src="https://cms-imgp.jw-cdn.org/img/p/1011580/univ/art/1011580_univ_pnr_md.jpg"
-                alt="Illustration : Dieu vous remarque-t-il ?"
+                alt="Illustration (jw-cdn.org)"
                 className="h-56 w-full object-cover"
                 loading="lazy"
-                referrerPolicy="no-referrer"
+                decoding="async"
+                fetchPriority="low"
               />
               <figcaption className="p-4 text-xs text-white/55">
                 Image d’illustration (source : jw-cdn.org)
