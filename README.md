@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Crise Conscience
 
-## Getting Started
+Site web officiel de l’association **Crise Conscience**, dédiée à la **sensibilisation, l’analyse critique et la prévention des dérives sectaires**.  
+Le projet est **open source**, tout en protégeant strictement l’identité, les contenus et la mission de l’association.
 
-First, run the development server:
+---
 
+## 🌍 Objectif du projet
+
+- Informer et sensibiliser le grand public
+- Publier des articles d’analyse critique et pédagogique
+- Centraliser des ressources fiables (rapports, institutions, associations)
+- Automatiser la mise à jour des contenus (CMS / n8n)
+- Proposer un site moderne, accessible et durable
+
+---
+
+## 🧠 Stack technique
+
+- **Next.js (App Router)**
+- **TypeScript**
+- **Tailwind CSS**
+- **Prisma**
+- **PostgreSQL (Neon)**
+- **n8n** (ingestion & automatisation des contenus)
+- **Vercel** (déploiement)
+
+---
+
+## 🔐 Licence & droits
+
+### Code
+Le code source est distribué sous licence **AGPL-3.0**.  
+Toute modification déployée publiquement doit être rendue accessible.
+
+### Contenus & identité
+Les éléments suivants **ne sont pas couverts par la licence open source** :
+- Nom et identité de l’association *Crise Conscience*
+- Logo, charte graphique, visuels
+- Textes éditoriaux, articles, ressources pédagogiques
+
+➡️ **© Crise Conscience — Tous droits réservés**
+
+Voir `COPYRIGHT.md` pour plus de détails.
+
+---
+
+## 🚀 Démarrage rapide (local)
+
+### Prérequis
+- Node.js 20+
+- npm / pnpm / yarn
+- Base PostgreSQL
+
+### Installation
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/creacress/crise-conscience.git
+cd crise-conscience
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Configuration
+Créer un fichier `.env` à partir de l’exemple :
+```bash
+cp .env.example .env
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Lancer le projet
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+➡️ http://localhost:3000
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🧪 Scripts utiles
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run dev        # Développement
+npm run build      # Build production
+npm run lint       # Lint
+npm run typecheck  # Vérification TypeScript
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🔍 Sécurité
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Analyse automatique des dépendances (Dependabot)
+- Scan de code (CodeQL)
+- Protection des secrets GitHub
+- CI obligatoire avant merge
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+📧 Signalement responsable : `security@criseconscience.org`  
+Voir `SECURITY.md`.
+
+---
+
+## 🤝 Contributions
+
+Les contributions sont bienvenues **sur le code uniquement**.
+
+Merci de :
+- respecter la mission de l’association
+- ne pas réutiliser les contenus ou l’identité
+- proposer des PR claires et documentées
+
+---
+
+## 📬 Contact
+
+- 🌐 https://www.criseconscience.org
+- 📧 contact@criseconscience.org
+- 👨‍💻 admin@criseconscience.org
+- 🔒 security@webcresson.com
+
+---
+
+> Ce projet est volontairement ouvert pour favoriser la transparence,  
+> mais fermement protégé pour éviter toute récupération ou détournement.
