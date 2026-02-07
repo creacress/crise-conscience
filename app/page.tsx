@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Container from "@/app/components/Container";
 import SectionTitle from "@/app/components/SectionTitle";
+import { getBaseUrl } from "@/lib/base-url";
 
 const quickLinks = [
   {
@@ -32,6 +33,8 @@ type HomeArticle = {
   excerpt: string;
   category: string;
   publishedAt: string;
+  updatedAt?: string;
+  status?: string;
   readingTime?: string;
 };
 
@@ -60,6 +63,8 @@ function normalizeArticle(a: any): HomeArticle | null {
   const category = asStr(a?.category || a?.tag || a?.theme || "Article").trim();
   const publishedAt = asStr(a?.publishedAt || a?.published_at || a?.date || a?.createdAt || a?.created_at).trim();
   const readingTime = asStr(a?.readingTime || a?.reading_time || a?.meta?.readingTime).trim();
+  const updatedAt = asStr(a?.updatedAt || a?.updated_at).trim();
+  const status = asStr(a?.status).trim();
 
   return {
     title,
@@ -67,16 +72,19 @@ function normalizeArticle(a: any): HomeArticle | null {
     excerpt: excerpt || "Lire l’article…",
     category: category || "Article",
     publishedAt: publishedAt || new Date().toISOString().slice(0, 10),
+    updatedAt: updatedAt || undefined,
+    status: status || undefined,
     readingTime: readingTime || undefined,
   };
 }
 
 async function getLatestArticles(limit = 4): Promise<HomeArticle[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/api/articles?limit=${limit}`, {
-      // ✅ en prod: ISR léger. En dev: refresh à chaque req.
-      next: { revalidate: 60 },
-      cache: process.env.NODE_ENV === "development" ? "no-store" : "force-cache",
+    const base = await getBaseUrl();
+
+    const res = await fetch(`${base}/api/articles`, {
+      // Home: toujours frais (évite les surprises en prod)
+      cache: "no-store",
     });
 
     if (!res.ok) return [];
@@ -84,10 +92,27 @@ async function getLatestArticles(limit = 4): Promise<HomeArticle[]> {
     const json = await res.json();
     const items = pickItems(json);
 
-    return items
+    // On garde les articles visibles (ready + published). Exclure draft.
+    const normalized = items
       .map(normalizeArticle)
-      .filter(Boolean)
-      .slice(0, limit) as HomeArticle[];
+      .filter(Boolean) as HomeArticle[];
+
+    const visible = normalized.filter((a) => {
+      const s = (a.status ?? "").toLowerCase();
+      return s === "published" || s === "ready" || s === "";
+    });
+
+    // Tri: publishedAt desc sinon updatedAt desc
+    visible.sort((a, b) => {
+      const da = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+      const db = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+      if (db !== da) return db - da;
+      const ua = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
+      const ub = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
+      return ub - ua;
+    });
+
+    return visible.slice(0, limit);
   } catch {
     return [];
   }
@@ -248,7 +273,7 @@ export default async function HomePage() {
                 <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-white/70">
                   {a.category}
                 </span>
-                <span className="text-xs text-white/50">{formatDate(a.publishedAt)}</span>
+                <span className="text-xs text-white/50">{formatDate(a.publishedAt || a.updatedAt || "")}</span>
                 {a.readingTime ? (
                   <>
                     <span className="text-xs text-white/50">•</span>
