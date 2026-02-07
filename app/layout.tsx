@@ -2,6 +2,8 @@ import "./globals.css";
 import SiteHeader from "@/app/components/SiteHeader";
 import SiteFooter from "@/app/components/SiteFooter";
 
+import { Analytics } from '@vercel/analytics/next';
+
 export const metadata = {
   title: "Crise Conscience",
   description:
@@ -41,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="cc-page-slot">{children}</div>
           </main>
           <SiteFooter />
+          <Analytics />
         </div>
       </body>
     </html>
