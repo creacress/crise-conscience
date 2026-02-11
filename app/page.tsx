@@ -1,7 +1,9 @@
 import Link from "next/link";
 import Container from "@/app/components/Container";
 import SectionTitle from "@/app/components/SectionTitle";
+import type { Metadata } from "next";
 import { getBaseUrl } from "@/lib/base-url";
+import { JsonLd } from "@/app/components/JsonLd";
 
 const quickLinks = [
   {
@@ -130,10 +132,70 @@ function formatDate(iso: string) {
   }
 }
 
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Crise Conscience";
+  const description =
+    "Informer, prévenir et aider face aux dérives sectaires : analyses, ressources fiables et accompagnement.";
+
+  return {
+    title,
+    description,
+    alternates: { canonical: "/" },
+    openGraph: {
+      type: "website",
+      url: "/",
+      title,
+      description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
+
 export default async function HomePage() {
   const latestArticles = await getLatestArticles(4);
+
+  const base = await getBaseUrl();
+  const envBase = (process.env.NEXT_PUBLIC_SITE_URL || "").trim();
+  const siteBase = (envBase || base).replace(/\/$/, "");
+  const pageUrl = `${siteBase}/`;
+
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Crise Conscience",
+    url: siteBase,
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Crise Conscience",
+    url: siteBase,
+  };
+
+  const latestItemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Derniers articles",
+    numberOfItems: latestArticles.length,
+    itemListElement: latestArticles.map((a, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      url: `${siteBase}/articles/${encodeURIComponent(a.slug)}`,
+      name: a.title,
+    })),
+  };
+
   return (
-    <Container>
+    <>
+      <JsonLd data={organizationJsonLd} />
+      <JsonLd data={websiteJsonLd} />
+      <JsonLd data={latestItemListJsonLd} />
+      <Container>
       {/* HERO (plus moderne) */}
       <section className="relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-white/[0.07] via-white/[0.04] to-transparent p-8 sm:p-12">
         {/* décor */}
@@ -385,6 +447,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-    </Container>
+      </Container>
+    </>
   );
 }

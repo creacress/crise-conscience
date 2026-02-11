@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getBaseUrl } from "@/lib/base-url";
+import { JsonLd } from "@/app/components/JsonLd";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -267,18 +268,38 @@ export async function generateMetadata(
 
   const title = article.title || "Article";
   const description = article.excerpt || "";
-  const base = await getBaseUrl();
+
+  // Base URL stable pour canonical/OG (prod), fallback en dev.
+  const envBase = (process.env.NEXT_PUBLIC_SITE_URL || "").trim();
+  const base = (envBase || (await getBaseUrl())).replace(/\/$/, "");
+
+  const pathname = `/articles/${encodeURIComponent(key)}`;
+
+  const imageAbs = article.coverImage
+    ? article.coverImage.startsWith("http")
+      ? article.coverImage
+      : `${base}${article.coverImage.startsWith("/") ? "" : "/"}${article.coverImage}`
+    : undefined;
+
+  const publishedTime = article.publishedAt ? new Date(article.publishedAt).toISOString() : undefined;
 
   return {
     title,
     description,
+    alternates: { canonical: pathname },
     openGraph: {
+      type: "article",
+      url: pathname,
       title,
       description,
-      images: article.coverImage
-        ? [{ url: article.coverImage.startsWith("http") ? article.coverImage : `${base}${article.coverImage}` }]
-        : undefined,
-      type: "article",
+      images: imageAbs ? [{ url: imageAbs }] : undefined,
+      publishedTime,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: imageAbs ? [imageAbs] : undefined,
     },
   };
 }
@@ -299,8 +320,51 @@ export default async function ArticlePage(
   const { html, toc } = rawHtml ? injectHeadingIdsAndBuildToc(rawHtml) : { html: "", toc: [] };
   const readingMinutes = rawHtml ? estimateReadingTimeMinutes(stripTagsToText(rawHtml)) : 1;
 
+  const envBase = (process.env.NEXT_PUBLIC_SITE_URL || "").trim();
+  const siteBase = (envBase || base).replace(/\/$/, "");
+  const pathname = `/articles/${encodeURIComponent(key)}`;
+  const pageUrl = `${siteBase}${pathname}`;
+
+  const imageAbs = article.coverImage
+    ? article.coverImage.startsWith("http")
+      ? article.coverImage
+      : `${siteBase}${article.coverImage.startsWith("/") ? "" : "/"}${article.coverImage}`
+    : undefined;
+
+  const publishedTime = article.publishedAt
+    ? new Date(article.publishedAt).toISOString()
+    : undefined;
+
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.excerpt || undefined,
+    image: imageAbs ? [imageAbs] : undefined,
+    datePublished: publishedTime,
+    mainEntityOfPage: pageUrl,
+    publisher: {
+      "@type": "Organization",
+      name: "Crise Conscience",
+      url: siteBase,
+    },
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: `${siteBase}/` },
+      { "@type": "ListItem", position: 2, name: "Articles", item: `${siteBase}/articles` },
+      { "@type": "ListItem", position: 3, name: article.title, item: pageUrl },
+    ],
+  };
+
   return (
-    <main
+    <>
+      <JsonLd data={articleJsonLd} />
+      <JsonLd data={breadcrumbJsonLd} />
+      <main
       id="top"
       className="mx-auto w-full max-w-6xl px-4 pb-20 pt-10"
     >
@@ -495,6 +559,7 @@ export default async function ArticlePage(
           </div>
         </aside>
       </section>
-    </main>
+      </main>
+    </>
   );
 }

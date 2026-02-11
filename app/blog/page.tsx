@@ -1,6 +1,9 @@
 import Container from "../components/Container";
 import SectionTitle from "../components/SectionTitle";
 import Link from "next/link";
+import type { Metadata } from "next";
+import { getBaseUrl } from "@/lib/base-url";
+import { JsonLd } from "@/app/components/JsonLd";
 
 type Post = {
   id: string;
@@ -33,11 +36,71 @@ function formatFR(iso: string) {
   return d.toLocaleDateString("fr-FR", { year: "numeric", month: "short", day: "2-digit" });
 }
 
-export default function BlogPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Blog";
+  const description =
+    "Actualités, témoignages et analyses : des contenus clairs, sourcés et accessibles pour comprendre, prévenir et agir.";
+
+  return {
+    title,
+    description,
+    alternates: { canonical: "/blog" },
+    openGraph: {
+      type: "website",
+      url: "/blog",
+      title: `${title} • Crise Conscience`,
+      description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} • Crise Conscience`,
+      description,
+    },
+  };
+}
+
+export default async function BlogPage() {
   const filtered = POSTS; // (on branchera filtre + pagination après via searchParams)
 
+  const base = await getBaseUrl();
+  const envBase = (process.env.NEXT_PUBLIC_SITE_URL || "").trim();
+  const siteBase = (envBase || base).replace(/\/$/, "");
+  const pageUrl = `${siteBase}/blog`;
+
+  const itemList = filtered.slice(0, 200).map((p, idx) => ({
+    "@type": "ListItem",
+    position: idx + 1,
+    url: `${siteBase}${p.href.startsWith("/") ? "" : "/"}${p.href}`,
+    name: p.title,
+  }));
+
+  const collectionJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Blog",
+    description:
+      "Actualités, témoignages et analyses : des contenus clairs, sourcés et accessibles pour comprendre, prévenir et agir.",
+    url: pageUrl,
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Crise Conscience",
+      url: siteBase,
+    },
+  };
+
+  const itemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Liste des articles de blog",
+    numberOfItems: filtered.length,
+    itemListElement: itemList,
+  };
+
   return (
-    <Container>
+    <>
+      <JsonLd data={collectionJsonLd} />
+      <JsonLd data={itemListJsonLd} />
+      <Container>
       <SectionTitle
         eyebrow="Blog"
         title="Actualités, témoignages et analyses"
@@ -125,6 +188,7 @@ export default function BlogPage() {
           Suivant →
         </button>
       </div>
-    </Container>
+      </Container>
+    </>
   );
 }

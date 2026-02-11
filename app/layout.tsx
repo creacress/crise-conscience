@@ -2,12 +2,46 @@ import "./globals.css";
 import SiteHeader from "@/app/components/SiteHeader";
 import SiteFooter from "@/app/components/SiteFooter";
 
-import { Analytics } from '@vercel/analytics/next';
+import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 
-export const metadata = {
-  title: "Crise Conscience",
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.criseconscience.org"),
+  title: {
+    default: "Crise Conscience",
+    template: "%s • Crise Conscience",
+  },
   description:
-    "Association dédiée à la sensibilisation et à la prévention des dérives sectaires.",
+    "Association dédiée à la sensibilisation et à la prévention des dérives sectaires. Analyses, ressources, témoignages.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "Crise Conscience",
+    title: "Crise Conscience",
+    description:
+      "Association dédiée à la sensibilisation et à la prévention des dérives sectaires. Analyses, ressources, témoignages.",
+    locale: "fr_FR",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Crise Conscience",
+    description:
+      "Association dédiée à la sensibilisation et à la prévention des dérives sectaires. Analyses, ressources, témoignages.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

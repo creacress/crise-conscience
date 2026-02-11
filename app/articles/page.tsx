@@ -1,10 +1,35 @@
 import Container from "../components/Container";
 import SectionTitle from "../components/SectionTitle";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { getBaseUrl } from "@/lib/base-url";
+import { JsonLd } from "@/app/components/JsonLd";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "Articles";
+  const description =
+    "Dossiers & analyses approfondies sur les dérives sectaires : compréhension, signaux d’emprise, prévention et ressources.";
+
+  return {
+    title,
+    description,
+    alternates: { canonical: "/articles" },
+    openGraph: {
+      type: "website",
+      url: "/articles",
+      title: `${title} • Crise Conscience`,
+      description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} • Crise Conscience`,
+      description,
+    },
+  };
+}
 
 type Article = {
   id: string;
@@ -85,8 +110,49 @@ export default async function ArticlesPage() {
     )
   ).slice(0, 12);
 
+  const envBase = (process.env.NEXT_PUBLIC_SITE_URL || "").trim();
+  const siteBase = (envBase || base).replace(/\/$/, "");
+  const pageUrl = `${siteBase}/articles`;
+
+  const itemList = items.slice(0, 200).map((a: any, idx: number) => {
+    const slugOrId = a?.slug || a?.id;
+    const url = `${siteBase}/articles/${encodeURIComponent(String(slugOrId))}`;
+    return {
+      "@type": "ListItem",
+      position: idx + 1,
+      url,
+      name: a?.title || undefined,
+    };
+  });
+
+  const collectionJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Articles",
+    description:
+      "Dossiers & analyses approfondies sur les dérives sectaires : compréhension, signaux d’emprise, prévention et ressources.",
+    url: pageUrl,
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Crise Conscience",
+      url: siteBase,
+    },
+  };
+
+  const itemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Liste des articles",
+    itemListOrder: "https://schema.org/ItemListOrderDescending",
+    numberOfItems: items.length,
+    itemListElement: itemList,
+  };
+
   return (
-    <Container>
+    <>
+      <JsonLd data={collectionJsonLd} />
+      <JsonLd data={itemListJsonLd} />
+      <Container>
       <SectionTitle
         eyebrow="Articles"
         title="Dossiers & analyses approfondies"
@@ -249,6 +315,7 @@ export default async function ArticlesPage() {
           })}
         </div>
       )}
-    </Container>
+      </Container>
+    </>
   );
 }

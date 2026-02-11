@@ -1,0 +1,59 @@
+.
+├── COPYRIGHT.md
+├── README.md
+├── SECURITY.md
+├── app
+│   ├── a-propos
+│   │   └── page.tsx
+│   ├── api
+│   │   ├── articles
+│   │   └── contact
+│   ├── articles
+│   │   ├── [id]
+│   │   └── page.tsx
+│   ├── blog
+│   │   ├── page.tsx
+│   │   └── signeaux-emprise
+│   ├── components
+│   │   ├── Container.tsx
+│   │   ├── SectionTitle.tsx
+│   │   ├── SiteFooter.tsx
+│   │   └── SiteHeader.tsx
+│   ├── contact
+│   │   └── page.tsx
+│   ├── favicon.ico
+│   ├── generated
+│   │   └── prisma
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── ressources
+│   │   └── page.tsx
+│   └── sitemap.ts
+├── docker-compose.yml
+├── eslint.config.mjs
+├── lib
+│   ├── base-url.ts
+│   ├── ingestAuth.ts
+│   └── prisma.ts
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── prisma
+│   ├── migrations
+│   │   ├── 20260204220845_init_articles
+│   │   └── migration_lock.toml
+│   └── schema.prisma
+├── prisma.config.ts
+├── public
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── structure.txt
+└── tsconfig.json
+
+20 directories, 37 files
