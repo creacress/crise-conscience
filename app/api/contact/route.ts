@@ -21,8 +21,16 @@ function isValidEmail(email: string) {
 
 // détecte si c’est un submit de <form> (navigation) vs fetch/ajax
 function wantsHtml(req: NextRequest) {
-  const accept = req.headers.get("accept") || "";
-  return accept.includes("text/html");
+  // Les navigations de formulaire (document) envoient ces headers dans la plupart des navigateurs
+  const mode = req.headers.get("sec-fetch-mode") || "";
+  const dest = req.headers.get("sec-fetch-dest") || "";
+  if (mode === "navigate" || dest === "document") return true;
+
+  // Fallback : on ne considère HTML que si le client préfère vraiment du HTML
+  const accept = (req.headers.get("accept") || "").toLowerCase();
+  const wantsTextHtml = accept.includes("text/html");
+  const wantsJson = accept.includes("application/json") || accept.includes("application/*") || accept.includes("*/*");
+  return wantsTextHtml && !wantsJson;
 }
 
 async function readBody(req: NextRequest) {
@@ -105,6 +113,15 @@ function respond(req: NextRequest, status: number, json: any) {
 
 export async function POST(req: NextRequest) {
   const data = await readBody(req);
+
+  // DEBUG: aide à diagnostiquer ce que le client demande (HTML vs JSON)
+  const _dbg = {
+    ct: req.headers.get("content-type") || "",
+    accept: req.headers.get("accept") || "",
+    mode: req.headers.get("sec-fetch-mode") || "",
+    dest: req.headers.get("sec-fetch-dest") || "",
+  };
+
   if (!data) return respond(req, 400, { ok: false, reason: "bad_body" });
 
   const firstName = asStr((data as any).firstName, 120);
@@ -122,8 +139,7 @@ export async function POST(req: NextRequest) {
     return respond(req, 400, {
       ok: false,
       reason: "message_too_short",
-      // debug safe (optionnel) -> enlève si tu veux
-      got: { messageLen: message.length, topic, hasEmail: !!email },
+      dbg: { ..._dbg, messageLen: message.length, topic, hasEmail: !!email },
     });
   }
 
@@ -152,44 +168,165 @@ export async function POST(req: NextRequest) {
   const CONTACT_TO = process.env.CONTACT_TO || "contact@criseconscience.org";
   const CONTACT_FROM = process.env.CONTACT_FROM || "no-reply@criseconscience.org";
 
-  if (SMTP_HOST && SMTP_USER && SMTP_PASS) {
+  const webhook = process.env.CONTACT_WEBHOOK_URL || "";
+
+  // Aucun mode de livraison configuré => on refuse de répondre OK.
+  const hasSmtp = !!(SMTP_HOST && SMTP_USER && SMTP_PASS);
+  const hasWebhook = !!webhook;
+  if (!hasSmtp && !hasWebhook) {
+    return respond(req, 500, {
+      ok: false,
+      reason: "no_delivery_config",
+      dbg: { ..._dbg, hasSmtp, hasWebhook },
+    });
+  }
+
+  // 1) Tentative d’envoi SMTP (si configuré)
+  if (hasSmtp) {
     try {
       const transporter = nodemailer.createTransport({
         host: SMTP_HOST,
         port: SMTP_PORT,
-        secure: SMTP_PORT === 465,
+        secure: SMTP_PORT === 465, // 465 = SMTPS
         auth: { user: SMTP_USER, pass: SMTP_PASS },
+        tls: {
+          // Hostinger et d’autres providers aiment bien ce flag en prod.
+          servername: SMTP_HOST,
+        },
       });
 
+      // Optionnel mais super utile : valide la connexion/auth
+      await transporter.verify();
+
       const subject = `[Crise Conscience] ${topic} — ${email || "anonyme"}`;
+
+      const esc = (s: unknown) =>
+        String(s ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+
+      const fullName = [firstName, lastName].filter(Boolean).join(" ") || "—";
+      const safeTopic = esc(topic || "question");
+      const safeEmail = esc(email || "anonyme");
+      const safeMessage = esc(message || "");
+
+      // Fallback texte (utile + mieux pour la délivrabilité)
       const text = [
+        "Crise Conscience — nouveau message",
         `Sujet: ${topic}`,
-        `Nom: ${[firstName, lastName].filter(Boolean).join(" ") || "(non renseigné)"}`,
+        `Nom: ${fullName}`,
         `Email: ${email || "(anonyme)"}`,
         `Consentement: ${consent ? "oui" : "non"}`,
-        `IP: ${payload.meta.ip || ""}`,
-        `UA: ${payload.meta.ua || ""}`,
-        `Referrer: ${payload.meta.referer || ""}`,
         `Date: ${payload.meta.at}`,
         "",
         "Message:",
         message,
+        "",
+        `IP: ${payload.meta.ip || ""}`,
+        `UA: ${payload.meta.ua || ""}`,
+        `Referrer: ${payload.meta.referer || ""}`,
       ].join("\n");
 
-      await transporter.sendMail({
-        from: CONTACT_FROM,
+      // Email HTML moderne (inline CSS pour Gmail/Apple Mail)
+      const html = `
+<div style="margin:0;padding:0;background:#070B14;">
+  <div style="max-width:680px;margin:0 auto;padding:28px 14px;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;">
+
+    <div style="border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);box-shadow:0 20px 60px rgba(0,0,0,.35);">
+
+      <div style="padding:18px 22px;background:linear-gradient(135deg,#0EA5E9 0%,#22C55E 55%,#F59E0B 100%);">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:40px;height:40px;border-radius:12px;background:rgba(7,11,20,.28);display:flex;align-items:center;justify-content:center;font-weight:900;color:#07111f;letter-spacing:.5px;">CC</div>
+          <div>
+            <div style="font-size:16px;font-weight:900;color:#07111f;">Crise Conscience</div>
+            <div style="font-size:12px;color:rgba(7,17,31,.85);margin-top:2px;">Nouveau message — formulaire de contact</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:22px;color:rgba(255,255,255,.92);">
+
+        <div style="font-size:18px;font-weight:900;line-height:1.25;margin:0 0 12px;">${safeTopic}</div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px;">
+          <span style="padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);font-size:12px;">👤 ${esc(fullName)}</span>
+          <a href="mailto:${encodeURIComponent(email || "")}" style="padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);font-size:12px;color:rgba(255,255,255,.92);text-decoration:none;">✉️ ${safeEmail}</a>
+          <span style="padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);font-size:12px;">✅ Consentement : ${consent ? "oui" : "non"}</span>
+        </div>
+
+        <div style="border-radius:16px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);padding:16px;white-space:pre-wrap;line-height:1.55;font-size:14px;">
+${safeMessage}
+        </div>
+
+        <div style="margin-top:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+          ${email ? `<a href="mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent("Re: " + subject)}" style="display:inline-block;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.92);text-decoration:none;font-weight:800;">Répondre</a>` : ""}
+          <span style="font-size:12px;color:rgba(255,255,255,.55);">Reçu le ${esc(payload.meta.at)}</span>
+        </div>
+
+      </div>
+
+      <div style="padding:14px 22px;border-top:1px solid rgba(255,255,255,.10);color:rgba(255,255,255,.55);font-size:12px;line-height:1.45;">
+        IP: ${esc(payload.meta.ip || "")} • UA: ${esc(payload.meta.ua || "")}<br />
+        Referrer: ${esc(payload.meta.referer || "")}
+      </div>
+
+    </div>
+
+    <div style="max-width:680px;margin:14px auto 0;color:rgba(255,255,255,.35);font-size:11px;line-height:1.4;text-align:center;">
+      Message envoyé depuis le site. Si tu ne reconnais pas ce message, tu peux l’ignorer.
+    </div>
+
+  </div>
+</div>
+`.trim();
+
+      const info = await transporter.sendMail({
+        // IMPORTANT (Hostinger) : l’adresse expéditrice doit appartenir à l’utilisateur SMTP
+        from: `Crise Conscience <${SMTP_USER}>`,
+        sender: SMTP_USER,
         to: CONTACT_TO,
-        replyTo: email || undefined,
+        replyTo: email ? email : undefined,
         subject,
         text,
+        html,
       });
-    } catch {
-      // on laisse fallback webhook gérer
+
+      // ✅ Si on arrive ici, nodemailer a bien accepté l’envoi côté SMTP.
+      // (Ça ne garantit pas 100% la livraison finale, mais ça élimine les faux OK.)
+      return respond(req, 200, {
+        ok: true,
+        deliveredBy: "smtp",
+        messageId: (info as any)?.messageId || null,
+      });
+    } catch (e: any) {
+      console.error("[contact] SMTP failed:", e);
+
+      // Si un webhook est aussi configuré, on tente le fallback.
+      if (!hasWebhook) {
+        return respond(req, 502, {
+          ok: false,
+          reason: "smtp_failed",
+          error: e?.message || "unknown_smtp_error",
+          dbg: {
+            ..._dbg,
+            smtp: {
+              host: SMTP_HOST,
+              port: SMTP_PORT,
+              user: SMTP_USER,
+              from: CONTACT_FROM,
+              to: CONTACT_TO,
+            },
+          },
+        });
+      }
     }
   }
 
-  const webhook = process.env.CONTACT_WEBHOOK_URL || "";
-  if (webhook) {
+  // 2) Fallback webhook (si configuré)
+  if (hasWebhook) {
     try {
       const r = await fetch(webhook, {
         method: "POST",
@@ -197,13 +334,18 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify(payload),
         cache: "no-store",
       });
-      if (!r.ok) return respond(req, 502, { ok: false, reason: "webhook_failed", status: r.status });
-    } catch {
-      return respond(req, 502, { ok: false, reason: "webhook_error" });
+      if (!r.ok) {
+        return respond(req, 502, { ok: false, reason: "webhook_failed", status: r.status });
+      }
+      return respond(req, 200, { ok: true, deliveredBy: "webhook" });
+    } catch (e: any) {
+      console.error("[contact] webhook error:", e);
+      return respond(req, 502, { ok: false, reason: "webhook_error", error: e?.message || "unknown_webhook_error" });
     }
   }
 
-  return respond(req, 200, { ok: true });
+  // Normalement jamais atteint (car on return dans smtp/webhook)
+  return respond(req, 500, { ok: false, reason: "delivery_unreachable" });
 }
 
 export async function GET(req: NextRequest) {
