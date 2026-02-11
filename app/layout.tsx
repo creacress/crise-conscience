@@ -1,5 +1,5 @@
 import "./globals.css";
-import SiteHeader from "@/app/components/SiteHeader";
+import HamburgerNav from "@/app/components/hamburger";
 import SiteFooter from "@/app/components/SiteFooter";
 
 import type { Metadata } from "next";
@@ -72,7 +72,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}</style>
 
         <div className="relative">
-          <SiteHeader />
+          <div className="mx-auto w-full max-w-6xl px-4">
+            <HamburgerNav />
+          </div>
           <main className="pt-10">
             <div className="cc-page-slot">{children}</div>
           </main>
