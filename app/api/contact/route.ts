@@ -1,14 +1,7 @@
-
-
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 export const runtime = "nodejs";
-
-// Basic, pragmatic contact endpoint.
-// - Accepts form POST (application/x-www-form-urlencoded or multipart/form-data) and JSON
-// - Optional forwarding to n8n via CONTACT_WEBHOOK_URL
-// - Simple anti-spam: honeypot + length limits
 
 function asStr(v: unknown, max = 2000) {
   const s = typeof v === "string" ? v : v == null ? "" : String(v);
@@ -16,10 +9,20 @@ function asStr(v: unknown, max = 2000) {
 }
 
 function pickIp(req: NextRequest) {
-  // Works on Vercel/most reverse proxies.
   const xfwd = req.headers.get("x-forwarded-for") || "";
   const ip = xfwd.split(",")[0]?.trim();
   return ip || req.headers.get("x-real-ip") || "";
+}
+
+function isValidEmail(email: string) {
+  if (!email) return true;
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// détecte si c’est un submit de <form> (navigation) vs fetch/ajax
+function wantsHtml(req: NextRequest) {
+  const accept = req.headers.get("accept") || "";
+  return accept.includes("text/html");
 }
 
 async function readBody(req: NextRequest) {
@@ -36,16 +39,34 @@ async function readBody(req: NextRequest) {
         topic: asStr(j?.topic, 50),
         message: asStr(j?.message, 8000),
         consent: !!j?.consent,
-        // honeypot (optional)
-        company: asStr(j?.company, 120),
+        company: asStr(j?.company, 120), // honeypot
       };
     } catch {
       return null;
     }
   }
 
-  // FormData (browser form)
-  if (ct.includes("multipart/form-data") || ct.includes("application/x-www-form-urlencoded")) {
+  // x-www-form-urlencoded (le cas le + courant en <form>)
+  if (ct.includes("application/x-www-form-urlencoded")) {
+    try {
+      const raw = await req.text();
+      const p = new URLSearchParams(raw);
+      return {
+        firstName: asStr(p.get("firstName"), 120),
+        lastName: asStr(p.get("lastName"), 120),
+        email: asStr(p.get("email"), 200),
+        topic: asStr(p.get("topic"), 50),
+        message: asStr(p.get("message"), 8000),
+        consent: !!p.get("consent"),
+        company: asStr(p.get("company"), 120),
+      };
+    } catch {
+      return null;
+    }
+  }
+
+  // multipart/form-data
+  if (ct.includes("multipart/form-data")) {
     try {
       const fd = await req.formData();
       return {
@@ -55,7 +76,6 @@ async function readBody(req: NextRequest) {
         topic: asStr(fd.get("topic"), 50),
         message: asStr(fd.get("message"), 8000),
         consent: !!fd.get("consent"),
-        // honeypot (optional)
         company: asStr(fd.get("company"), 120),
       };
     } catch {
@@ -63,7 +83,7 @@ async function readBody(req: NextRequest) {
     }
   }
 
-  // Unknown content-type: try text
+  // fallback
   try {
     const txt = await req.text();
     return { message: asStr(txt, 8000) };
@@ -72,17 +92,20 @@ async function readBody(req: NextRequest) {
   }
 }
 
-function isValidEmail(email: string) {
-  if (!email) return true; // optional
-  // Simple sanity check, not RFC-perfect.
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+function respond(req: NextRequest, status: number, json: any) {
+  // si ça vient d’un submit navigateur, on redirect vers /contact avec un flag
+  if (wantsHtml(req)) {
+    const url = new URL("/contact", req.url);
+    if (json?.ok) url.searchParams.set("sent", "1");
+    else url.searchParams.set("err", json?.reason || "error");
+    return NextResponse.redirect(url, { status: 303 });
+  }
+  return NextResponse.json(json, { status });
 }
 
 export async function POST(req: NextRequest) {
   const data = await readBody(req);
-  if (!data) {
-    return NextResponse.json({ ok: false, reason: "bad_body" }, { status: 400 });
-  }
+  if (!data) return respond(req, 400, { ok: false, reason: "bad_body" });
 
   const firstName = asStr((data as any).firstName, 120);
   const lastName = asStr((data as any).lastName, 120);
@@ -90,23 +113,21 @@ export async function POST(req: NextRequest) {
   const topic = asStr((data as any).topic, 50) || "question";
   const message = asStr((data as any).message, 8000);
   const consent = !!(data as any).consent;
-  const company = asStr((data as any).company, 120); // honeypot
+  const company = asStr((data as any).company, 120);
 
-  // Honeypot: if filled, silently accept.
-  if (company) {
-    return NextResponse.json({ ok: true }, { status: 200 });
-  }
+  // honeypot
+  if (company) return respond(req, 200, { ok: true });
 
   if (!message || message.length < 10) {
-    return NextResponse.json({ ok: false, reason: "message_too_short" }, { status: 400 });
+    return respond(req, 400, {
+      ok: false,
+      reason: "message_too_short",
+      // debug safe (optionnel) -> enlève si tu veux
+      got: { messageLen: message.length, topic, hasEmail: !!email },
+    });
   }
 
-  if (!isValidEmail(email)) {
-    return NextResponse.json({ ok: false, reason: "invalid_email" }, { status: 400 });
-  }
-
-  // We don't hard-block if consent is false because you may want anonymous reports.
-  // But we expose it to your automation.
+  if (!isValidEmail(email)) return respond(req, 400, { ok: false, reason: "invalid_email" });
 
   const payload = {
     firstName,
@@ -123,18 +144,14 @@ export async function POST(req: NextRequest) {
     },
   };
 
-  // --- Email delivery (SMTP)
-  // Configure these in env (Vercel/hosting):
-  // SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, CONTACT_TO, CONTACT_FROM
+  // SMTP
   const SMTP_HOST = process.env.SMTP_HOST || "";
   const SMTP_PORT = Number(process.env.SMTP_PORT || "587");
   const SMTP_USER = process.env.SMTP_USER || "";
   const SMTP_PASS = process.env.SMTP_PASS || "";
-
   const CONTACT_TO = process.env.CONTACT_TO || "contact@criseconscience.org";
   const CONTACT_FROM = process.env.CONTACT_FROM || "no-reply@criseconscience.org";
 
-  // Only attempt SMTP if configured.
   if (SMTP_HOST && SMTP_USER && SMTP_PASS) {
     try {
       const transporter = nodemailer.createTransport({
@@ -145,7 +162,7 @@ export async function POST(req: NextRequest) {
       });
 
       const subject = `[Crise Conscience] ${topic} — ${email || "anonyme"}`;
-      const lines = [
+      const text = [
         `Sujet: ${topic}`,
         `Nom: ${[firstName, lastName].filter(Boolean).join(" ") || "(non renseigné)"}`,
         `Email: ${email || "(anonyme)"}`,
@@ -157,17 +174,17 @@ export async function POST(req: NextRequest) {
         "",
         "Message:",
         message,
-      ];
+      ].join("\n");
 
       await transporter.sendMail({
         from: CONTACT_FROM,
         to: CONTACT_TO,
         replyTo: email || undefined,
         subject,
-        text: lines.join("\n"),
+        text,
       });
     } catch {
-      // If SMTP fails, we still allow webhook fallback below (if configured).
+      // on laisse fallback webhook gérer
     }
   }
 
@@ -178,25 +195,18 @@ export async function POST(req: NextRequest) {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload),
-        // Avoid caching/proxy surprises
         cache: "no-store",
       });
-
-      if (!r.ok) {
-        return NextResponse.json(
-          { ok: false, reason: "webhook_failed", status: r.status },
-          { status: 502 }
-        );
-      }
+      if (!r.ok) return respond(req, 502, { ok: false, reason: "webhook_failed", status: r.status });
     } catch {
-      return NextResponse.json({ ok: false, reason: "webhook_error" }, { status: 502 });
+      return respond(req, 502, { ok: false, reason: "webhook_error" });
     }
   }
 
-  return NextResponse.json({ ok: true }, { status: 200 });
+  return respond(req, 200, { ok: true });
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   return NextResponse.json(
     {
       ok: true,
