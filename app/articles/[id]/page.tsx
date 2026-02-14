@@ -43,6 +43,19 @@ function stripDangerousHtml(html: string): string {
     "<hr>"
   );
 
+  // If the ingest produced line-break HTML (lots of <br>) instead of real paragraphs,
+  // rebuild paragraphs so typography spacing works.
+  if (!/<\s*p\b/i.test(out) && /<\s*br\b/i.test(out)) {
+    // 2+ <br> => paragraph break
+    out = out.replace(/(?:<\s*br\s*\/?>\s*){2,}/gi, "</p><p>");
+    // 1 <br> => simple line break
+    out = out.replace(/<\s*br\s*\/?>/gi, "<br>");
+    out = `<p>${out}</p>`
+      .replace(/<p>\s*<\/p>/gi, "")
+      .replace(/<p>\s*<hr>\s*<\/p>/gi, "<hr>")
+      .replace(/<\/p>\s*<hr>\s*<p>/gi, "<hr>");
+  }
+
   // IMPORTANT: your ingest often produces numbered sections as plain paragraphs (not <h2>/<h3>).
   // Promote them to real headings so typography + TOC work.
 
@@ -61,6 +74,10 @@ function stripDangerousHtml(html: string): string {
   // Normalize heading open tags too (strip weird attributes that can mess sizing).
   out = out.replace(/<\s*h2\b[^>]*>/gi, "<h2>");
   out = out.replace(/<\s*h3\b[^>]*>/gi, "<h3>");
+  // N8N content sometimes includes its own <h1> (often duplicating the page title).
+  // We normalize <h1> to <h2> so typography stays consistent and TOC logic remains simple.
+  out = out.replace(/<\s*h1\b[^>]*>/gi, "<h2>");
+  out = out.replace(/<\s*\/\s*h1\s*>/gi, "</h2>");
 
   return out;
 }
@@ -364,10 +381,117 @@ export default async function ArticlePage(
     <>
       <JsonLd data={articleJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
+
+ {/* Fallback typography CSS: ensures readable styling even if Tailwind Typography (prose) isn't generated */}
+<style>{`
+  #__content {
+    color: rgba(255, 255, 255, 0.86);
+  }
+
+  #__content p {
+    margin-top: 1.1rem;
+    line-height: 1.85;
+    font-size: 1rem;
+    letter-spacing: 0.005em;
+    color: rgba(255, 255, 255, 0.86);
+  }
+
+  #__content p:first-child {
+    margin-top: 0;
+  }
+
+  #__content a {
+    color: rgba(253, 186, 116, 0.95);
+    text-decoration: none;
+  }
+
+  #__content a:hover {
+    text-decoration: underline;
+  }
+
+  #__content strong {
+    color: rgba(255, 255, 255, 0.96);
+    font-weight: 650;
+  }
+
+  #__content h2 {
+    margin-top: 2.75rem;
+    margin-bottom: 1.1rem;
+    padding: 0.55rem 0.85rem;
+    border-radius: 0.9rem;
+    font-size: 1.45rem;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, 0.96);
+    background: rgba(255, 255, 255, 0.028);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    scroll-margin-top: 7rem;
+  }
+
+  #__content h3 {
+    margin-top: 1.9rem;
+    margin-bottom: 0.7rem;
+    font-size: 1.15rem;
+    line-height: 1.35;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.92);
+    scroll-margin-top: 7rem;
+  }
+
+  #__content ul,
+  #__content ol {
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+    padding-left: 1.5rem;
+  }
+
+  #__content li {
+    margin-top: 0.4rem;
+    line-height: 1.7;
+  }
+
+  #__content hr {
+    margin: 2.2rem 0;
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.10);
+    border-radius: 999px;
+  }
+
+  #__content blockquote {
+    margin: 1.8rem 0;
+    padding: 0.7rem 1rem;
+    border-left: 3px solid rgba(251, 146, 60, 0.5);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 0.8rem;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  #__content code {
+    padding: 0.15rem 0.35rem;
+    border-radius: 0.35rem;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(253, 230, 138, 0.95);
+  }
+
+  @media (min-width: 768px) {
+    #__content p {
+      font-size: 1.05rem;
+    }
+    #__content h2 {
+      font-size: 1.65rem;
+    }
+    #__content h3 {
+      font-size: 1.22rem;
+    }
+  }
+`}</style>
+
       <main
-      id="top"
-      className="mx-auto w-full max-w-6xl px-4 pb-20 pt-10"
-    >
+        id="top"
+        className="mx-auto w-full max-w-7xl px-4 pb-24 pt-10"
+      >
       <div className="mb-6 flex items-center justify-between gap-3">
         <Link
           href="/articles"
@@ -441,7 +565,7 @@ export default async function ArticlePage(
         ) : null}
       </header>
 
-      <section className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_320px]">
+      <section className="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_360px]">
         {/* CONTENT */}
         <div className="min-w-0 space-y-6">
           {toc.length ? (
@@ -473,20 +597,20 @@ export default async function ArticlePage(
             id="__content"
             className={[
               "rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:p-8",
-              "prose prose-invert max-w-none",
-              "prose-p:leading-8 prose-p:text-white/85",
-              "prose-p:mt-5",
+              "prose prose-invert max-w-none prose-lg md:prose-xl",
+              "prose-p:leading-[1.9] prose-p:text-white/85 prose-p:text-[16px] md:prose-p:text-[18px] prose-p:tracking-[0.01em]",
+              "prose-p:mt-6",
               "prose-headings:scroll-mt-28 prose-headings:text-white",
               "prose-h2:mt-16 prose-h2:mb-7 prose-h2:rounded-2xl prose-h2:bg-white/[0.035] prose-h2:px-4 prose-h2:py-3 prose-h2:text-3xl prose-h2:leading-tight prose-h2:font-semibold prose-h2:tracking-tight prose-h2:ring-1 prose-h2:ring-white/10",
               "prose-h3:mt-10 prose-h3:mb-4 prose-h3:text-xl prose-h3:leading-snug prose-h3:font-semibold prose-h3:text-white/90",
               "prose-a:text-orange-300 prose-a:no-underline hover:prose-a:underline",
               "prose-strong:text-white",
               "prose-hr:border-white/10",
-              "prose-hr:my-14",
+              "prose-hr:my-12",
               "prose-hr:rounded-full",
-              "prose-blockquote:rounded-xl prose-blockquote:border-l-orange-400/50 prose-blockquote:bg-white/[0.03] prose-blockquote:px-4 prose-blockquote:py-2 prose-blockquote:text-white/80",
-              "prose-ul:my-6 prose-ol:my-6",
-              "prose-li:my-1 prose-li:marker:text-white/40",
+              "prose-blockquote:my-8 prose-blockquote:rounded-xl prose-blockquote:border-l-orange-400/50 prose-blockquote:bg-white/[0.03] prose-blockquote:px-5 prose-blockquote:py-3 prose-blockquote:text-white/80",
+              "prose-ul:my-6 prose-ol:my-6 prose-ul:pl-6 prose-ol:pl-6",
+              "prose-li:my-2 prose-li:leading-7 prose-li:marker:text-white/40",
               "prose-code:rounded prose-code:bg-white/5 prose-code:px-1 prose-code:py-0.5 prose-code:text-orange-200",
             ].join(" ")}
           >

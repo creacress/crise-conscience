@@ -10,6 +10,43 @@ generator client {
   output   = "../app/generated/prisma"
 }
 
+enum SubscriberStatus {
+  ACTIVE
+  UNSUBSCRIBED
+  BOUNCED
+}
+
+enum SubscriberSource {
+  WEBSITE
+  N8N
+  IMPORT
+  STRIPE
+  BREVO
+  OTHER
+}
+
+model Subscriber {
+  id             String           @id @default(cuid())
+  email          String?          @unique
+  status         SubscriberStatus @default(ACTIVE)
+  source         SubscriberSource @default(WEBSITE)
+
+  firstName      String?
+  lastName       String?
+  ipHash         String?
+  userAgent      String?
+  consent        Boolean          @default(true)
+
+  subscribedAt   DateTime         @default(now())
+  unsubscribedAt DateTime?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([status, subscribedAt])
+  @@index([source, subscribedAt])
+}
+
 datasource db {
   provider = "postgresql"
 }

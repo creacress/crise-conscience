@@ -4,6 +4,7 @@ import SectionTitle from "@/app/components/SectionTitle";
 import type { Metadata } from "next";
 import { getBaseUrl } from "@/lib/base-url";
 import { JsonLd } from "@/app/components/JsonLd";
+import { SubscriberCounter } from "@/app/components/SubscriberCounter";
 
 const quickLinks = [
   {
@@ -313,6 +314,37 @@ export default async function HomePage() {
               </div>
             </Link>
           ))}
+        </div>
+      </section>
+
+      {/* COMPTEUR ABONNÉS */}
+      <section className="mt-12">
+        <SectionTitle
+          eyebrow="Communauté"
+          title="Ils suivent Crise Conscience"
+          desc="Un compteur public, basé sur notre base de données (pas un chiffre gonflé)."
+        />
+
+        <div className="mt-4 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+          <SubscriberCounter compact ctaHref="/abonnes" ctaLabel="Voir le détail" />
+
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+            <div className="text-sm text-white/70">Pourquoi afficher ça ?</div>
+            <div className="mt-2 text-lg font-semibold">Mesurer l’impact, pas l’ego.</div>
+            <p className="mt-2 text-sm text-white/60 leading-relaxed">
+              Plus on est nombreux, plus on diffuse des ressources fiables et plus on réduit l’isolement.
+              Ce compteur sert de repère public — pas de trophée.
+            </p>
+            <div className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/65">
+              Astuce : tu peux aussi t'inscrire à tout moment via la page dédiée.
+            </div>
+            <Link
+              href="/inscription"
+              className="mt-4 inline-flex w-full justify-center rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-semibold text-white hover:bg-white/10 transition"
+            >
+              Se désinscrire
+            </Link>
+          </div>
         </div>
       </section>
 
