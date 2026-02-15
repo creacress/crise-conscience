@@ -367,13 +367,6 @@ export default async function HomePage() {
                 <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-white/70">
                   {a.category}
                 </span>
-                <span className="text-xs text-white/50">{formatDate(a.publishedAt || a.updatedAt || "")}</span>
-                {a.readingTime ? (
-                  <>
-                    <span className="text-xs text-white/50">•</span>
-                    <span className="text-xs text-white/50">{a.readingTime}</span>
-                  </>
-                ) : null}
               </div>
 
               <div className="mt-3 text-lg font-semibold tracking-tight group-hover:text-white">
