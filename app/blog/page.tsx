@@ -37,9 +37,9 @@ function formatFR(iso: string) {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Blog";
+  const title = "Blog — Témoignages, analyses et actualités sur les dérives sectaires";
   const description =
-    "Actualités, témoignages et analyses : des contenus clairs, sourcés et accessibles pour comprendre, prévenir et agir.";
+    "Blog Crise Conscience : témoignages de victimes de sectes, analyses critiques des mécanismes d'emprise, actualités sur la prévention des dérives sectaires. Contenus sourcés et accessibles.";
 
   return {
     title,
@@ -48,12 +48,12 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       url: "/blog",
-      title: `${title} • Crise Conscience`,
+      title: "Blog Crise Conscience — Analyses et témoignages",
       description,
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} • Crise Conscience`,
+      title: "Blog Crise Conscience — Analyses et témoignages",
       description,
     },
   };

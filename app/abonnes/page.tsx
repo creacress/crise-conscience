@@ -3,9 +3,11 @@ import { SubscriberCounter } from "@/app/components/SubscriberCounter";
 import { SubscribeCard } from "@/app/components/SubscribeCard";
 
 export const metadata = {
-  title: "Compteur d’abonnés — Crise Conscience",
+  title: "Communauté Crise Conscience — Compteur d’abonnés",
   description:
-    "Suivre la croissance de la communauté et comprendre l’impact concret de chaque abonnement.",
+    "Suivez la croissance de la communauté Crise Conscience en temps réel. Un compteur transparent pour mesurer l’impact de la prévention des dérives sectaires.",
+  alternates: { canonical: "/abonnes" },
+  robots: { index: false, follow: true },
 };
 
 export default function Page() {

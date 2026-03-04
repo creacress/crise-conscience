@@ -6,9 +6,10 @@ import { SubscriberCounter } from "@/app/components/SubscriberCounter";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Inscription — Newsletter Crise Conscience",
+  title: "Newsletter Crise Conscience — Inscription gratuite",
   description:
-    "S’inscrire à la newsletter de Crise Conscience : ressources, actus et prévention (sans spam).",
+    "Inscrivez-vous à la newsletter de Crise Conscience : ressources vérifiées sur les dérives sectaires, signaux d’emprise, actualités de prévention. Sans spam, désinscription en un clic.",
+  alternates: { canonical: "/inscription" },
 };
 
 export default function Page() {
