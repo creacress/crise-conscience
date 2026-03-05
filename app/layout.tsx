@@ -8,28 +8,53 @@ import { Analytics } from "@vercel/analytics/next";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.criseconscience.org"),
   title: {
-    default: "Crise Conscience",
-    template: "%s • Crise Conscience",
+    default: "Crise Conscience — Prévention des dérives sectaires, analyses et ressources",
+    template: "%s | Crise Conscience",
   },
   description:
-    "Association dédiée à la sensibilisation et à la prévention des dérives sectaires. Analyses, ressources, témoignages.",
+    "Association française indépendante dédiée à la prévention des dérives sectaires. Analyses critiques, ressources vérifiées, signaux d'emprise, accompagnement et esprit critique. Référence sur les mécanismes d'emprise et la manipulation.",
+  keywords: [
+    "dérives sectaires",
+    "emprise psychologique",
+    "manipulation mentale",
+    "prévention sectaire",
+    "secte",
+    "MIVILUDES",
+    "esprit critique",
+    "signaux d'emprise",
+    "contrôle mental",
+    "aide victimes sectes",
+    "association anti-secte",
+    "sortir d'une secte",
+    "reconnaître une secte",
+    "mécanismes d'emprise",
+    "isolement sectaire",
+    "manipulation idéologique",
+    "analyse critique",
+    "ressources dérives sectaires",
+    "témoignages sectes",
+    "Crise Conscience",
+  ],
   alternates: {
     canonical: "/",
+    languages: {
+      "fr-FR": "/",
+    },
   },
   openGraph: {
     type: "website",
     url: "/",
     siteName: "Crise Conscience",
-    title: "Crise Conscience",
+    title: "Crise Conscience — Prévention des dérives sectaires",
     description:
-      "Association dédiée à la sensibilisation et à la prévention des dérives sectaires. Analyses, ressources, témoignages.",
+      "Association française indépendante : analyses critiques, ressources vérifiées, signaux d'emprise et accompagnement face aux dérives sectaires.",
     locale: "fr_FR",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Crise Conscience",
+    title: "Crise Conscience — Prévention des dérives sectaires",
     description:
-      "Association dédiée à la sensibilisation et à la prévention des dérives sectaires. Analyses, ressources, témoignages.",
+      "Analyses critiques, ressources vérifiées et accompagnement face aux dérives sectaires. Association indépendante.",
   },
   robots: {
     index: true,
@@ -42,6 +67,7 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
+  category: "association",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -1,16 +1,39 @@
 // app/blog/signe-emprise/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
+import { JsonLd } from "@/app/components/JsonLd";
+
+const siteBase = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.criseconscience.org").replace(/\/$/, "");
 
 export const metadata: Metadata = {
-  title: "Identifier une dérive sectaire : signes d’emprise et critères | Crise Conscience",
+  title: "Comment reconnaître une secte : 17 signes d’emprise et critères d’alerte (MIVILUDES)",
   description:
-    "Repères concrets pour identifier une dérive sectaire : critères MIVILUDES, mécanismes d’emprise, signaux d’alerte et conseils pour agir.",
+    "Guide complet pour identifier une dérive sectaire : 17 critères MIVILUDES détaillés, mécanismes d’emprise psychologique (isolement, contrôle, manipulation), signaux d’alerte concrets et conseils pour agir. Par Crise Conscience.",
+  alternates: { canonical: "/blog/signeaux-emprise" },
+  keywords: [
+    "reconnaître une secte",
+    "signes d’emprise",
+    "dérive sectaire critères",
+    "MIVILUDES critères",
+    "emprise psychologique signes",
+    "comment savoir si on est dans une secte",
+    "manipulation mentale signes",
+    "sortir d’une secte",
+    "aide secte",
+  ],
   openGraph: {
-    title: "Identifier une dérive sectaire : signes d’emprise et critères",
+    title: "17 signes d’emprise : comment reconnaître une dérive sectaire",
     description:
-      "Critères, signaux d’alerte et conseils d’action, inspirés des repères publics de la MIVILUDES.",
+      "Critères MIVILUDES détaillés, mécanismes d’emprise, signaux d’alerte et conseils d’action concrets pour identifier et agir face à une dérive sectaire.",
     type: "article",
+    url: "/blog/signeaux-emprise",
+    publishedTime: "2026-01-10T00:00:00Z",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "17 signes d’emprise : comment reconnaître une dérive sectaire",
+    description:
+      "Guide complet basé sur les critères MIVILUDES. Mécanismes d’emprise, signaux d’alerte et conseils pour agir.",
   },
 };
 
@@ -116,7 +139,75 @@ function Card({ title, desc }: { title: string; desc: string }) {
 }
 
 export default function Page() {
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Comment reconnaître une secte : 17 signes d'emprise et critères d'alerte",
+    description:
+      "Guide complet pour identifier une dérive sectaire basé sur les critères MIVILUDES : mécanismes d'emprise, signaux d'alerte et conseils pour agir.",
+    datePublished: "2026-01-10T00:00:00Z",
+    dateModified: "2026-01-10T00:00:00Z",
+    author: { "@type": "Organization", name: "Crise Conscience", url: siteBase },
+    publisher: { "@type": "Organization", name: "Crise Conscience", url: siteBase },
+    mainEntityOfPage: `${siteBase}/blog/signeaux-emprise`,
+    keywords: "dérive sectaire, emprise, MIVILUDES, signes secte, manipulation mentale, sortir d'une secte",
+    inLanguage: "fr-FR",
+  };
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Comment reconnaître une dérive sectaire ?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Il existe 17 critères d'alerte identifiés par la MIVILUDES : déstabilisation mentale, rupture avec l'entourage, changement radical de comportement, exigences financières, groupe autoritaire et opaque, etc. C'est l'accumulation de plusieurs signaux qui doit alerter, pas un critère isolé.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Quels sont les signes d'emprise psychologique ?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "L'emprise psychologique se manifeste par : l'isolement progressif, la dépendance affective/financière/cognitive, le contrôle du temps et de l'information, les pressions et la culpabilisation, et les promesses miracles avec des exigences croissantes.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Comment aider un proche sous emprise sectaire ?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Restez en lien calmement sans jugement, documentez les faits (dates, pressions, montants), identifiez les risques immédiats (santé, violences, mineurs), et cherchez de l'aide auprès d'associations spécialisées (UNADFI, CCMM) ou de professionnels.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Pourquoi est-ce difficile de quitter une secte ?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "L'emprise mélange peur, culpabilité, perte de repères et parfois dépendance financière. La sortie peut entraîner solitude, rupture des liens, pression du groupe (ostracisme), voire menaces. C'est un processus qui prend du temps et nécessite un accompagnement.",
+        },
+      },
+    ],
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: `${siteBase}/` },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${siteBase}/blog` },
+      { "@type": "ListItem", position: 3, name: "Signes d'emprise", item: `${siteBase}/blog/signeaux-emprise` },
+    ],
+  };
+
   return (
+    <>
+    <JsonLd data={articleJsonLd} />
+    <JsonLd data={faqJsonLd} />
+    <JsonLd data={breadcrumbJsonLd} />
     <main className="mx-auto max-w-6xl px-4 py-10">
       {/* Hero */}
       <header className="overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-8">
@@ -348,5 +439,6 @@ export default function Page() {
         </p>
       </footer>
     </main>
+    </>
   );
 }

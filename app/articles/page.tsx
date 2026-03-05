@@ -9,9 +9,9 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Articles";
+  const title = "Articles et analyses sur les dérives sectaires";
   const description =
-    "Dossiers & analyses approfondies sur les dérives sectaires : compréhension, signaux d’emprise, prévention et ressources.";
+    "Dossiers et analyses approfondies sur les dérives sectaires : mécanismes d’emprise psychologique, signaux d’alerte, prévention, études de cas et ressources vérifiées. Par Crise Conscience.";
 
   return {
     title,
@@ -20,12 +20,12 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       url: "/articles",
-      title: `${title} • Crise Conscience`,
+      title: "Articles — Analyses des dérives sectaires | Crise Conscience",
       description,
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} • Crise Conscience`,
+      title: "Articles — Analyses des dérives sectaires | Crise Conscience",
       description,
     },
   };

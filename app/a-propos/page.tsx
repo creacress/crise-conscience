@@ -1,13 +1,52 @@
 
 
+import { JsonLd } from "@/app/components/JsonLd";
+
+const siteBase = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.criseconscience.org").replace(/\/$/, "");
+
 export const metadata = {
-  title: "À propos – Crise Conscience",
+  title: "À propos de Crise Conscience — Mission, valeurs et positionnement",
   description:
-    "Crise Conscience est une association dédiée à l’analyse critique, à la prévention des dérives sectaires et à la promotion de l’esprit critique.",
+    "Découvrez Crise Conscience : association française indépendante d’analyse critique, de prévention des dérives sectaires et de promotion de l’esprit critique. Mission, valeurs, axes de travail.",
+  alternates: { canonical: "/a-propos" },
+  openGraph: {
+    type: "website" as const,
+    url: "/a-propos",
+    title: "À propos de Crise Conscience — Mission et valeurs",
+    description:
+      "Association indépendante : analyse critique, prévention des dérives sectaires, esprit critique. Découvrez notre mission et nos valeurs.",
+  },
 };
 
 export default function AboutPage() {
+  const aboutJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "À propos de Crise Conscience",
+    description:
+      "Association française indépendante d'analyse critique, de prévention des dérives sectaires et de promotion de l'esprit critique.",
+    url: `${siteBase}/a-propos`,
+    mainEntity: {
+      "@type": "NGO",
+      "@id": `${siteBase}/#organization`,
+      name: "Crise Conscience",
+      url: siteBase,
+    },
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: `${siteBase}/` },
+      { "@type": "ListItem", position: 2, name: "À propos", item: `${siteBase}/a-propos` },
+    ],
+  };
+
   return (
+    <>
+    <JsonLd data={aboutJsonLd} />
+    <JsonLd data={breadcrumbJsonLd} />
     <main className="mx-auto w-full max-w-5xl px-4 pb-24 pt-16">
       {/* Header */}
       <header className="mb-14 rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.03] p-8 shadow-[0_1px_0_0_rgba(255,255,255,0.06)]">
@@ -120,5 +159,6 @@ export default function AboutPage() {
         </div>
       </section>
     </main>
+    </>
   );
 }

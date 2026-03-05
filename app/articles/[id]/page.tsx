@@ -359,11 +359,25 @@ export default async function ArticlePage(
     description: article.excerpt || undefined,
     image: imageAbs ? [imageAbs] : undefined,
     datePublished: publishedTime,
+    dateModified: publishedTime,
     mainEntityOfPage: pageUrl,
-    publisher: {
+    author: {
       "@type": "Organization",
       name: "Crise Conscience",
       url: siteBase,
+    },
+    publisher: {
+      "@type": "Organization",
+      "@id": `${siteBase}/#organization`,
+      name: "Crise Conscience",
+      url: siteBase,
+    },
+    inLanguage: "fr-FR",
+    keywords: article.tags?.join(", ") || "dérives sectaires, emprise, analyse critique",
+    isPartOf: {
+      "@type": "WebSite",
+      "@id": `${siteBase}/#website`,
+      name: "Crise Conscience",
     },
   };
 

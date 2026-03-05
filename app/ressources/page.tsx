@@ -1,7 +1,15 @@
 export const metadata = {
-    title: "Ressources – Crise Conscience",
+    title: "Ressources contre les dérives sectaires — Guides, aide et institutions",
     description:
-      "Ressources utiles sur les dérives sectaires : guides, rapports, dispositifs d’aide, et outils pour développer l’esprit critique.",
+      "Toutes les ressources pour comprendre et agir face aux dérives sectaires : MIVILUDES, UNADFI, CCMM, France Victimes, guides pratiques, kit d’analyse et outils pour développer l’esprit critique.",
+    alternates: { canonical: "/ressources" },
+    openGraph: {
+      type: "website" as const,
+      url: "/ressources",
+      title: "Ressources contre les dérives sectaires — Crise Conscience",
+      description:
+        "Guides, institutions officielles (MIVILUDES, UNADFI, CCMM), numéros utiles et outils pour repérer et agir face aux dérives sectaires.",
+    },
   };
   
   type Resource = {

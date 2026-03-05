@@ -134,9 +134,9 @@ function formatDate(iso: string) {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Crise Conscience";
+  const title = "Crise Conscience — Prévention des dérives sectaires, analyses et ressources";
   const description =
-    "Informer, prévenir et aider face aux dérives sectaires : analyses, ressources fiables et accompagnement.";
+    "Association française indépendante : informer, prévenir et aider face aux dérives sectaires. Analyses critiques sourcées, ressources vérifiées (MIVILUDES, UNADFI), signaux d'emprise et accompagnement.";
 
   return {
     title,
@@ -145,12 +145,12 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       url: "/",
-      title,
+      title: "Crise Conscience — Prévention des dérives sectaires",
       description,
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: "Crise Conscience — Prévention des dérives sectaires",
       description,
     },
   };
@@ -166,16 +166,55 @@ export default async function HomePage() {
 
   const organizationJsonLd = {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": "NGO",
+    "@id": `${siteBase}/#organization`,
     name: "Crise Conscience",
+    alternateName: "Association Crise Conscience",
     url: siteBase,
+    description:
+      "Association française indépendante dédiée à la prévention des dérives sectaires, à l'analyse critique et à l'accompagnement des personnes concernées.",
+    foundingDate: "2024",
+    areaServed: { "@type": "Country", name: "France" },
+    knowsAbout: [
+      "Dérives sectaires",
+      "Emprise psychologique",
+      "Manipulation mentale",
+      "Prévention sectaire",
+      "Esprit critique",
+      "MIVILUDES",
+      "Signaux d'emprise",
+      "Aide aux victimes de sectes",
+    ],
+    sameAs: [
+      "https://linkedin.com/in/association-crise-conscience-58a5173a8",
+    ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      email: "contact@criseconscience.org",
+      url: `${siteBase}/contact`,
+      availableLanguage: "French",
+    },
   };
 
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": `${siteBase}/#website`,
     name: "Crise Conscience",
     url: siteBase,
+    description:
+      "Prévention des dérives sectaires : analyses critiques, ressources vérifiées, signaux d'emprise et accompagnement.",
+    publisher: { "@id": `${siteBase}/#organization` },
+    inLanguage: "fr-FR",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${siteBase}/articles?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   };
 
   const latestItemListJsonLd = {

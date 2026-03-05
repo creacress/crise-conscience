@@ -2,8 +2,10 @@ import Container from "@/app/components/Container";
 import { UnsubscribeCard } from "@/app/components/UnsubscribeCard";
 
 export const metadata = {
-  title: "Désinscription — Crise Conscience",
-  description: "Se désinscrire de la newsletter de l’association Crise Conscience.",
+  title: "Désinscription newsletter — Crise Conscience",
+  description: "Se désinscrire de la newsletter de l’association Crise Conscience. Désinscription en un clic, sans culpabilisation.",
+  alternates: { canonical: "/desinscription" },
+  robots: { index: false, follow: true },
 };
 
 export default function Page() {

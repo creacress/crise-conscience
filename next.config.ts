@@ -54,6 +54,10 @@ const nextConfig: NextConfig = {
         source: "/llms.txt",
         headers: [{ key: "Cache-Control", value: "public, max-age=0, s-maxage=86400" }],
       },
+      {
+        source: "/llms-full.txt",
+        headers: [{ key: "Cache-Control", value: "public, max-age=0, s-maxage=86400" }],
+      },
     ];
   },
 };
