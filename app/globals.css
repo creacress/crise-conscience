@@ -1,17 +1,31 @@
 @import "tailwindcss";
 
 /* Base safe */
-html,
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   height: 100%;
-}
-
-body {
   margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* (Optionnel) variables utiles si tu veux, mais sans écraser Tailwind */
 :root {
   --cc-bg: #0b1220;
   --cc-fg: #ffffff;
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  outline: 2px solid rgba(249, 115, 22, 0.7);
+  outline-offset: 2px;
+  border-radius: 4px;
 }

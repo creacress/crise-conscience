@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getBaseUrl } from "@/lib/base-url";
 import { JsonLd } from "@/app/components/JsonLd";
+import { ReadingProgress } from "@/app/components/ReadingProgress";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300; // ISR: revalidate every 5 minutes
 
 type Article = {
   id: string;
@@ -393,6 +394,7 @@ export default async function ArticlePage(
 
   return (
     <>
+      <ReadingProgress />
       <JsonLd data={articleJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
 
@@ -567,13 +569,14 @@ export default async function ArticlePage(
         ) : null}
 
         {article.coverImage ? (
-          <div className="mt-7 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_12px_40px_-28px_rgba(0,0,0,0.8)]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+          <div className="relative mt-7 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_12px_40px_-28px_rgba(0,0,0,0.8)] h-[240px] md:h-[380px]">
+            <Image
               src={article.coverImage.startsWith("http") ? article.coverImage : `${base}${article.coverImage}`}
-              alt=""
-              className="h-[240px] w-full object-cover md:h-[380px]"
-              loading="lazy"
+              alt={article.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 900px"
+              className="object-cover"
+              priority
             />
           </div>
         ) : null}
@@ -635,7 +638,29 @@ export default async function ArticlePage(
             )}
           </div>
 
-          <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
+          {/* Newsletter CTA */}
+          <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-r from-orange-500/10 via-white/5 to-sky-500/10 p-6">
+            <h3 className="text-lg font-semibold text-white">Restez informé</h3>
+            <p className="mt-2 text-sm text-white/70 leading-relaxed">
+              Recevez nos analyses, ressources et repères de prévention directement dans votre boîte mail.
+            </p>
+            <div className="mt-4 flex flex-col sm:flex-row gap-3">
+              <Link
+                href="/inscription"
+                className="inline-flex justify-center rounded-xl bg-orange-500 px-5 py-3 text-sm font-semibold text-black hover:brightness-110 transition"
+              >
+                S'inscrire à la newsletter
+              </Link>
+              <Link
+                href="/ressources"
+                className="inline-flex justify-center rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white hover:bg-white/10 transition"
+              >
+                Voir les ressources
+              </Link>
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
             <Link href="/articles" className="text-sm text-white/70 hover:text-white">
               ← Retour aux articles
             </Link>

@@ -1,12 +1,13 @@
 import Container from "../components/Container";
 import SectionTitle from "../components/SectionTitle";
+import { Breadcrumb } from "@/app/components/Breadcrumb";
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { getBaseUrl } from "@/lib/base-url";
 import { JsonLd } from "@/app/components/JsonLd";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 120; // ISR: revalidate every 2 minutes
 
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Articles et analyses sur les dérives sectaires";
@@ -153,24 +154,21 @@ export default async function ArticlesPage() {
       <JsonLd data={collectionJsonLd} />
       <JsonLd data={itemListJsonLd} />
       <Container>
+      <Breadcrumb items={[{ label: "Articles", href: "/articles" }]} />
       <SectionTitle
         eyebrow="Articles"
         title="Dossiers & analyses approfondies"
-        desc="Ces articles sont générés et publiés automatiquement via n8n (agent IA)."
+        desc="Analyses critiques sur les dérives sectaires, les mécanismes d'emprise et les stratégies de prévention."
       />
 
-      {/* Bandeau info N8N */}
-      <div className="mb-6 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/70">
-        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <span className="font-semibold text-white">Source :</span> n8n / API
-          </div>
-          <div className="text-white/60">
-            {ok ? `${count} article(s)` : "Sync non confirmé"}
+      {/* Info bar */}
+      {ok && count > 0 && (
+        <div className="mb-6 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/70">
+          <div className="flex items-center justify-between">
+            <span>{count} article{count > 1 ? "s" : ""} disponible{count > 1 ? "s" : ""}</span>
           </div>
         </div>
-        {!ok && reason ? <div className="mt-2 text-orange-300">Pourquoi c’est vide ? {reason}</div> : null}
-      </div>
+      )}
 
       {/* Thèmes (si dispo) */}
       {themes.length > 0 && (
@@ -262,10 +260,12 @@ export default async function ArticlesPage() {
                 <div className="relative z-10 h-36 w-full overflow-hidden">
                   {cover ? (
                     <>
-                      <img
+                      <Image
                         src={cover}
                         alt={a.title}
-                        className="h-full w-full object-cover opacity-90"
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        className="object-cover opacity-90"
                         loading="lazy"
                         referrerPolicy="no-referrer"
                       />

@@ -7,15 +7,17 @@ const nextConfig: NextConfig = {
   // Si tu utilises <Image> avec des images externes, ajoute les domaines ici.
   // (Laisse vide si tu n’en as pas besoin, ou complète au fur et à mesure.)
   images: {
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: "https",
         hostname: "cms-imgp.jw-cdn.org",
-        // Exemple URL: https://cms-imgp.jw-cdn.org/img/p/.../art/...jpg
         pathname: "/img/**",
       },
-      // Ajoute d'autres domaines au besoin
-      // { protocol: "https", hostname: "www.jw.org" },
+      {
+        protocol: "https",
+        hostname: "**.jw-cdn.org",
+      },
     ],
   },
 
@@ -57,6 +59,11 @@ const nextConfig: NextConfig = {
       {
         source: "/llms-full.txt",
         headers: [{ key: "Cache-Control", value: "public, max-age=0, s-maxage=86400" }],
+      },
+      // Manifest and static assets
+      {
+        source: "/manifest.json",
+        headers: [{ key: "Cache-Control", value: "public, max-age=86400, s-maxage=86400" }],
       },
     ];
   },
