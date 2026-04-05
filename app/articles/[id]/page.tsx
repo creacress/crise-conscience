@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { getBaseUrl } from "@/lib/base-url";
 import { JsonLd } from "@/app/components/JsonLd";
 import { ReadingProgress } from "@/app/components/ReadingProgress";
+import { SocialShare } from "@/app/components/SocialShare";
+import { RelatedArticles } from "@/app/components/RelatedArticles";
 
 export const runtime = "nodejs";
 export const revalidate = 300; // ISR: revalidate every 5 minutes
@@ -152,6 +154,40 @@ function estimateReadingTimeMinutes(text: string): number {
     .filter(Boolean).length;
   // French reading speed ~200 wpm
   return Math.max(1, Math.round(words / 200));
+}
+
+type RelatedArticleData = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt?: string | null;
+  coverImage?: string | null;
+  tags?: string[] | null;
+  publishedAt?: string | null;
+};
+
+async function fetchAllArticles(): Promise<RelatedArticleData[]> {
+  try {
+    const base = await getBaseUrl();
+    const res = await fetch(`${base}/api/articles`, {
+      next: { revalidate: 300 },
+      headers: { accept: "application/json" },
+    });
+    if (!res.ok) return [];
+    const data = (await res.json().catch(() => null)) as any;
+    const items = Array.isArray(data?.items) ? data.items : Array.isArray(data) ? data : [];
+    return items.map((a: any) => ({
+      id: asStr(a.id),
+      slug: asStr(a.slug || a.id),
+      title: asStr(a.title),
+      excerpt: asStr(a.excerpt) || null,
+      coverImage: asStr(a.coverImage || a.coverimage || a.cover_image) || null,
+      tags: Array.isArray(a.tags) ? a.tags.map((t: unknown) => asStr(t)).filter(Boolean) : null,
+      publishedAt: asStr(a.publishedAt || a.published_at) || null,
+    }));
+  } catch {
+    return [];
+  }
 }
 
 async function fetchArticleByIdOrSlug(idOrSlug: string): Promise<Article | null> {
@@ -331,7 +367,10 @@ export default async function ArticlePage(
 
   const base = await getBaseUrl();
 
-  const article = await fetchArticleByIdOrSlug(key);
+  const [article, allArticles] = await Promise.all([
+    fetchArticleByIdOrSlug(key),
+    fetchAllArticles(),
+  ]);
   if (!article) notFound();
 
   const rawHtml = article.contentHtml ? stripDangerousHtml(article.contentHtml) : "";
@@ -582,6 +621,11 @@ export default async function ArticlePage(
         ) : null}
       </header>
 
+      {/* Social sharing */}
+      <div className="mb-8 rounded-2xl border border-white/10 bg-white/5 px-5 py-3">
+        <SocialShare title={article.title} url={pageUrl} />
+      </div>
+
       <section className="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_360px]">
         {/* CONTENT */}
         <div className="min-w-0 space-y-6">
@@ -637,6 +681,20 @@ export default async function ArticlePage(
               <p className="text-white/70">Contenu indisponible.</p>
             )}
           </div>
+
+          {/* Related articles */}
+          <RelatedArticles
+            current={{
+              id: article.id,
+              slug: article.slug,
+              title: article.title,
+              excerpt: article.excerpt,
+              coverImage: article.coverImage,
+              tags: article.tags,
+              publishedAt: article.publishedAt,
+            }}
+            allArticles={allArticles}
+          />
 
           {/* Newsletter CTA */}
           <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-r from-orange-500/10 via-white/5 to-sky-500/10 p-6">
@@ -694,6 +752,11 @@ export default async function ArticlePage(
             ) : (
               <div className="mt-3 text-sm text-white/60">Aucun sommaire détecté.</div>
             )}
+
+            {/* Sidebar share */}
+            <div className="mt-4 border-t border-white/10 pt-4">
+              <SocialShare title={article.title} url={pageUrl} />
+            </div>
 
             <div className="mt-4 border-t border-white/10 pt-4 text-xs text-white/60">
               <div className="flex items-center justify-between">
