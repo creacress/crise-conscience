@@ -1,3 +1,6 @@
+import { Breadcrumb } from "@/app/components/Breadcrumb";
+import { JsonLd } from "@/app/components/JsonLd";
+
 export const metadata = {
     title: "Ressources contre les dérives sectaires — Guides, aide et institutions",
     description:
@@ -186,8 +189,41 @@ export const metadata = {
   }
   
   export default function ResourcesPage() {
+    const faqJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "Où signaler une dérive sectaire en France ?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Vous pouvez contacter la MIVILUDES (Mission interministérielle de vigilance et de lutte contre les dérives sectaires) via leur site officiel miviludes.interieur.gouv.fr, ou appeler le 01 42 75 76 08. En cas de danger immédiat, contactez le 17 (police) ou le 112.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Quelles associations aident les victimes de sectes ?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Les principales associations sont l'UNADFI (Union nationale des Associations de Défense des Familles et de l'Individu victimes de sectes) et le CCMM (Centre Contre les Manipulations Mentales). France Victimes propose également un accompagnement via le 116 006.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Comment développer son esprit critique face aux manipulations ?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Développez votre esprit critique en vérifiant les sources, en identifiant les biais cognitifs, en questionnant les arguments d'autorité et en consultant des ressources variées. Crise Conscience propose des analyses et des guides pour structurer cette démarche.",
+          },
+        },
+      ],
+    };
+
     return (
       <main className="mx-auto w-full max-w-5xl px-4 pb-24 pt-16">
+        <Breadcrumb items={[{ label: "Ressources", href: "/ressources" }]} />
+        <JsonLd data={faqJsonLd} />
         {/* Header */}
         <header className="mb-12 rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.03] p-8 shadow-[0_1px_0_0_rgba(255,255,255,0.06)]">
           <div className="flex flex-wrap items-center gap-2 text-xs text-white/65">

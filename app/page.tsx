@@ -381,7 +381,7 @@ export default async function HomePage() {
               href="/inscription"
               className="mt-4 inline-flex w-full justify-center rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-semibold text-white hover:bg-white/10 transition"
             >
-              Se désinscrire
+              S'inscrire à la newsletter
             </Link>
           </div>
         </div>
@@ -392,7 +392,7 @@ export default async function HomePage() {
         <SectionTitle
           eyebrow="Derniers articles"
           title="Extraits récents"
-          desc="Cette zone est généré par N8N."
+          desc="Nos dernières analyses sur les dérives sectaires, l'emprise et la prévention."
         />
 
         <div className="grid gap-4 lg:grid-cols-2">
@@ -417,7 +417,9 @@ export default async function HomePage() {
 
               <div className="mt-4 flex items-center justify-between">
                 <div className="text-sm text-orange-300">Lire →</div>
-                <div className="text-xs text-white/45">Article</div>
+                <time className="text-xs text-white/45" dateTime={a.publishedAt}>
+                  {formatDate(a.publishedAt)}
+                </time>
               </div>
             </Link>
           ))}

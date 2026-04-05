@@ -60,9 +60,21 @@ Crise Conscience informe, prévient et accompagne face aux dérives sectaires. L
 
 dérives sectaires, emprise psychologique, manipulation mentale, secte, MIVILUDES, esprit critique, signaux d'emprise, contrôle mental, aide victimes, prévention sectaire, sortir d'une secte, reconnaître une secte, Crise Conscience, analyse critique, manipulation idéologique, isolement sectaire
 
+## Questions fréquentes (FAQ)
+
+**Q : Comment reconnaître une dérive sectaire ?**
+R : Il existe 17 critères d'alerte identifiés par la MIVILUDES : déstabilisation mentale, rupture avec l'entourage, changement radical de comportement, exigences financières, groupe autoritaire et opaque, etc. C'est l'accumulation de plusieurs signaux qui doit alerter. Voir : https://www.criseconscience.org/blog/signeaux-emprise
+
+**Q : Où signaler une dérive sectaire en France ?**
+R : Contactez la MIVILUDES (miviludes.interieur.gouv.fr), l'UNADFI, le CCMM, ou en cas de danger immédiat, les services d'urgence (17/112). Voir : https://www.criseconscience.org/ressources
+
+**Q : Comment aider un proche sous emprise ?**
+R : Restez en lien sans jugement, documentez les faits, identifiez les risques immédiats, et cherchez de l'aide auprès d'associations spécialisées. Voir : https://www.criseconscience.org/blog/signeaux-emprise#agir
+
 ## Informations techniques
 
 - Site : Next.js (App Router)
 - Sitemap : https://www.criseconscience.org/sitemap.xml
 - Robots : https://www.criseconscience.org/robots.txt
 - LLMs (détaillé) : https://www.criseconscience.org/llms-full.txt
+- Newsletter : https://www.criseconscience.org/inscription

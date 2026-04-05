@@ -1,0 +1,23 @@
+{
+  "name": "Crise Conscience — Prévention des dérives sectaires",
+  "short_name": "Crise Conscience",
+  "description": "Association française indépendante de prévention des dérives sectaires. Analyses critiques, ressources vérifiées, signaux d'emprise.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
+  "lang": "fr",
+  "categories": ["education", "news"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

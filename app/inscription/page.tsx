@@ -1,8 +1,7 @@
-
-
 import Container from "@/app/components/Container";
 import { SubscribeCard } from "@/app/components/SubscribeCard";
 import { SubscriberCounter } from "@/app/components/SubscriberCounter";
+import { Breadcrumb } from "@/app/components/Breadcrumb";
 import Link from "next/link";
 
 export const metadata = {
@@ -18,6 +17,7 @@ export default function Page() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(1200px_700px_at_50%_-200px,rgba(255,255,255,0.10),transparent_60%)]" />
 
       <Container className="relative py-12">
+        <Breadcrumb items={[{ label: "Inscription", href: "/inscription" }]} />
         <div className="max-w-3xl">
           <div className="text-sm text-white/60">Newsletter</div>
           <h1 className="mt-2 text-4xl md:text-5xl font-semibold tracking-tight text-white">
