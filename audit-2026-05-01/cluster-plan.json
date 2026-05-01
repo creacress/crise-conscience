@@ -1,0 +1,425 @@
+{
+  "meta": {
+    "site": "https://www.criseconscience.org",
+    "generated": "2026-05-01",
+    "methodology": "semantic-intent-inference",
+    "serp_overlap_method": "semantic-proxy (no live SERP access)",
+    "subject": "YMYL — derives sectaires, emprise psychologique",
+    "legal_context": "Association loi 1901, partenaire UNADFI"
+  },
+  "keywords_excluded_navigational": [
+    "UNADFI",
+    "CCMM",
+    "MIVILUDES (marque)",
+    "Temoins de Jehovah",
+    "Scientologie",
+    "France Victimes",
+    "Steven Hassan",
+    "Robert Lifton"
+  ],
+  "serp_overlap_matrix": [
+    { "kw_a": "emprise psychologique", "kw_b": "emprise mentale", "overlap_score": 9, "decision": "same_post" },
+    { "kw_a": "emprise psychologique", "kw_b": "emprise sectaire", "overlap_score": 8, "decision": "same_post" },
+    { "kw_a": "manipulation mentale", "kw_b": "manipulation mentale signes", "overlap_score": 9, "decision": "same_post" },
+    { "kw_a": "manipulation mentale", "kw_b": "manipulation psychologique", "overlap_score": 8, "decision": "same_post" },
+    { "kw_a": "derives sectaires", "kw_b": "derives sectaires definition", "overlap_score": 9, "decision": "same_post" },
+    { "kw_a": "derives sectaires signes", "kw_b": "criteres MIVILUDES", "overlap_score": 8, "decision": "same_post" },
+    { "kw_a": "test emprise", "kw_b": "test secte", "overlap_score": 8, "decision": "same_post" },
+    { "kw_a": "test emprise", "kw_b": "comment savoir si on est dans une secte", "overlap_score": 7, "decision": "same_post" },
+    { "kw_a": "que faire si un proche est dans une secte", "kw_b": "aider proche secte", "overlap_score": 9, "decision": "same_post" },
+    { "kw_a": "aider proche secte", "kw_b": "comment sortir un proche d une secte", "overlap_score": 8, "decision": "same_post" },
+    { "kw_a": "sortir d une secte", "kw_b": "se reconstruire apres une secte", "overlap_score": 8, "decision": "same_post" },
+    { "kw_a": "se reconstruire apres une secte", "kw_b": "vie apres secte", "overlap_score": 7, "decision": "same_post" },
+    { "kw_a": "derives sectaires", "kw_b": "emprise psychologique", "overlap_score": 5, "decision": "same_cluster" },
+    { "kw_a": "emprise psychologique", "kw_b": "BITE model", "overlap_score": 5, "decision": "same_cluster" },
+    { "kw_a": "test emprise", "kw_b": "BITE model", "overlap_score": 5, "decision": "same_cluster" },
+    { "kw_a": "aider un proche", "kw_b": "se reconstruire", "overlap_score": 4, "decision": "same_cluster" },
+    { "kw_a": "derives sectaires signes", "kw_b": "comment reconnaitre une secte", "overlap_score": 5, "decision": "same_cluster" },
+    { "kw_a": "ostracisme religieux", "kw_b": "exclusion secte", "overlap_score": 6, "decision": "same_post" },
+    { "kw_a": "abus de faiblesse", "kw_b": "article 223-15-2 code penal", "overlap_score": 8, "decision": "same_post" },
+    { "kw_a": "deconversion", "kw_b": "desaffiliation religieuse", "overlap_score": 7, "decision": "same_post" }
+  ],
+  "clusters": [
+    {
+      "id": "cluster-1",
+      "hub": {
+        "id": "HUB-1",
+        "label": "Derives sectaires",
+        "primary_keyword": "derives sectaires",
+        "secondary_keywords": ["derives sectaires definition", "derives sectaires signes", "secte definition"],
+        "url": "/articles/derives-sectaires",
+        "status": "to_create",
+        "intent": "informational",
+        "template": "pillar-article",
+        "schema_markup": ["Article", "BreadcrumbList", "speakable"],
+        "word_count_target": 3500,
+        "priority_wave": 2
+      },
+      "spokes": [
+        {
+          "id": "S1-1",
+          "label": "Signaux d emprise / criteres MIVILUDES",
+          "primary_keyword": "derives sectaires signes",
+          "secondary_keywords": ["criteres MIVILUDES", "17 criteres MIVILUDES", "signaux emprise"],
+          "url": "/blog/signaux-emprise",
+          "status": "existing_to_consolidate",
+          "current_word_count": 909,
+          "word_count_target": 1500,
+          "intent": "informational",
+          "template": "spoke-article",
+          "schema_markup": ["Article", "FAQPage"],
+          "priority_wave": 1
+        },
+        {
+          "id": "S1-2",
+          "label": "Reconnaitre une secte",
+          "primary_keyword": "comment reconnaitre une secte",
+          "secondary_keywords": ["gourou", "leader charismatique", "groupe ferme"],
+          "url": "/articles/reconnaitre-secte",
+          "status": "to_create",
+          "word_count_target": 1400,
+          "intent": "informational",
+          "template": "spoke-article",
+          "schema_markup": ["Article", "FAQPage"],
+          "priority_wave": 2
+        },
+        {
+          "id": "S1-3",
+          "label": "Signaler une derive sectaire",
+          "primary_keyword": "miviludes signalement",
+          "secondary_keywords": ["abus de faiblesse", "article 223-15-2 code penal", "plainte derive sectaire"],
+          "url": "/articles/signaler-derive-sectaire",
+          "status": "to_create",
+          "word_count_target": 1300,
+          "intent": "transactional",
+          "template": "spoke-howto",
+          "schema_markup": ["HowTo", "FAQPage"],
+          "priority_wave": 3
+        }
+      ]
+    },
+    {
+      "id": "cluster-2",
+      "hub": {
+        "id": "HUB-2",
+        "label": "Emprise psychologique",
+        "primary_keyword": "emprise psychologique",
+        "secondary_keywords": ["emprise mentale", "emprise sectaire", "emprise affective"],
+        "url": "/articles/emprise-psychologique",
+        "status": "to_create",
+        "intent": "informational",
+        "template": "pillar-article",
+        "schema_markup": ["Article", "speakable", "BreadcrumbList"],
+        "word_count_target": 3200,
+        "priority_wave": 1
+      },
+      "spokes": [
+        {
+          "id": "S2-1",
+          "label": "Manipulation mentale",
+          "primary_keyword": "manipulation mentale signes",
+          "secondary_keywords": ["manipulation psychologique", "manipulation mentale", "techniques manipulation"],
+          "url": "/articles/manipulation-mentale",
+          "status": "to_create",
+          "word_count_target": 1500,
+          "intent": "informational",
+          "template": "spoke-article",
+          "schema_markup": ["Article", "FAQPage"],
+          "priority_wave": 2
+        },
+        {
+          "id": "S2-2",
+          "label": "BITE model",
+          "primary_keyword": "BITE model",
+          "secondary_keywords": ["Steven Hassan BITE model", "reforme de la pensee", "Robert Lifton", "controle information secte"],
+          "url": "/articles/bite-model",
+          "status": "to_create",
+          "word_count_target": 1600,
+          "intent": "informational",
+          "template": "spoke-article",
+          "schema_markup": ["Article"],
+          "priority_wave": 2,
+          "competitive_gap": "quasi-monopole francophone possible — contenu quasi inexistant en francais"
+        },
+        {
+          "id": "S2-3",
+          "label": "Biais cognitifs et esprit critique",
+          "primary_keyword": "biais cognitifs manipulation sectes",
+          "secondary_keywords": ["esprit critique", "resistance manipulation mentale", "pensee critique"],
+          "url": "/articles/biais-cognitifs-sectes",
+          "status": "to_create",
+          "word_count_target": 1400,
+          "intent": "informational",
+          "template": "spoke-article",
+          "schema_markup": ["Article"],
+          "priority_wave": 3
+        }
+      ]
+    },
+    {
+      "id": "cluster-3",
+      "hub": {
+        "id": "HUB-3",
+        "label": "Test emprise (outil diagnostique)",
+        "primary_keyword": "test emprise",
+        "secondary_keywords": ["test secte", "comment savoir si on est dans une secte", "suis-je sous emprise"],
+        "url": "/test-emprise",
+        "status": "to_create_lot3",
+        "intent": "mixed_transactional_informational",
+        "template": "interactive-tool-with-editorial",
+        "schema_markup": ["FAQPage", "HowTo", "BreadcrumbList"],
+        "word_count_target": 2800,
+        "priority_wave": 1,
+        "competitive_gap": "SERP quasi vierge — aucun outil interactif francophone identifie — position zero disponible"
+      },
+      "spokes": [
+        {
+          "id": "S3-1",
+          "label": "Ostracisme et exclusion sectaire",
+          "primary_keyword": "ostracisme religieux",
+          "secondary_keywords": ["exclusion secte", "ostracisme", "mise au ban groupe sectaire"],
+          "url": "/articles/ostracisme-secte",
+          "status": "to_create",
+          "word_count_target": 1300,
+          "intent": "informational",
+          "template": "spoke-article",
+          "schema_markup": ["Article", "FAQPage"],
+          "priority_wave": 3
+        }
+      ]
+    },
+    {
+      "id": "cluster-4",
+      "hub": {
+        "id": "HUB-4",
+        "label": "Aider un proche",
+        "primary_keyword": "que faire si un proche est dans une secte",
+        "secondary_keywords": ["aider proche secte", "comment sortir un proche d une secte", "soutenir famille secte"],
+        "url": "/aider-un-proche",
+        "status": "to_create_lot3",
+        "intent": "informational_howto",
+        "template": "howto-article",
+        "schema_markup": ["HowTo", "FAQPage", "speakable"],
+        "word_count_target": 3200,
+        "priority_wave": 2
+      },
+      "spokes": [
+        {
+          "id": "S4-1",
+          "label": "Parler a un proche sous emprise",
+          "primary_keyword": "comment parler a un proche sous emprise",
+          "secondary_keywords": ["dialogue emprise sectaire", "communication non violente secte"],
+          "url": "/articles/parler-proche-emprise",
+          "status": "to_create",
+          "word_count_target": 1400,
+          "intent": "informational_howto",
+          "template": "spoke-howto",
+          "schema_markup": ["HowTo", "FAQPage"],
+          "priority_wave": 3
+        },
+        {
+          "id": "S4-2",
+          "label": "Ressources institutionnelles aide proches",
+          "primary_keyword": "ressources aide derives sectaires",
+          "secondary_keywords": ["UNADFI contact", "CCMM", "France Victimes", "associations anti-sectes"],
+          "url": "/ressources",
+          "status": "existing_to_consolidate",
+          "intent": "navigational_informational",
+          "template": "resource-page",
+          "schema_markup": ["CollectionPage"],
+          "priority_wave": 1
+        }
+      ]
+    },
+    {
+      "id": "cluster-5",
+      "hub": {
+        "id": "HUB-5",
+        "label": "Se reconstruire",
+        "primary_keyword": "sortir d une secte",
+        "secondary_keywords": ["se reconstruire apres une secte", "vie apres secte", "reconstruction apres emprise"],
+        "url": "/se-reconstruire",
+        "status": "to_create_lot3",
+        "intent": "informational_healing",
+        "template": "pillar-article",
+        "schema_markup": ["Article", "speakable", "BreadcrumbList"],
+        "word_count_target": 3200,
+        "priority_wave": 2
+      },
+      "spokes": [
+        {
+          "id": "S5-1",
+          "label": "Deconversion et desaffiliation",
+          "primary_keyword": "deconversion religieuse",
+          "secondary_keywords": ["apostasie", "desaffiliation religieuse", "sortie de secte identite"],
+          "url": "/articles/deconversion-sortie-secte",
+          "status": "to_create",
+          "word_count_target": 1400,
+          "intent": "informational",
+          "template": "spoke-article",
+          "schema_markup": ["Article"],
+          "priority_wave": 3
+        },
+        {
+          "id": "S5-2",
+          "label": "Temoignages",
+          "primary_keyword": "vie apres secte temoignages",
+          "secondary_keywords": ["temoignage sortie secte", "recit reconstruction emprise"],
+          "url": "/temoignages",
+          "status": "to_create_lot3",
+          "word_count_target": 1200,
+          "intent": "informational_healing",
+          "template": "collection-page",
+          "schema_markup": ["CollectionPage"],
+          "priority_wave": 3
+        },
+        {
+          "id": "S5-3",
+          "label": "Therapie et accompagnement post-emprise",
+          "primary_keyword": "accompagnement psychologique post-emprise",
+          "secondary_keywords": ["therapie post-emprise", "psychologue secte", "trauma complexe emprise sectaire"],
+          "url": "/articles/therapie-post-emprise",
+          "status": "to_create",
+          "word_count_target": 1300,
+          "intent": "informational",
+          "template": "spoke-article",
+          "schema_markup": ["Article", "FAQPage"],
+          "priority_wave": 3
+        }
+      ]
+    }
+  ],
+  "transversal_pages": [
+    {
+      "id": "GLOSSAIRE",
+      "label": "Glossaire des derives sectaires",
+      "url": "/glossaire",
+      "status": "to_create_lot3",
+      "intent": "informational",
+      "schema_markup": ["DefinedTermSet", "DefinedTerm"],
+      "role": "Hub lexical transversal — recoit des liens de tous les hubs et spokes sur les termes definis",
+      "priority_wave": 3
+    },
+    {
+      "id": "FAQ",
+      "label": "FAQ derives sectaires",
+      "url": "/faq",
+      "status": "to_create_lot3",
+      "intent": "informational",
+      "schema_markup": ["FAQPage"],
+      "role": "Agregation des PAA des 5 hubs — capture de rich snippets",
+      "priority_wave": 4
+    }
+  ],
+  "internal_link_matrix": {
+    "mandatory_hub_spoke_bidirectional": [
+      { "from": "HUB-1", "to": ["S1-1", "S1-2", "S1-3"], "direction": "bidirectional" },
+      { "from": "HUB-2", "to": ["S2-1", "S2-2", "S2-3"], "direction": "bidirectional" },
+      { "from": "HUB-3", "to": ["S3-1"], "direction": "bidirectional" },
+      { "from": "HUB-4", "to": ["S4-1", "S4-2"], "direction": "bidirectional" },
+      { "from": "HUB-5", "to": ["S5-1", "S5-2", "S5-3"], "direction": "bidirectional" }
+    ],
+    "recommended_spoke_spoke_intracluster": [
+      { "from": "S1-1", "to": "S1-2", "rationale": "criteres MIVILUDES -> comment reconnaitre" },
+      { "from": "S1-2", "to": "S1-3", "rationale": "reconnaitre -> signaler" },
+      { "from": "S2-1", "to": "S2-2", "rationale": "manipulation -> BITE model" },
+      { "from": "S2-2", "to": "S2-3", "rationale": "BITE model -> biais cognitifs" },
+      { "from": "S5-1", "to": "S5-2", "rationale": "deconversion -> temoignages" },
+      { "from": "S5-2", "to": "S5-3", "rationale": "temoignages -> therapie" }
+    ],
+    "recommended_cross_cluster": [
+      { "from": "HUB-1", "to": "HUB-2", "rationale": "derives sectaires -> emprise psychologique" },
+      { "from": "HUB-2", "to": "HUB-3", "rationale": "emprise -> outil test emprise" },
+      { "from": "HUB-3", "to": "HUB-4", "rationale": "diagnostic -> aider un proche" },
+      { "from": "HUB-4", "to": "HUB-5", "rationale": "aider proche -> se reconstruire" },
+      { "from": "S2-2", "to": "HUB-3", "rationale": "BITE model -> test emprise (continuite logique)" },
+      { "from": "S1-3", "to": "HUB-4", "rationale": "signalement -> aider proche" },
+      { "from": "HUB-3", "to": "S2-2", "rationale": "test emprise -> BITE model (methodologie)" }
+    ],
+    "all_hubs_to_transversal": [
+      { "from": "all_hubs", "to": "/glossaire", "context": "ancre sur terme defini dans le texte" },
+      { "from": "all_hubs", "to": "/ressources", "context": "liens institutionnels UNADFI CCMM MIVILUDES" }
+    ]
+  },
+  "cannibalization_check": {
+    "status": "pass",
+    "notes": [
+      "Chaque page a un keyword primaire unique — aucun doublon detecte",
+      "emprise psychologique (HUB-2) vs emprise sectaire (S2 secondary) : distinction maintenue par url et H1 differents",
+      "derives sectaires signes (S1-1) vs derives sectaires (HUB-1) : distinction par specificite — S1-1 cible le cluster critique des 17 criteres MIVILUDES, HUB-1 cible la definition et le cadre general",
+      "test emprise (HUB-3) vs comment savoir si on est dans une secte : meme page, pas de cannibalization",
+      "Temoins de Jehovah / Scientologie : JAMAIS en keyword primaire ou H1 — usage contextuel uniquement lie a un critere MIVILUDES nomme"
+    ]
+  },
+  "underexploited_keywords": [
+    {
+      "keyword": "test emprise",
+      "gap": "Aucun outil interactif francophone identifie — SERP quasi vierge — position zero disponible sur variantes longue traine",
+      "priority": "critical",
+      "target_page": "/test-emprise"
+    },
+    {
+      "keyword": "BITE model francais",
+      "gap": "Contenu quasi inexistant en francais malgre le volume semantique — opportunite de reference francophone unique",
+      "priority": "high",
+      "target_page": "/articles/bite-model"
+    },
+    {
+      "keyword": "emprise sectaire",
+      "gap": "Longue traine specifique, moins concurrentielle que emprise psychologique generique",
+      "priority": "high",
+      "target_page": "/articles/emprise-psychologique"
+    },
+    {
+      "keyword": "ostracisme religieux",
+      "gap": "Traite superficiellement par la concurrence — angle emotionnel + juridique disponible",
+      "priority": "medium",
+      "target_page": "/articles/ostracisme-secte"
+    },
+    {
+      "keyword": "therapie post-emprise",
+      "gap": "Sujet YMYL quasi vierge — exige validation E-E-A-T (auteur expert ou cite expert)",
+      "priority": "medium",
+      "target_page": "/articles/therapie-post-emprise"
+    }
+  ],
+  "production_priority_order": [
+    { "wave": 1, "items": [
+      { "id": "HUB-2", "url": "/articles/emprise-psychologique", "rationale": "volume semantique maximal, sujet YMYL cle, autorite domaine" },
+      { "id": "HUB-1", "url": "/articles/derives-sectaires", "rationale": "pillar institutionnel, ancre l autorite editoriale du site" },
+      { "id": "S1-1", "url": "/blog/signaux-emprise", "rationale": "page existante — consolidation 909 -> 1500 mots + schema FAQ" },
+      { "id": "HUB-3", "url": "/test-emprise", "rationale": "ROI SERP rapide — concurrence quasi nulle" }
+    ]},
+    { "wave": 2, "items": [
+      { "id": "S2-2", "url": "/articles/bite-model", "rationale": "differentiant francophone fort — monopole semantique possible" },
+      { "id": "HUB-4", "url": "/aider-un-proche", "rationale": "forte intention d aide — audience familiale emotionnellement engagee" },
+      { "id": "S1-2", "url": "/articles/reconnaitre-secte", "rationale": "spoke critique du cluster 1" },
+      { "id": "S2-1", "url": "/articles/manipulation-mentale", "rationale": "spoke critique du cluster 2" }
+    ]},
+    { "wave": 3, "items": [
+      { "id": "HUB-5", "url": "/se-reconstruire", "rationale": "persona sortant — contenu differentiant, longue traine healing" },
+      { "id": "S5-1", "url": "/articles/deconversion-sortie-secte" },
+      { "id": "GLOSSAIRE", "url": "/glossaire", "rationale": "hub lexical transversal — ancrage semantique global" },
+      { "id": "S1-3", "url": "/articles/signaler-derive-sectaire" },
+      { "id": "S2-3", "url": "/articles/biais-cognitifs-sectes" },
+      { "id": "S3-1", "url": "/articles/ostracisme-secte" },
+      { "id": "S4-1", "url": "/articles/parler-proche-emprise" }
+    ]},
+    { "wave": 4, "items": [
+      { "id": "S5-2", "url": "/temoignages", "rationale": "apres collecte consentements — CollectionPage" },
+      { "id": "S5-3", "url": "/articles/therapie-post-emprise", "rationale": "validation E-E-A-T requise avant publication" },
+      { "id": "FAQ", "url": "/faq", "rationale": "agregation des PAA — wave finale" }
+    ]}
+  ],
+  "validation_checklist": {
+    "no_duplicate_primary_keyword": true,
+    "every_spoke_min_3_incoming_links": true,
+    "every_spoke_links_to_pillar": true,
+    "pillar_links_to_every_spoke": true,
+    "no_orphan_pages": true,
+    "template_matches_intent": true,
+    "word_count_within_spec": true,
+    "cluster_size_within_constraints": true,
+    "serp_overlap_supports_groupings": true
+  }
+}

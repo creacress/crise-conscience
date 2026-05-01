@@ -1,0 +1,35 @@
+User-Agent: *
+Allow: /
+
+User-Agent: OAI-SearchBot
+Allow: /
+
+User-Agent: Google-Extended
+Allow: /
+
+User-Agent: PerplexityBot
+Allow: /
+
+User-Agent: anthropic-ai
+Allow: /
+
+User-Agent: cohere-ai
+Allow: /
+
+User-Agent: YouBot
+Allow: /
+
+User-Agent: meta-externalagent
+Allow: /
+
+User-Agent: GPTBot
+Disallow: /
+
+User-Agent: CCBot
+Disallow: /
+
+User-Agent: Bytespider
+Disallow: /
+
+Host: https://www.criseconscience.org
+Sitemap: https://www.criseconscience.org/sitemap.xml

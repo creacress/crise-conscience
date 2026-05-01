@@ -1,0 +1,126 @@
+{
+  "title": "Crise Conscience \u2014 Pr\u00e9vention des d\u00e9rives sectaires, analyses et ressources",
+  "meta_description": "Association fran\u00e7aise ind\u00e9pendante : informer, pr\u00e9venir et aider face aux d\u00e9rives sectaires. Analyses critiques sourc\u00e9es, ressources v\u00e9rifi\u00e9es (MIVILUDES, UNADFI), signaux d'emprise et accompagnement.",
+  "meta_robots": "index, follow",
+  "canonical": "https://www.criseconscience.org",
+  "h1": [
+    "Informer, pr\u00e9venir et aider face auxd\u00e9rives sectaires."
+  ],
+  "h2": [
+    "Ils suivent Crise Conscience",
+    "Extraits r\u00e9cents",
+    "Notre mission"
+  ],
+  "h3": [
+    "Comprendre",
+    "Agir",
+    "L'association",
+    "Ressources officielles"
+  ],
+  "images": [],
+  "links": {
+    "internal": [],
+    "external": []
+  },
+  "schema": [
+    {
+      "@context": "https://schema.org",
+      "@type": "NGO",
+      "@id": "https://www.criseconscience.org/#organization",
+      "name": "Crise Conscience",
+      "alternateName": "Association Crise Conscience",
+      "url": "https://www.criseconscience.org",
+      "description": "Association fran\u00e7aise ind\u00e9pendante d\u00e9di\u00e9e \u00e0 la pr\u00e9vention des d\u00e9rives sectaires, \u00e0 l'analyse critique et \u00e0 l'accompagnement des personnes concern\u00e9es.",
+      "foundingDate": "2024",
+      "areaServed": {
+        "@type": "Country",
+        "name": "France"
+      },
+      "knowsAbout": [
+        "D\u00e9rives sectaires",
+        "Emprise psychologique",
+        "Manipulation mentale",
+        "Pr\u00e9vention sectaire",
+        "Esprit critique",
+        "MIVILUDES",
+        "Signaux d'emprise",
+        "Aide aux victimes de sectes"
+      ],
+      "sameAs": [
+        "https://linkedin.com/in/association-crise-conscience-58a5173a8"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "contact@criseconscience.org",
+        "url": "https://www.criseconscience.org/contact",
+        "availableLanguage": "French"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://www.criseconscience.org/#website",
+      "name": "Crise Conscience",
+      "url": "https://www.criseconscience.org",
+      "description": "Pr\u00e9vention des d\u00e9rives sectaires : analyses critiques, ressources v\u00e9rifi\u00e9es, signaux d'emprise et accompagnement.",
+      "publisher": {
+        "@id": "https://www.criseconscience.org/#organization"
+      },
+      "inLanguage": "fr-FR",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.criseconscience.org/articles?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Derniers articles",
+      "numberOfItems": 4,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "url": "https://www.criseconscience.org/articles/reflexion-reconfiguration-watchtower",
+          "name": "R\u00e9flexion sur la reconfiguration de la Watchtower"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "url": "https://www.criseconscience.org/articles/Le%20bien%20et%20le%20mal%20%3A%20un%20choix%E2%80%A6%20vraiment%20personnel%20%3F",
+          "name": "Le bien et le mal : un choix\u2026 vraiment personnel ?"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "url": "https://www.criseconscience.org/articles/L%E2%80%99horloge-de-fin-du-monde",
+          "name": "L\u2019horloge de la fin du monde se rapproche de minuit"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "url": "https://www.criseconscience.org/articles/pourquoi-la-r%C3%A9ponse-est-importe",
+          "name": "Pourquoi la r\u00e9ponse est importante"
+        }
+      ]
+    }
+  ],
+  "open_graph": {
+    "og:title": "Crise Conscience \u2014 Pr\u00e9vention des d\u00e9rives sectaires",
+    "og:description": "Association fran\u00e7aise ind\u00e9pendante : informer, pr\u00e9venir et aider face aux d\u00e9rives sectaires. Analyses critiques sourc\u00e9es, ressources v\u00e9rifi\u00e9es (MIVILUDES, UNADFI), signaux d'emprise et accompagnement.",
+    "og:url": "https://www.criseconscience.org",
+    "og:type": "website"
+  },
+  "twitter_card": {
+    "twitter:card": "summary_large_image",
+    "twitter:title": "Crise Conscience \u2014 Pr\u00e9vention des d\u00e9rives sectaires",
+    "twitter:description": "Association fran\u00e7aise ind\u00e9pendante : informer, pr\u00e9venir et aider face aux d\u00e9rives sectaires. Analyses critiques sourc\u00e9es, ressources v\u00e9rifi\u00e9es (MIVILUDES, UNADFI), signaux d'emprise et accompagnement."
+  },
+  "word_count": 466,
+  "hreflang": []
+}
