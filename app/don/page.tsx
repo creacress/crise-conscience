@@ -169,13 +169,49 @@ export default function DonPage() {
               <h2 className="text-lg font-semibold md:text-xl">FAQ</h2>
 
               <div className="mt-5 space-y-3">
+                <details className="rounded-2xl border border-orange-500/30 bg-orange-500/5 p-5">
+                  <summary className="cursor-pointer font-semibold text-white/95">
+                    Mon don est‑il déductible des impôts ?
+                  </summary>
+                  <div className="mt-2 text-sm text-white/75 leading-relaxed">
+                    <p>
+                      Crise Conscience est une association loi 1901. La déductibilité fiscale (66 %
+                      du don pour les particuliers, dans la limite de 20 % du revenu imposable —
+                      article 200 du Code général des impôts) n&apos;est possible que si
+                      l&apos;association est <strong>reconnue d&apos;intérêt général</strong> ou
+                      d&apos;utilité publique.
+                    </p>
+                    <p className="mt-2">
+                      <strong>Statut actuel :</strong>{" "}
+                      <span className="rounded-md bg-orange-500/15 px-1.5 py-0.5 text-orange-200">
+                        [reconnaissance fiscale en cours d&apos;instruction — à confirmer]
+                      </span>
+                      . Tant que ce statut n&apos;est pas confirmé, nous n&apos;émettons pas de reçu
+                      fiscal CERFA. Vous serez informé·e dès que la reconnaissance sera effective.
+                    </p>
+                  </div>
+                </details>
+
                 <details className="rounded-2xl border border-white/10 bg-black/20 p-5">
                   <summary className="cursor-pointer font-semibold text-white/90">
                     Est‑ce que je reçois un reçu ?
                   </summary>
                   <p className="mt-2 text-sm text-white/70 leading-relaxed">
-                    Selon le cadre juridique et la configuration Stripe, un reçu peut être fourni.
-                    Si tu as besoin d’un justificatif, écris‑nous via la page Contact après le don.
+                    Stripe vous envoie automatiquement un reçu de paiement par email. Pour un
+                    justificatif au nom de l&apos;association, écrivez‑nous via la page Contact
+                    après le don.
+                  </p>
+                </details>
+
+                <details className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                  <summary className="cursor-pointer font-semibold text-white/90">
+                    Comment l&apos;argent est‑il utilisé ?
+                  </summary>
+                  <p className="mt-2 text-sm text-white/70 leading-relaxed">
+                    Hébergement, outils de veille et d&apos;analyse, frais de fonctionnement
+                    (assurance, juridique), production de ressources pédagogiques. Le rapport
+                    d&apos;activité annuel sera publié sur cette page dès la première clôture
+                    d&apos;exercice.
                   </p>
                 </details>
 
@@ -184,7 +220,7 @@ export default function DonPage() {
                     Puis‑je donner un autre montant ?
                   </summary>
                   <p className="mt-2 text-sm text-white/70 leading-relaxed">
-                    Oui : tu peux choisir un montant personnalisé juste à droite. Minimum 2€.
+                    Oui : vous pouvez choisir un montant personnalisé juste à droite. Minimum 2€.
                   </p>
                 </details>
 
@@ -193,8 +229,8 @@ export default function DonPage() {
                     Vos analyses sont‑elles partisanes ?
                   </summary>
                   <p className="mt-2 text-sm text-white/70 leading-relaxed">
-                    Notre boussole : méthode, sources, et esprit critique. On vise la clarté — pas la
-                    propagande.
+                    Notre boussole : méthode, sources, esprit critique. Nous parlons de
+                    comportements et de dommages observables, pas de croyances individuelles.
                   </p>
                 </details>
               </div>

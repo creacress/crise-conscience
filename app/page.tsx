@@ -5,12 +5,13 @@ import type { Metadata } from "next";
 import { getBaseUrl } from "@/lib/base-url";
 import { JsonLd } from "@/app/components/JsonLd";
 import { SubscriberCounter } from "@/app/components/SubscriberCounter";
+import { organizationSchema, websiteSchema, getSiteBase } from "@/lib/schema";
 
 const quickLinks = [
   {
     title: "Comprendre les mécanismes",
     desc: "Signaux d’alerte, emprise, manipulation…",
-    href: "/blog/signeaux-emprise",
+    href: "/blog/signaux-emprise",
     icon: "🧠",
   },
   {
@@ -134,9 +135,9 @@ function formatDate(iso: string) {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Crise Conscience — Prévention des dérives sectaires, analyses et ressources";
+  const title = "Crise Conscience";
   const description =
-    "Association française indépendante : informer, prévenir et aider face aux dérives sectaires. Analyses critiques sourcées, ressources vérifiées (MIVILUDES, UNADFI), signaux d'emprise et accompagnement.";
+    "Informer, prévenir et aider face aux dérives sectaires : analyses, ressources fiables et accompagnement.";
 
   return {
     title,
@@ -145,12 +146,12 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       url: "/",
-      title: "Crise Conscience — Prévention des dérives sectaires",
+      title,
       description,
     },
     twitter: {
       card: "summary_large_image",
-      title: "Crise Conscience — Prévention des dérives sectaires",
+      title,
       description,
     },
   };
@@ -159,63 +160,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HomePage() {
   const latestArticles = await getLatestArticles(4);
 
-  const base = await getBaseUrl();
-  const envBase = (process.env.NEXT_PUBLIC_SITE_URL || "").trim();
-  const siteBase = (envBase || base).replace(/\/$/, "");
-  const pageUrl = `${siteBase}/`;
+  const siteBase = getSiteBase();
 
-  const organizationJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "NGO",
-    "@id": `${siteBase}/#organization`,
-    name: "Crise Conscience",
-    alternateName: "Association Crise Conscience",
-    url: siteBase,
-    description:
-      "Association française indépendante dédiée à la prévention des dérives sectaires, à l'analyse critique et à l'accompagnement des personnes concernées.",
-    foundingDate: "2024",
-    areaServed: { "@type": "Country", name: "France" },
-    knowsAbout: [
-      "Dérives sectaires",
-      "Emprise psychologique",
-      "Manipulation mentale",
-      "Prévention sectaire",
-      "Esprit critique",
-      "MIVILUDES",
-      "Signaux d'emprise",
-      "Aide aux victimes de sectes",
-    ],
-    sameAs: [
-      "https://linkedin.com/in/association-crise-conscience-58a5173a8",
-    ],
-    contactPoint: {
-      "@type": "ContactPoint",
-      contactType: "customer service",
-      email: "contact@criseconscience.org",
-      url: `${siteBase}/contact`,
-      availableLanguage: "French",
-    },
-  };
-
-  const websiteJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": `${siteBase}/#website`,
-    name: "Crise Conscience",
-    url: siteBase,
-    description:
-      "Prévention des dérives sectaires : analyses critiques, ressources vérifiées, signaux d'emprise et accompagnement.",
-    publisher: { "@id": `${siteBase}/#organization` },
-    inLanguage: "fr-FR",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${siteBase}/articles?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
-  };
+  const organizationJsonLd = organizationSchema(siteBase);
+  const websiteJsonLd = websiteSchema(siteBase);
 
   const latestItemListJsonLd = {
     "@context": "https://schema.org",
@@ -365,7 +313,11 @@ export default async function HomePage() {
         />
 
         <div className="mt-4 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-          <SubscriberCounter compact ctaHref="/abonnes" ctaLabel="Voir le détail" />
+          <SubscriberCounter
+            compact
+            ctaHref="/abonnes"
+            ctaLabel="Voir le détail"
+          />
 
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
             <div className="text-sm text-white/70">Pourquoi afficher ça ?</div>
@@ -375,14 +327,22 @@ export default async function HomePage() {
               Ce compteur sert de repère public — pas de trophée.
             </p>
             <div className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/65">
-              Astuce : tu peux aussi t'inscrire à tout moment via la page dédiée.
+              Vous recevrez nos analyses et nos ressources, jamais de spam. Désinscription en un clic.
             </div>
-            <Link
-              href="/inscription"
-              className="mt-4 inline-flex w-full justify-center rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-semibold text-white hover:bg-white/10 transition"
-            >
-              S'inscrire à la newsletter
-            </Link>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              <Link
+                href="/inscription"
+                className="inline-flex justify-center rounded-xl bg-orange-500 px-4 py-2 font-semibold text-black hover:brightness-110 transition"
+              >
+                S’abonner
+              </Link>
+              <Link
+                href="/desinscription"
+                className="inline-flex justify-center rounded-xl border border-white/15 bg-white/5 px-4 py-2 font-semibold text-white hover:bg-white/10 transition"
+              >
+                Se désinscrire
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -392,7 +352,7 @@ export default async function HomePage() {
         <SectionTitle
           eyebrow="Derniers articles"
           title="Extraits récents"
-          desc="Nos dernières analyses sur les dérives sectaires, l'emprise et la prévention."
+          desc="Cette zone est généré par N8N."
         />
 
         <div className="grid gap-4 lg:grid-cols-2">
@@ -417,9 +377,7 @@ export default async function HomePage() {
 
               <div className="mt-4 flex items-center justify-between">
                 <div className="text-sm text-orange-300">Lire →</div>
-                <time className="text-xs text-white/45" dateTime={a.publishedAt}>
-                  {formatDate(a.publishedAt)}
-                </time>
+                <div className="text-xs text-white/45">Article</div>
               </div>
             </Link>
           ))}

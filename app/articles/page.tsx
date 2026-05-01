@@ -1,18 +1,17 @@
 import Container from "../components/Container";
 import SectionTitle from "../components/SectionTitle";
-import { Breadcrumb } from "@/app/components/Breadcrumb";
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
 import { getBaseUrl } from "@/lib/base-url";
 import { JsonLd } from "@/app/components/JsonLd";
 
-export const revalidate = 120; // ISR: revalidate every 2 minutes
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Articles et analyses sur les dérives sectaires";
+  const title = "Articles";
   const description =
-    "Dossiers et analyses approfondies sur les dérives sectaires : mécanismes d’emprise psychologique, signaux d’alerte, prévention, études de cas et ressources vérifiées. Par Crise Conscience.";
+    "Dossiers & analyses approfondies sur les dérives sectaires : compréhension, signaux d’emprise, prévention et ressources.";
 
   return {
     title,
@@ -21,12 +20,12 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       url: "/articles",
-      title: "Articles — Analyses des dérives sectaires | Crise Conscience",
+      title: `${title} • Crise Conscience`,
       description,
     },
     twitter: {
       card: "summary_large_image",
-      title: "Articles — Analyses des dérives sectaires | Crise Conscience",
+      title: `${title} • Crise Conscience`,
       description,
     },
   };
@@ -154,21 +153,23 @@ export default async function ArticlesPage() {
       <JsonLd data={collectionJsonLd} />
       <JsonLd data={itemListJsonLd} />
       <Container>
-      <Breadcrumb items={[{ label: "Articles", href: "/articles" }]} />
       <SectionTitle
         eyebrow="Articles"
         title="Dossiers & analyses approfondies"
-        desc="Analyses critiques sur les dérives sectaires, les mécanismes d'emprise et les stratégies de prévention."
+        desc="Une bibliothèque d’analyses sur les dérives sectaires, les mécanismes d’emprise, la prévention et la reconstruction."
       />
 
-      {/* Info bar */}
-      {ok && count > 0 && (
-        <div className="mb-6 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/70">
-          <div className="flex items-center justify-between">
-            <span>{count} article{count > 1 ? "s" : ""} disponible{count > 1 ? "s" : ""}</span>
+      {/* Méta-information : transparence éditoriale */}
+      <div className="mb-6 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/70">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <span className="font-semibold text-white">Méthode :</span> rédaction assistée par IA, relue par la rédaction humaine.
+          </div>
+          <div className="text-white/60">
+            {ok && count > 0 ? `${count} article${count > 1 ? "s" : ""}` : ""}
           </div>
         </div>
-      )}
+      </div>
 
       {/* Thèmes (si dispo) */}
       {themes.length > 0 && (
@@ -187,42 +188,49 @@ export default async function ArticlesPage() {
       {/* Empty state */}
       {items.length === 0 ? (
         <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-          <h3 className="text-lg font-semibold tracking-tight">Aucun article pour le moment</h3>
+          <h3 className="text-lg font-semibold tracking-tight">
+            Les premiers dossiers arrivent bientôt.
+          </h3>
           <p className="mt-2 text-white/70 max-w-2xl">
-            Nos articles sont générés automatiquement via <span className="text-white">n8n</span>.
-            Tant que le workflow ne publie rien (ou que l’API n’est pas configurée), cette page reste vide.
+            Notre bibliothèque d’analyses est en cours de construction. En attendant, vous pouvez
+            consulter notre blog, nos ressources, ou nous écrire pour orienter nos prochains sujets.
           </p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-              <div className="text-sm font-semibold">À vérifier côté n8n</div>
-              <ul className="mt-2 space-y-1 text-sm text-white/70">
-                <li>• Le webhook répond bien en JSON</li>
-                <li>• Le flux renvoie une liste d’articles</li>
-                <li>• Token/URL corrects dans `.env.local`</li>
-              </ul>
+              <div className="text-sm font-semibold">Commencer à lire</div>
+              <p className="mt-2 text-sm text-white/70">
+                Notre dossier sur les <em>signaux d’emprise</em> est un bon point d’entrée pour
+                comprendre les mécanismes en jeu.
+              </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-              <div className="text-sm font-semibold">Tu veux tester vite ?</div>
+              <div className="text-sm font-semibold">Suggérer un sujet</div>
               <p className="mt-2 text-sm text-white/70">
-                Lance un run manuel du workflow n8n et renvoie 1 article.
-                Dès qu’il sort, la page s’auto-remplit.
+                Une thématique vous tient à cœur ? Une question sans réponse claire ?
+                Écrivez-nous, nous priorisons en fonction des demandes.
               </p>
             </div>
           </div>
 
           <div className="mt-6 flex flex-col sm:flex-row gap-3">
             <Link
-              href="/contact"
+              href="/blog/signaux-emprise"
               className="inline-flex justify-center rounded-xl bg-orange-500 px-5 py-3 font-semibold text-black hover:brightness-110 transition"
             >
-              Nous contacter
+              Lire les signaux d’emprise
             </Link>
             <Link
-              href="/blog"
+              href="/ressources"
               className="inline-flex justify-center rounded-xl border border-white/15 bg-white/5 px-5 py-3 font-semibold text-white hover:bg-white/10 transition"
             >
-              Voir le blog
+              Voir les ressources
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex justify-center rounded-xl border border-white/15 bg-white/5 px-5 py-3 font-semibold text-white hover:bg-white/10 transition"
+            >
+              Suggérer un sujet
             </Link>
           </div>
         </div>
@@ -260,12 +268,10 @@ export default async function ArticlesPage() {
                 <div className="relative z-10 h-36 w-full overflow-hidden">
                   {cover ? (
                     <>
-                      <Image
+                      <img
                         src={cover}
                         alt={a.title}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        className="object-cover opacity-90"
+                        className="h-full w-full object-cover opacity-90"
                         loading="lazy"
                         referrerPolicy="no-referrer"
                       />

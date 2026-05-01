@@ -4,9 +4,10 @@ import { useEffect, useMemo, useState } from "react";
 
 // --- À PERSONNALISER
 const CONTACT_EMAIL = "contact@criseconscience.org";
+// TODO: remplacer SOCIAL.x par le vrai handle quand il sera créé.
 const SOCIAL = {
   linkedin: "https://linkedin.com/in/association-crise-conscience-58a5173a8",
-  x: "https://x.com/TON_COMPTE",
+  x: "" as string, // vide tant que le compte X n'est pas confirmé
 };
 
 type ToastKind = "success" | "error";
@@ -309,17 +310,19 @@ export default function ContactPage() {
                   </svg>
                 </a>
 
-                <a
-                  href={SOCIAL.x}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="X (Twitter)"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.02] text-white/80 transition hover:bg-white/[0.06] hover:text-white"
-                >
-                  <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-current">
-                    <path d="M18.244 2H21l-6.53 7.458L22.5 22h-6.2l-4.86-6.45L5.8 22H3l7.02-8.02L1.5 2h6.36l4.4 5.87L18.244 2zm-1.09 18h1.72L6.94 3.93H5.1L17.154 20z"/>
-                  </svg>
-                </a>
+                {SOCIAL.x ? (
+                  <a
+                    href={SOCIAL.x}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="X (Twitter)"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.02] text-white/80 transition hover:bg-white/[0.06] hover:text-white"
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-current">
+                      <path d="M18.244 2H21l-6.53 7.458L22.5 22h-6.2l-4.86-6.45L5.8 22H3l7.02-8.02L1.5 2h6.36l4.4 5.87L18.244 2zm-1.09 18h1.72L6.94 3.93H5.1L17.154 20z"/>
+                    </svg>
+                  </a>
+                ) : null}
               </div>
 
               <div className="mt-4 flex flex-wrap gap-2">

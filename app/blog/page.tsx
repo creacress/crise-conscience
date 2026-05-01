@@ -25,7 +25,7 @@ const POSTS: Post[] = [
     category: "Analyses",
     date: "2026-01-10",
     readTime: "6 min",
-    href: "/blog/signeaux-emprise",
+    href: "/blog/signaux-emprise",
   }
 ];
 

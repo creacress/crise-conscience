@@ -1,59 +1,82 @@
-
-
 import type { MetadataRoute } from "next";
 
 // Sitemap Next.js (App Router)
-// - Inclut toutes les routes statiques avec priorités SEO optimisées
-// - Inclut les routes dynamiques /articles/[id]
-// - Fréquences adaptées au rythme de publication
+// - inclut routes statiques
+// - inclut routes dynamiques /articles/[slug] (filtrées sur status=published)
+// - base URL via NEXT_PUBLIC_SITE_URL (fallback prod)
+//
+// Note : on omet volontairement changeFrequency et priority — Google les ignore
+// depuis ~2017 et les autres moteurs s'appuient surtout sur lastModified.
+
+// Revalidation horaire pour refléter les nouveaux articles sans rebuild complet.
+export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.criseconscience.org").replace(/\/$/, "");
 
-  // Routes statiques avec priorités SEO optimisées
-  const staticPages: {
-    path: string;
-    priority: number;
-    changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"];
-  }[] = [
-    { path: "/", priority: 1.0, changeFrequency: "daily" },
-    { path: "/articles", priority: 0.9, changeFrequency: "daily" },
-    { path: "/blog", priority: 0.9, changeFrequency: "weekly" },
-    { path: "/ressources", priority: 0.8, changeFrequency: "weekly" },
-    { path: "/a-propos", priority: 0.7, changeFrequency: "monthly" },
-    { path: "/contact", priority: 0.7, changeFrequency: "monthly" },
-    { path: "/inscription", priority: 0.6, changeFrequency: "monthly" },
-    { path: "/don", priority: 0.6, changeFrequency: "monthly" },
-    { path: "/blog/signeaux-emprise", priority: 0.85, changeFrequency: "monthly" },
+  // Pages stables (faible churn) — date manuelle, à incrémenter en cas de refonte importante.
+  const stableLastMod = new Date("2026-05-01");
+
+  // Pages éditoriales (mises à jour de temps en temps).
+  const editorialLastMod = new Date("2026-05-01");
+
+  const staticRoutes: { path: string; lastModified: Date }[] = [
+    { path: "/", lastModified: editorialLastMod },
+    { path: "/articles", lastModified: editorialLastMod },
+    { path: "/blog", lastModified: editorialLastMod },
+    { path: "/ressources", lastModified: editorialLastMod },
+    { path: "/a-propos", lastModified: stableLastMod },
+    { path: "/contact", lastModified: stableLastMod },
+    { path: "/inscription", lastModified: stableLastMod },
+    { path: "/desinscription", lastModified: stableLastMod },
+    { path: "/abonnes", lastModified: stableLastMod },
+    { path: "/don", lastModified: stableLastMod },
   ];
 
-  // Articles dynamiques depuis la DB (Prisma)
+  const legalRoutes: { path: string; lastModified: Date }[] = [
+    { path: "/mentions-legales", lastModified: stableLastMod },
+    { path: "/confidentialite", lastModified: stableLastMod },
+    { path: "/cookies", lastModified: stableLastMod },
+  ];
+
+  // Pages éditoriales statiques sous /blog/*
+  const staticBlogRoutes: { path: string; lastModified: Date }[] = [
+    { path: "/blog/signaux-emprise", lastModified: editorialLastMod },
+  ];
+
+  // Articles dynamiques depuis la DB (Prisma). En cas d'erreur, on retombe sur statique.
+  // CORRECTIF V2-01 : on émet le SLUG (la route /articles/[id] résout par slug),
+  // et on filtre sur les articles "published" pour éviter d'exposer des brouillons.
   let articleRoutes: MetadataRoute.Sitemap = [];
   try {
     const { prisma } = await import("@/lib/prisma");
+    const { ArticleStatus } = await import("@/app/generated/prisma");
+
     const rows = await prisma.article.findMany({
-      select: { id: true, updatedAt: true, createdAt: true },
+      where: { status: ArticleStatus.published },
+      select: { slug: true, updatedAt: true, createdAt: true, publishedAt: true },
       orderBy: { updatedAt: "desc" },
     });
 
-    articleRoutes = rows.map((a: any) => ({
-      url: `${base}/articles/${encodeURIComponent(String(a.id))}`,
-      lastModified: new Date(a.updatedAt ?? a.createdAt ?? Date.now()),
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
-    }));
+    articleRoutes = rows
+      .filter((a) => Boolean(a.slug))
+      .map((a) => ({
+        url: `${base}/articles/${encodeURIComponent(a.slug)}`,
+        lastModified: new Date(a.updatedAt ?? a.publishedAt ?? a.createdAt ?? Date.now()),
+      }));
   } catch {
-    // noop (build/prod safe)
+    // noop (build/prod safe : si Prisma indisponible, on n'expose pas de route 404)
   }
 
-  const now = new Date();
-
-  const staticSitemap: MetadataRoute.Sitemap = staticPages.map((p) => ({
-    url: `${base}${p.path === "/" ? "" : p.path}`,
-    lastModified: now,
-    changeFrequency: p.changeFrequency,
-    priority: p.priority,
+  const staticSitemap: MetadataRoute.Sitemap = [...staticRoutes, ...staticBlogRoutes].map((r) => ({
+    url: `${base}${r.path === "/" ? "" : r.path}`,
+    lastModified: r.lastModified,
   }));
 
-  return [...staticSitemap, ...articleRoutes];
+  const legalSitemap: MetadataRoute.Sitemap = legalRoutes.map((r) => ({
+    url: `${base}${r.path}`,
+    lastModified: r.lastModified,
+  }));
+
+  return [...staticSitemap, ...legalSitemap, ...articleRoutes];
 }

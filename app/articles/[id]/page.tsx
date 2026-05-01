@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getBaseUrl } from "@/lib/base-url";
 import { JsonLd } from "@/app/components/JsonLd";
-import { ReadingProgress } from "@/app/components/ReadingProgress";
+import { articleSchema, breadcrumbSchema, getSiteBase } from "@/lib/schema";
 
 export const runtime = "nodejs";
-export const revalidate = 300; // ISR: revalidate every 5 minutes
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 type Article = {
   id: string;
@@ -17,6 +17,7 @@ type Article = {
   coverImage?: string | null;
   tags?: string[] | null;
   publishedAt?: string | null;
+  updatedAt?: string | null;
   contentHtml?: string | null;
   sourceUrl?: string | null;
 };
@@ -215,6 +216,7 @@ async function fetchArticleByIdOrSlug(idOrSlug: string): Promise<Article | null>
             .filter(Boolean)
         : null,
       publishedAt: asStr(a.publishedAt || a.publieA || a.published_at) || null,
+      updatedAt: asStr(a.updatedAt || a.updated_at) || null,
       contentHtml: asStr(a.contentHtml || a.content_html || a.content || a.html) || null,
       sourceUrl: asStr(a.sourceUrl || a.source_url || a.source) || null,
     };
@@ -338,8 +340,7 @@ export default async function ArticlePage(
   const { html, toc } = rawHtml ? injectHeadingIdsAndBuildToc(rawHtml) : { html: "", toc: [] };
   const readingMinutes = rawHtml ? estimateReadingTimeMinutes(stripTagsToText(rawHtml)) : 1;
 
-  const envBase = (process.env.NEXT_PUBLIC_SITE_URL || "").trim();
-  const siteBase = (envBase || base).replace(/\/$/, "");
+  const siteBase = getSiteBase();
   const pathname = `/articles/${encodeURIComponent(key)}`;
   const pageUrl = `${siteBase}${pathname}`;
 
@@ -347,54 +348,34 @@ export default async function ArticlePage(
     ? article.coverImage.startsWith("http")
       ? article.coverImage
       : `${siteBase}${article.coverImage.startsWith("/") ? "" : "/"}${article.coverImage}`
-    : undefined;
+    : `${siteBase}/opengraph-image`;
 
   const publishedTime = article.publishedAt
     ? new Date(article.publishedAt).toISOString()
     : undefined;
+  const modifiedTime = article.updatedAt
+    ? new Date(article.updatedAt).toISOString()
+    : publishedTime;
 
-  const articleJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: article.title,
+  const articleJsonLd = articleSchema({
+    siteBase,
+    pageUrl,
+    title: article.title,
     description: article.excerpt || undefined,
-    image: imageAbs ? [imageAbs] : undefined,
+    image: imageAbs,
     datePublished: publishedTime,
-    dateModified: publishedTime,
-    mainEntityOfPage: pageUrl,
-    author: {
-      "@type": "Organization",
-      name: "Crise Conscience",
-      url: siteBase,
-    },
-    publisher: {
-      "@type": "Organization",
-      "@id": `${siteBase}/#organization`,
-      name: "Crise Conscience",
-      url: siteBase,
-    },
-    inLanguage: "fr-FR",
-    keywords: article.tags?.join(", ") || "dérives sectaires, emprise, analyse critique",
-    isPartOf: {
-      "@type": "WebSite",
-      "@id": `${siteBase}/#website`,
-      name: "Crise Conscience",
-    },
-  };
+    dateModified: modifiedTime,
+    authorName: "Rédaction Crise Conscience (assistance IA, relecture humaine)",
+  });
 
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Accueil", item: `${siteBase}/` },
-      { "@type": "ListItem", position: 2, name: "Articles", item: `${siteBase}/articles` },
-      { "@type": "ListItem", position: 3, name: article.title, item: pageUrl },
-    ],
-  };
+  const breadcrumbJsonLd = breadcrumbSchema([
+    { name: "Accueil", url: `${siteBase}/` },
+    { name: "Articles", url: `${siteBase}/articles` },
+    { name: article.title, url: pageUrl },
+  ]);
 
   return (
     <>
-      <ReadingProgress />
       <JsonLd data={articleJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
 
@@ -569,14 +550,13 @@ export default async function ArticlePage(
         ) : null}
 
         {article.coverImage ? (
-          <div className="relative mt-7 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_12px_40px_-28px_rgba(0,0,0,0.8)] h-[240px] md:h-[380px]">
-            <Image
+          <div className="mt-7 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_12px_40px_-28px_rgba(0,0,0,0.8)]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={article.coverImage.startsWith("http") ? article.coverImage : `${base}${article.coverImage}`}
-              alt={article.title}
-              fill
-              sizes="(max-width: 768px) 100vw, 900px"
-              className="object-cover"
-              priority
+              alt=""
+              className="h-[240px] w-full object-cover md:h-[380px]"
+              loading="lazy"
             />
           </div>
         ) : null}
@@ -638,29 +618,7 @@ export default async function ArticlePage(
             )}
           </div>
 
-          {/* Newsletter CTA */}
-          <div className="mt-10 rounded-3xl border border-white/10 bg-gradient-to-r from-orange-500/10 via-white/5 to-sky-500/10 p-6">
-            <h3 className="text-lg font-semibold text-white">Restez informé</h3>
-            <p className="mt-2 text-sm text-white/70 leading-relaxed">
-              Recevez nos analyses, ressources et repères de prévention directement dans votre boîte mail.
-            </p>
-            <div className="mt-4 flex flex-col sm:flex-row gap-3">
-              <Link
-                href="/inscription"
-                className="inline-flex justify-center rounded-xl bg-orange-500 px-5 py-3 text-sm font-semibold text-black hover:brightness-110 transition"
-              >
-                S'inscrire à la newsletter
-              </Link>
-              <Link
-                href="/ressources"
-                className="inline-flex justify-center rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white hover:bg-white/10 transition"
-              >
-                Voir les ressources
-              </Link>
-            </div>
-          </div>
-
-          <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
+          <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
             <Link href="/articles" className="text-sm text-white/70 hover:text-white">
               ← Retour aux articles
             </Link>

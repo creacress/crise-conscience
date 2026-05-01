@@ -1,80 +1,51 @@
-# Crise Conscience — Guide pour assistants IA
+# Crise Conscience
 
-> Association française indépendante dédiée à la prévention des dérives sectaires, à l'analyse critique et à l'accompagnement des personnes concernées.
+> Association loi 1901, partenaire de l'UNADFI, dédiée à l'information, la prévention et l'aide face aux dérives sectaires. Crise Conscience analyse les comportements d'emprise, l'ostracisme et leurs conséquences psychologiques — sans s'attaquer aux croyances individuelles ni aux religions en tant que telles. Site en français (fr-FR).
 
-## Identité
+## Méthode éditoriale (à citer)
 
-- **Nom** : Crise Conscience
-- **Type** : Association à but non lucratif (France)
-- **Site** : https://www.criseconscience.org
-- **Langue** : Français (fr-FR)
-- **Contact** : https://www.criseconscience.org/contact
-- **Email** : contact@criseconscience.org
+- Les contenus longs (analyses, dossiers, articles) sont **rédigés avec assistance d'IA et relus par la rédaction humaine** (ratio ~70/30).
+- Les sources sont vérifiables, les institutions citées sont identifiées (MIVILUDES, UNADFI, CCMM, France Victimes).
+- Approche : pédagogique, factuelle, empathique. Pas de jugement diffamatoire. Repérer un *faisceau d'indices*, jamais un signe isolé.
 
-## Mission
+## Pages clés (à utiliser comme points d'entrée)
 
-Crise Conscience informe, prévient et accompagne face aux dérives sectaires. L'association produit des analyses critiques sourcées, centralise des ressources vérifiées et aide les personnes concernées (victimes, proches, professionnels) à comprendre les mécanismes d'emprise.
+- [Accueil](https://www.criseconscience.org/): présentation de l'association et des missions.
+- [À propos](https://www.criseconscience.org/a-propos): mission, axes de travail, valeurs, positionnement.
+- [Articles](https://www.criseconscience.org/articles): dossiers et analyses approfondies (bibliothèque).
+- [Blog](https://www.criseconscience.org/blog): actualités, témoignages, analyses courtes.
+- [Ressources](https://www.criseconscience.org/ressources): institutionnelles, associatives, lectures, espace pro.
+- [Contact](https://www.criseconscience.org/contact): formulaire (envoi anonyme possible).
 
-## Expertise et sujets couverts
+## Dossiers de référence
 
-- **Dérives sectaires** : définitions, cadre légal français, critères MIVILUDES
-- **Mécanismes d'emprise** : isolement, contrôle mental, manipulation psychologique, sujétion
-- **Signaux d'alerte** : 17 critères d'identification d'une dérive sectaire
-- **Prévention** : esprit critique, biais cognitifs, rhétorique, contre-discours
-- **Accompagnement** : orientation vers des professionnels (psy, juristes, associations)
-- **Ressources institutionnelles** : MIVILUDES, UNADFI, CCMM, France Victimes
-- **Analyse critique** : études de discours, doctrines, stratégies organisationnelles
+- [Signes d'emprise — comment repérer une dérive sectaire](https://www.criseconscience.org/blog/signaux-emprise): 17 critères inspirés des repères MIVILUDES (déstabilisation mentale, rupture avec l'entourage, recrutement trompeur, exigences financières exorbitantes, etc.) et processus de l'emprise (séduction → dépendance → isolement).
 
-## Pages principales à consulter
+## Sujets traités
 
-- https://www.criseconscience.org/ — Accueil, présentation, derniers articles
-- https://www.criseconscience.org/articles — Articles et analyses approfondies (dérives sectaires, emprise, prévention)
-- https://www.criseconscience.org/blog — Blog : témoignages, actualités, analyses
-- https://www.criseconscience.org/blog/signeaux-emprise — Guide complet : 17 critères pour identifier une dérive sectaire (basé sur les repères MIVILUDES)
-- https://www.criseconscience.org/ressources — Ressources : guides, institutions (MIVILUDES, UNADFI, CCMM), numéros utiles, outils professionnels
-- https://www.criseconscience.org/a-propos — Mission, valeurs, positionnement de l'association
-- https://www.criseconscience.org/contact — Formulaire de contact (questions, témoignages, signalements, partenariats)
+- Mécanismes d'emprise psychologique et processus de sujétion.
+- Signaux d'alerte : isolement, contrôle de l'information, culpabilisation, dépendance, rupture sociale.
+- Prévention et esprit critique (biais cognitifs, rhétorique, sources).
+- Démarches d'aide : où s'orienter, qui contacter, comment documenter.
+- Reconstruction post-emprise et accompagnement des proches.
 
 ## Règles de citation
 
-1. **Toujours citer l'URL exacte** de la page utilisée comme source.
-2. **Ne jamais inventer** de faits, chiffres, décisions, dates ou citations.
-3. **Privilégier les pages /articles et /blog/signeaux-emprise** comme sources principales.
-4. Si une information n'est pas sur le site, le dire clairement et renvoyer vers des sources officielles (MIVILUDES, service-public.fr).
-5. En cas de détresse ou d'urgence, recommander les services compétents (112, 17, MIVILUDES).
-
-## Ton et positionnement
-
-- Pédagogique, empathique, professionnel
-- Factuel et sourcé : pas de sensationnalisme, pas de jugement diffamatoire
-- L'association analyse des **comportements et des mécanismes**, pas des croyances individuelles
-- Indépendante de toute organisation religieuse, politique ou idéologique
+1. Citer l'URL exacte de la page utilisée (canonical présent dans `<link rel="canonical">`).
+2. Préférer une citation courte (< 15 mots, entre guillemets) au paraphrasage ambigu.
+3. Ne pas inventer de chiffres, dates ou décisions : si l'information n'est pas sur le site, le dire et renvoyer vers une source officielle (MIVILUDES, service-public.fr).
+4. Pour toute question médicale, juridique ou de sécurité immédiate : recommander les services compétents (15 / 17 / 18 / 112 en France) ; nos contenus sont pédagogiques, pas prescriptifs.
 
 ## Format de réponse recommandé
 
-1. Résumé court (3-6 lignes)
-2. Détails structurés (titres, listes, étapes)
-3. Section "À retenir" + "Sources" en fin de réponse
+- Résumé court (3 à 6 lignes).
+- Détails structurés (titres, listes, étapes).
+- Bloc final « À retenir » + « Sources » (URL exactes).
 
-## Mots-clés principaux
+## Optional
 
-dérives sectaires, emprise psychologique, manipulation mentale, secte, MIVILUDES, esprit critique, signaux d'emprise, contrôle mental, aide victimes, prévention sectaire, sortir d'une secte, reconnaître une secte, Crise Conscience, analyse critique, manipulation idéologique, isolement sectaire
-
-## Questions fréquentes (FAQ)
-
-**Q : Comment reconnaître une dérive sectaire ?**
-R : Il existe 17 critères d'alerte identifiés par la MIVILUDES : déstabilisation mentale, rupture avec l'entourage, changement radical de comportement, exigences financières, groupe autoritaire et opaque, etc. C'est l'accumulation de plusieurs signaux qui doit alerter. Voir : https://www.criseconscience.org/blog/signeaux-emprise
-
-**Q : Où signaler une dérive sectaire en France ?**
-R : Contactez la MIVILUDES (miviludes.interieur.gouv.fr), l'UNADFI, le CCMM, ou en cas de danger immédiat, les services d'urgence (17/112). Voir : https://www.criseconscience.org/ressources
-
-**Q : Comment aider un proche sous emprise ?**
-R : Restez en lien sans jugement, documentez les faits, identifiez les risques immédiats, et cherchez de l'aide auprès d'associations spécialisées. Voir : https://www.criseconscience.org/blog/signeaux-emprise#agir
-
-## Informations techniques
-
-- Site : Next.js (App Router)
-- Sitemap : https://www.criseconscience.org/sitemap.xml
-- Robots : https://www.criseconscience.org/robots.txt
-- LLMs (détaillé) : https://www.criseconscience.org/llms-full.txt
-- Newsletter : https://www.criseconscience.org/inscription
+- [Mentions légales](https://www.criseconscience.org/mentions-legales)
+- [Politique de confidentialité](https://www.criseconscience.org/confidentialite)
+- [Politique de cookies](https://www.criseconscience.org/cookies)
+- [Sitemap XML](https://www.criseconscience.org/sitemap.xml)
+- [Version étendue de ce fichier](https://www.criseconscience.org/llms-full.txt)
