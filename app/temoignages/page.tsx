@@ -12,7 +12,10 @@ export const metadata: Metadata = {
   title: "Témoignages — Sortir d'une emprise sectaire",
   description:
     "Recueil de témoignages anonymisés de personnes ayant quitté un groupe sectaire. Récits de sortie, reconstruction et reprise d'autonomie. Témoignages opt-in, vous gardez le contrôle.",
-  alternates: { canonical: "/temoignages" },
+  alternates: {
+    canonical: "/temoignages",
+    languages: { "fr-FR": "/temoignages", en: "/en/testimonies", "x-default": "/temoignages" },
+  },
   openGraph: {
     type: "website",
     url: "/temoignages",

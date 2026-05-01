@@ -11,7 +11,10 @@ export const metadata: Metadata = {
   title: "Glossaire des dérives sectaires — définitions claires et sourcées",
   description:
     "Définitions des termes clés sur les dérives sectaires : emprise, sujétion, ostracisme, BITE model, faisceau d'indices, manipulation mentale, déconversion. Sources MIVILUDES, Code pénal, recherche académique.",
-  alternates: { canonical: "/glossaire" },
+  alternates: {
+    canonical: "/glossaire",
+    languages: { "fr-FR": "/glossaire", en: "/en/glossary", "x-default": "/glossaire" },
+  },
   openGraph: {
     type: "website",
     url: "/glossaire",

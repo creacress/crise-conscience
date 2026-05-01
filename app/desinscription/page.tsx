@@ -4,7 +4,10 @@ import { UnsubscribeCard } from "@/app/components/UnsubscribeCard";
 export const metadata = {
   title: "Désinscription newsletter — Crise Conscience",
   description: "Se désinscrire de la newsletter de l’association Crise Conscience. Désinscription en un clic, sans culpabilisation.",
-  alternates: { canonical: "/desinscription" },
+  alternates: {
+    canonical: "/desinscription",
+    languages: { "fr-FR": "/desinscription", en: "/en/unsubscribe", "x-default": "/desinscription" },
+  },
   robots: { index: false, follow: true },
 };
 

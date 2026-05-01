@@ -53,7 +53,7 @@ const FAQ = [
   {
     question: "Do you accept cheques or wire transfers?",
     answer:
-      "Yes. Write to us via the contact page mentioning \"donation by cheque\" or \"donation by wire\": we will send you the postal address or RIB. A donation receipt will be provided regardless.",
+      "Yes. Write to us via the contact page mentioning “donation by cheque” or “donation by wire”: we will send you the postal address or RIB. A donation receipt will be provided regardless.",
   },
 ] as const;
 

@@ -18,7 +18,10 @@ export const metadata: Metadata = {
   title: "Se reconstruire après une emprise sectaire — guide post-sortie",
   description:
     "Vivre l'après : 4 phases de reconstruction après une emprise sectaire (sortie, premiers mois, premier an, long terme). Repères thérapeutiques, juridiques et sociaux pour les sortants et leurs proches.",
-  alternates: { canonical: "/se-reconstruire" },
+  alternates: {
+    canonical: "/se-reconstruire",
+    languages: { "fr-FR": "/se-reconstruire", en: "/en/recovering", "x-default": "/se-reconstruire" },
+  },
   openGraph: {
     type: "article",
     url: "/se-reconstruire",

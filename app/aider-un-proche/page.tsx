@@ -18,7 +18,10 @@ export const metadata: Metadata = {
   title: "Aider un proche sous emprise sectaire — guide pratique",
   description:
     "Que faire si un proche est sous emprise sectaire ? 5 étapes concrètes (rester en lien, documenter les faits, identifier les risques, demander conseil, préparer la sortie) inspirées des repères MIVILUDES et UNADFI.",
-  alternates: { canonical: "/aider-un-proche" },
+  alternates: {
+    canonical: "/aider-un-proche",
+    languages: { "fr-FR": "/aider-un-proche", en: "/en/help-a-loved-one", "x-default": "/aider-un-proche" },
+  },
   openGraph: {
     type: "article",
     url: "/aider-un-proche",

@@ -48,7 +48,7 @@ const SECTIONS = [
       {
         question: "How to talk to a loved one without alienating them?",
         answer:
-          "Avoid frontal confrontation (\"you are in a cult\"), which systematically reinforces coercion. Privilege regular and neutral contact (short messages, attendance at family events), open questions on facts, and patience. Goal: keep the door open.",
+          "Avoid frontal confrontation (“you are in a cult”), which systematically reinforces coercion. Privilege regular and neutral contact (short messages, attendance at family events), open questions on facts, and patience. Goal: keep the door open.",
       },
       {
         question: "How to report coercive control to MIVILUDES?",
