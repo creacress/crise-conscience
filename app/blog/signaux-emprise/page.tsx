@@ -1,39 +1,27 @@
 // app/blog/signe-emprise/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
+import KeyTakeaways from "@/app/components/KeyTakeaways";
 import { JsonLd } from "@/app/components/JsonLd";
-
-const siteBase = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.criseconscience.org").replace(/\/$/, "");
+import { articleSchema, breadcrumbSchema, getSiteBase } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Comment reconnaître une secte : 17 signes d’emprise et critères d’alerte (MIVILUDES)",
+  title: "Identifier une dérive sectaire : signes d’emprise et critères",
   description:
-    "Guide complet pour identifier une dérive sectaire : 17 critères MIVILUDES détaillés, mécanismes d’emprise psychologique (isolement, contrôle, manipulation), signaux d’alerte concrets et conseils pour agir. Par Crise Conscience.",
-  alternates: { canonical: "/blog/signeaux-emprise" },
-  keywords: [
-    "reconnaître une secte",
-    "signes d’emprise",
-    "dérive sectaire critères",
-    "MIVILUDES critères",
-    "emprise psychologique signes",
-    "comment savoir si on est dans une secte",
-    "manipulation mentale signes",
-    "sortir d’une secte",
-    "aide secte",
-  ],
+    "Repères concrets pour identifier une dérive sectaire : critères MIVILUDES, mécanismes d’emprise, signaux d’alerte et conseils pour agir.",
+  alternates: { canonical: "/blog/signaux-emprise" },
   openGraph: {
-    title: "17 signes d’emprise : comment reconnaître une dérive sectaire",
+    title: "Identifier une dérive sectaire : signes d’emprise et critères",
     description:
-      "Critères MIVILUDES détaillés, mécanismes d’emprise, signaux d’alerte et conseils d’action concrets pour identifier et agir face à une dérive sectaire.",
+      "Critères, signaux d’alerte et conseils d’action, inspirés des repères publics de la MIVILUDES.",
     type: "article",
-    url: "/blog/signeaux-emprise",
-    publishedTime: "2026-01-10T00:00:00Z",
+    url: "/blog/signaux-emprise",
   },
   twitter: {
     card: "summary_large_image",
-    title: "17 signes d’emprise : comment reconnaître une dérive sectaire",
+    title: "Signes d’emprise — comment repérer une dérive sectaire",
     description:
-      "Guide complet basé sur les critères MIVILUDES. Mécanismes d’emprise, signaux d’alerte et conseils pour agir.",
+      "Critères MIVILUDES, processus d’emprise et conseils d’action. Crise Conscience.",
   },
 };
 
@@ -139,76 +127,31 @@ function Card({ title, desc }: { title: string; desc: string }) {
 }
 
 export default function Page() {
-  const articleJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: "Comment reconnaître une secte : 17 signes d'emprise et critères d'alerte",
+  const siteBase = getSiteBase();
+  const pageUrl = `${siteBase}/blog/signaux-emprise`;
+
+  const articleJsonLd = articleSchema({
+    siteBase,
+    pageUrl,
+    title: "Signes d’emprise — comment repérer une dérive sectaire",
     description:
-      "Guide complet pour identifier une dérive sectaire basé sur les critères MIVILUDES : mécanismes d'emprise, signaux d'alerte et conseils pour agir.",
-    datePublished: "2026-01-10T00:00:00Z",
-    dateModified: "2026-01-10T00:00:00Z",
-    author: { "@type": "Organization", name: "Crise Conscience", url: siteBase },
-    publisher: { "@type": "Organization", name: "Crise Conscience", url: siteBase },
-    mainEntityOfPage: `${siteBase}/blog/signeaux-emprise`,
-    keywords: "dérive sectaire, emprise, MIVILUDES, signes secte, manipulation mentale, sortir d'une secte",
-    inLanguage: "fr-FR",
-  };
+      "Critères MIVILUDES, processus d’emprise (séduction, dépendance, isolement) et conseils d’action.",
+    image: `${siteBase}/opengraph-image`,
+    datePublished: "2026-01-10",
+    dateModified: "2026-05-01",
+    authorName: "Rédaction Crise Conscience (assistance IA, relecture humaine)",
+  });
 
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Comment reconnaître une dérive sectaire ?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Il existe 17 critères d'alerte identifiés par la MIVILUDES : déstabilisation mentale, rupture avec l'entourage, changement radical de comportement, exigences financières, groupe autoritaire et opaque, etc. C'est l'accumulation de plusieurs signaux qui doit alerter, pas un critère isolé.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Quels sont les signes d'emprise psychologique ?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "L'emprise psychologique se manifeste par : l'isolement progressif, la dépendance affective/financière/cognitive, le contrôle du temps et de l'information, les pressions et la culpabilisation, et les promesses miracles avec des exigences croissantes.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Comment aider un proche sous emprise sectaire ?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Restez en lien calmement sans jugement, documentez les faits (dates, pressions, montants), identifiez les risques immédiats (santé, violences, mineurs), et cherchez de l'aide auprès d'associations spécialisées (UNADFI, CCMM) ou de professionnels.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Pourquoi est-ce difficile de quitter une secte ?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "L'emprise mélange peur, culpabilité, perte de repères et parfois dépendance financière. La sortie peut entraîner solitude, rupture des liens, pression du groupe (ostracisme), voire menaces. C'est un processus qui prend du temps et nécessite un accompagnement.",
-        },
-      },
-    ],
-  };
-
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Accueil", item: `${siteBase}/` },
-      { "@type": "ListItem", position: 2, name: "Blog", item: `${siteBase}/blog` },
-      { "@type": "ListItem", position: 3, name: "Signes d'emprise", item: `${siteBase}/blog/signeaux-emprise` },
-    ],
-  };
+  const breadcrumbJsonLd = breadcrumbSchema([
+    { name: "Accueil", url: `${siteBase}/` },
+    { name: "Blog", url: `${siteBase}/blog` },
+    { name: "Signes d’emprise", url: pageUrl },
+  ]);
 
   return (
-    <>
-    <JsonLd data={articleJsonLd} />
-    <JsonLd data={faqJsonLd} />
-    <JsonLd data={breadcrumbJsonLd} />
     <main className="mx-auto max-w-6xl px-4 py-10">
+      <JsonLd data={articleJsonLd} />
+      <JsonLd data={breadcrumbJsonLd} />
       {/* Hero */}
       <header className="overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-8">
         <div className="flex flex-wrap items-start justify-between gap-6">
@@ -253,17 +196,40 @@ export default function Page() {
           </div>
 
           <div className="w-full max-w-sm space-y-4">
-            <figure className="overflow-hidden rounded-2xl border border-white/10 bg-black/20">
-              <img
-                src="https://cms-imgp.jw-cdn.org/img/p/1011580/univ/art/1011580_univ_pnr_md.jpg"
-                alt="Illustration (jw-cdn.org)"
-                className="h-56 w-full object-cover"
-                loading="lazy"
-                decoding="async"
-                fetchPriority="low"
-              />
-              <figcaption className="p-4 text-xs text-white/55">
-                Image d’illustration (source : jw-cdn.org)
+            <figure
+              aria-hidden="true"
+              className="relative h-56 w-full overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-orange-500/15 via-white/[0.04] to-sky-500/10"
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_30%_30%,rgba(251,146,60,0.18),transparent_60%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(50%_50%_at_75%_70%,rgba(56,189,248,0.14),transparent_60%)]" />
+              <svg
+                viewBox="0 0 320 224"
+                className="absolute inset-0 h-full w-full opacity-80"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <radialGradient id="cc-pulse" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="rgba(251,146,60,0.55)" />
+                    <stop offset="60%" stopColor="rgba(251,146,60,0.10)" />
+                    <stop offset="100%" stopColor="rgba(251,146,60,0)" />
+                  </radialGradient>
+                </defs>
+                {[28, 56, 88, 124].map((r) => (
+                  <circle
+                    key={r}
+                    cx="160"
+                    cy="112"
+                    r={r}
+                    fill="none"
+                    stroke="rgba(255,255,255,0.10)"
+                    strokeWidth="1"
+                  />
+                ))}
+                <circle cx="160" cy="112" r="12" fill="url(#cc-pulse)" />
+                <circle cx="160" cy="112" r="4" fill="rgba(251,146,60,0.95)" />
+              </svg>
+              <figcaption className="absolute inset-x-0 bottom-0 border-t border-white/10 bg-black/30 p-3 text-center text-xs text-white/70 backdrop-blur-sm">
+                L’emprise progresse par cercles concentriques.
               </figcaption>
             </figure>
 
@@ -431,14 +397,62 @@ export default function Page() {
         </div>
       </section>
 
+      {/* À retenir + Sources (citation-friendly) */}
+      <KeyTakeaways
+        takeaways={[
+          <>
+            Une dérive sectaire vise des <strong>comportements et des dommages</strong>, jamais une
+            croyance ou une religion en tant que telles.
+          </>,
+          <>
+            Aucun signe isolé ne suffit : c’est l’<strong>accumulation cohérente</strong> de
+            signaux dans la durée qui qualifie une dynamique d’emprise.
+          </>,
+          <>
+            Le processus type avance par paliers :{" "}
+            <strong>séduction → dépendance → isolement</strong>.
+          </>,
+          <>
+            Trois priorités d’action : <strong>rester en lien</strong>, <strong>documenter les
+            faits</strong>, <strong>chercher de l’aide spécialisée</strong> (associations,
+            professionnels).
+          </>,
+          <>
+            En cas de danger immédiat : <strong>15 / 17 / 18 / 112</strong>.
+          </>,
+        ]}
+        sources={[
+          {
+            title: "MIVILUDES — Comment identifier une dérive sectaire",
+            href: OFFICIAL_URL,
+            publisher: "Mission interministérielle (Ministère de l’Intérieur)",
+          },
+          {
+            title: "UNADFI — Réseau d’aide aux victimes de dérives sectaires",
+            href: "https://www.unadfi.org/",
+            publisher: "UNADFI",
+          },
+          {
+            title: "CCMM — Centre contre les manipulations mentales",
+            href: "https://www.ccmm.asso.fr/",
+            publisher: "CCMM",
+          },
+          {
+            title: "France Victimes — Aide aux victimes",
+            href: "https://www.france-victimes.fr/",
+            publisher: "France Victimes",
+          },
+        ]}
+      />
+
       {/* Footer note */}
       <footer className="mt-12 border-t border-white/10 pt-6 text-xs text-white/50">
         <p>
-          Note : cette page est une reformulation pédagogique basée sur des repères publics. Pour la version
-          officielle complète, voir la source ci‑dessus.
+          Cette page est une reformulation pédagogique basée sur des repères publics. Contenu
+          rédigé avec assistance IA, relu par la rédaction Crise Conscience. Pour la version
+          officielle complète, voir la source MIVILUDES ci-dessus.
         </p>
       </footer>
     </main>
-    </>
   );
 }

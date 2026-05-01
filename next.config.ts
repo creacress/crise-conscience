@@ -7,18 +7,21 @@ const nextConfig: NextConfig = {
   // Si tu utilises <Image> avec des images externes, ajoute les domaines ici.
   // (Laisse vide si tu n’en as pas besoin, ou complète au fur et à mesure.)
   images: {
-    formats: ["image/avif", "image/webp"],
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "cms-imgp.jw-cdn.org",
-        pathname: "/img/**",
-      },
-      {
-        protocol: "https",
-        hostname: "**.jw-cdn.org",
-      },
+      // Plus aucun hotlink externe par défaut.
+      // Ajoute d'autres domaines au besoin (ex : CDN partenaire institutionnel).
     ],
+  },
+
+  // V2-03 : redirect 301 pour la faute de frappe historique.
+  async redirects() {
+    return [
+      {
+        source: "/blog/signeaux-emprise",
+        destination: "/blog/signaux-emprise",
+        permanent: true,
+      },
+    ];
   },
 
   async headers() {
@@ -55,15 +58,6 @@ const nextConfig: NextConfig = {
       {
         source: "/llms.txt",
         headers: [{ key: "Cache-Control", value: "public, max-age=0, s-maxage=86400" }],
-      },
-      {
-        source: "/llms-full.txt",
-        headers: [{ key: "Cache-Control", value: "public, max-age=0, s-maxage=86400" }],
-      },
-      // Manifest and static assets
-      {
-        source: "/manifest.json",
-        headers: [{ key: "Cache-Control", value: "public, max-age=86400, s-maxage=86400" }],
       },
     ];
   },

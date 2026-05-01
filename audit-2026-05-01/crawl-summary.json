@@ -1,0 +1,572 @@
+[
+  {
+    "url": "https://www.criseconscience.org",
+    "status": 200,
+    "final_url": "https://www.criseconscience.org/",
+    "title": "Crise Conscience — Prévention des dérives sectaires, analyses et ressources",
+    "title_len": 75,
+    "meta_description": "Association française indépendante : informer, prévenir et aider face aux dérives sectaires. Analyses critiques sourcées, ressources vérifiées (MIVILUDES, UNADFI), signaux d'emprise et accompagnement.",
+    "desc_len": 200,
+    "canonical": "https://www.criseconscience.org",
+    "lang": "fr",
+    "h1": [
+      "Informer, prévenir et aider face aux dérives sectaires ."
+    ],
+    "h1_count": 1,
+    "h2_count": 3,
+    "h3_count": 4,
+    "schemas": [
+      "NGO",
+      "WebSite",
+      "ItemList"
+    ],
+    "schema_count": 3,
+    "og_keys": [
+      "og:title",
+      "og:description",
+      "og:url",
+      "og:type"
+    ],
+    "og_image": "",
+    "tw_keys": [
+      "twitter:card",
+      "twitter:title",
+      "twitter:description"
+    ],
+    "images": 0,
+    "img_alt_missing": 0,
+    "links_internal": 38,
+    "links_external": 4,
+    "word_count": 564,
+    "html_bytes": 68652,
+    "has_skiplink": false,
+    "saved": "pages/home.html"
+  },
+  {
+    "url": "https://www.criseconscience.org/articles",
+    "status": 200,
+    "final_url": "https://www.criseconscience.org/articles",
+    "title": "Articles et analyses sur les dérives sectaires | Crise Conscience",
+    "title_len": 65,
+    "meta_description": "Dossiers et analyses approfondies sur les dérives sectaires : mécanismes d’emprise psychologique, signaux d’alerte, prévention, études de cas et ressources vérifiées. Par Crise Conscience.",
+    "desc_len": 188,
+    "canonical": "https://www.criseconscience.org/articles",
+    "lang": "fr",
+    "h1": [],
+    "h1_count": 0,
+    "h2_count": 1,
+    "h3_count": 4,
+    "schemas": [
+      "CollectionPage",
+      "ItemList",
+      "BreadcrumbList"
+    ],
+    "schema_count": 3,
+    "og_keys": [
+      "og:title",
+      "og:description",
+      "og:url",
+      "og:type"
+    ],
+    "og_image": "",
+    "tw_keys": [
+      "twitter:card",
+      "twitter:title",
+      "twitter:description"
+    ],
+    "images": 4,
+    "img_alt_missing": 0,
+    "links_internal": 29,
+    "links_external": 4,
+    "word_count": 339,
+    "html_bytes": 58000,
+    "has_skiplink": false,
+    "saved": "pages/articles.html"
+  },
+  {
+    "url": "https://www.criseconscience.org/blog",
+    "status": 200,
+    "final_url": "https://www.criseconscience.org/blog",
+    "title": "Blog — Témoignages, analyses et actualités sur les dérives sectaires | Crise Conscience",
+    "title_len": 87,
+    "meta_description": "Blog Crise Conscience : témoignages de victimes de sectes, analyses critiques des mécanismes d'emprise, actualités sur la prévention des dérives sectaires. Contenus sourcés et accessibles.",
+    "desc_len": 188,
+    "canonical": "https://www.criseconscience.org/blog",
+    "lang": "fr",
+    "h1": [],
+    "h1_count": 0,
+    "h2_count": 1,
+    "h3_count": 4,
+    "schemas": [
+      "CollectionPage",
+      "ItemList"
+    ],
+    "schema_count": 2,
+    "og_keys": [
+      "og:title",
+      "og:description",
+      "og:url",
+      "og:type"
+    ],
+    "og_image": "",
+    "tw_keys": [
+      "twitter:card",
+      "twitter:title",
+      "twitter:description"
+    ],
+    "images": 0,
+    "img_alt_missing": 0,
+    "links_internal": 24,
+    "links_external": 4,
+    "word_count": 188,
+    "html_bytes": 35780,
+    "has_skiplink": false,
+    "saved": "pages/blog.html"
+  },
+  {
+    "url": "https://www.criseconscience.org/ressources",
+    "status": 200,
+    "final_url": "https://www.criseconscience.org/ressources",
+    "title": "Ressources contre les dérives sectaires — Guides, aide et institutions | Crise Conscience",
+    "title_len": 89,
+    "meta_description": "Toutes les ressources pour comprendre et agir face aux dérives sectaires : MIVILUDES, UNADFI, CCMM, France Victimes, guides pratiques, kit d’analyse et outils pour développer l’esprit critique.",
+    "desc_len": 193,
+    "canonical": "https://www.criseconscience.org/ressources",
+    "lang": "fr",
+    "h1": [
+      "Ressources"
+    ],
+    "h1_count": 1,
+    "h2_count": 6,
+    "h3_count": 17,
+    "schemas": [
+      "BreadcrumbList",
+      "FAQPage"
+    ],
+    "schema_count": 2,
+    "og_keys": [
+      "og:title",
+      "og:description",
+      "og:url",
+      "og:type"
+    ],
+    "og_image": "",
+    "tw_keys": [
+      "twitter:card",
+      "twitter:title",
+      "twitter:description"
+    ],
+    "images": 0,
+    "img_alt_missing": 0,
+    "links_internal": 30,
+    "links_external": 10,
+    "word_count": 496,
+    "html_bytes": 68445,
+    "has_skiplink": false,
+    "saved": "pages/ressources.html"
+  },
+  {
+    "url": "https://www.criseconscience.org/a-propos",
+    "status": 200,
+    "final_url": "https://www.criseconscience.org/a-propos",
+    "title": "À propos de Crise Conscience — Mission, valeurs et positionnement | Crise Conscience",
+    "title_len": 84,
+    "meta_description": "Découvrez Crise Conscience : association française indépendante d’analyse critique, de prévention des dérives sectaires et de promotion de l’esprit critique. Mission, valeurs, axes de travail.",
+    "desc_len": 192,
+    "canonical": "https://www.criseconscience.org/a-propos",
+    "lang": "fr",
+    "h1": [
+      "À propos de Crise Conscience"
+    ],
+    "h1_count": 1,
+    "h2_count": 4,
+    "h3_count": 4,
+    "schemas": [
+      "AboutPage",
+      "BreadcrumbList"
+    ],
+    "schema_count": 2,
+    "og_keys": [
+      "og:title",
+      "og:description",
+      "og:url",
+      "og:type"
+    ],
+    "og_image": "",
+    "tw_keys": [
+      "twitter:card",
+      "twitter:title",
+      "twitter:description"
+    ],
+    "images": 0,
+    "img_alt_missing": 0,
+    "links_internal": 23,
+    "links_external": 4,
+    "word_count": 403,
+    "html_bytes": 38958,
+    "has_skiplink": false,
+    "saved": "pages/a-propos.html"
+  },
+  {
+    "url": "https://www.criseconscience.org/contact",
+    "status": 200,
+    "final_url": "https://www.criseconscience.org/contact",
+    "title": "Contact — Crise Conscience | Questions, témoignages, signalements | Crise Conscience",
+    "title_len": 84,
+    "meta_description": "Contactez l'association Crise Conscience : questions sur les dérives sectaires, témoignages, signalements, demandes de partenariat. Réponse sous 48-72h, anonymat possible.",
+    "desc_len": 171,
+    "canonical": "https://www.criseconscience.org/contact",
+    "lang": "fr",
+    "h1": [
+      "Contact"
+    ],
+    "h1_count": 1,
+    "h2_count": 1,
+    "h3_count": 7,
+    "schemas": [
+      "ContactPage",
+      "BreadcrumbList"
+    ],
+    "schema_count": 2,
+    "og_keys": [
+      "og:title",
+      "og:description",
+      "og:url",
+      "og:type"
+    ],
+    "og_image": "",
+    "tw_keys": [
+      "twitter:card",
+      "twitter:title",
+      "twitter:description"
+    ],
+    "images": 0,
+    "img_alt_missing": 0,
+    "links_internal": 26,
+    "links_external": 6,
+    "word_count": 297,
+    "html_bytes": 37872,
+    "has_skiplink": false,
+    "saved": "pages/contact.html"
+  },
+  {
+    "url": "https://www.criseconscience.org/inscription",
+    "status": 200,
+    "final_url": "https://www.criseconscience.org/inscription",
+    "title": "Newsletter Crise Conscience — Inscription gratuite | Crise Conscience",
+    "title_len": 69,
+    "meta_description": "Inscrivez-vous à la newsletter de Crise Conscience : ressources vérifiées sur les dérives sectaires, signaux d’emprise, actualités de prévention. Sans spam, désinscription en un clic.",
+    "desc_len": 183,
+    "canonical": "https://www.criseconscience.org/inscription",
+    "lang": "fr",
+    "h1": [
+      "Inscription"
+    ],
+    "h1_count": 1,
+    "h2_count": 1,
+    "h3_count": 4,
+    "schemas": [
+      "BreadcrumbList"
+    ],
+    "schema_count": 1,
+    "og_keys": [
+      "og:title",
+      "og:description",
+      "og:url",
+      "og:site_name",
+      "og:locale",
+      "og:type"
+    ],
+    "og_image": "",
+    "tw_keys": [
+      "twitter:card",
+      "twitter:title",
+      "twitter:description"
+    ],
+    "images": 0,
+    "img_alt_missing": 0,
+    "links_internal": 27,
+    "links_external": 4,
+    "word_count": 240,
+    "html_bytes": 36274,
+    "has_skiplink": false,
+    "saved": "pages/inscription.html"
+  },
+  {
+    "url": "https://www.criseconscience.org/don",
+    "status": 200,
+    "final_url": "https://www.criseconscience.org/don",
+    "title": "Soutenir Crise Conscience — Faire un don | Crise Conscience",
+    "title_len": 59,
+    "meta_description": "Soutenez l'association Crise Conscience par un don sécurisé via Stripe. Financez des analyses indépendantes, des ressources vérifiées et la prévention des dérives sectaires.",
+    "desc_len": 173,
+    "canonical": "https://www.criseconscience.org/don",
+    "lang": "fr",
+    "h1": [
+      "Soutenir une information libre, rigoureuse et indépendante"
+    ],
+    "h1_count": 1,
+    "h2_count": 3,
+    "h3_count": 5,
+    "schemas": [],
+    "schema_count": 0,
+    "og_keys": [
+      "og:title",
+      "og:description",
+      "og:url",
+      "og:type"
+    ],
+    "og_image": "",
+    "tw_keys": [
+      "twitter:card",
+      "twitter:title",
+      "twitter:description"
+    ],
+    "images": 0,
+    "img_alt_missing": 0,
+    "links_internal": 23,
+    "links_external": 4,
+    "word_count": 415,
+    "html_bytes": 36836,
+    "has_skiplink": false,
+    "saved": "pages/don.html"
+  },
+  {
+    "url": "https://www.criseconscience.org/blog/signeaux-emprise",
+    "status": 200,
+    "final_url": "https://www.criseconscience.org/blog/signeaux-emprise",
+    "title": "Comment reconnaître une secte : 17 signes d’emprise et critères d’alerte (MIVILUDES) | Crise Conscience",
+    "title_len": 103,
+    "meta_description": "Guide complet pour identifier une dérive sectaire : 17 critères MIVILUDES détaillés, mécanismes d’emprise psychologique (isolement, contrôle, manipulation), signaux d’alerte concrets et conseils pour agir. Par Crise Conscience.",
+    "desc_len": 227,
+    "canonical": "https://www.criseconscience.org/blog/signeaux-emprise",
+    "lang": "fr",
+    "h1": [
+      "Signes d’emprise : comment repérer une dérive sectaire"
+    ],
+    "h1_count": 1,
+    "h2_count": 4,
+    "h3_count": 30,
+    "schemas": [
+      "Article",
+      "FAQPage",
+      "BreadcrumbList"
+    ],
+    "schema_count": 3,
+    "og_keys": [
+      "og:title",
+      "og:description",
+      "og:url",
+      "og:type"
+    ],
+    "og_image": "",
+    "tw_keys": [
+      "twitter:card",
+      "twitter:title",
+      "twitter:description"
+    ],
+    "images": 1,
+    "img_alt_missing": 0,
+    "links_internal": 24,
+    "links_external": 6,
+    "word_count": 909,
+    "html_bytes": 71044,
+    "has_skiplink": false,
+    "saved": "pages/blog_signeaux-emprise.html"
+  },
+  {
+    "url": "https://www.criseconscience.org/articles/cmncy06j5000004jmlpgzgz8z",
+    "status": 404,
+    "final_url": "https://www.criseconscience.org/articles/cmncy06j5000004jmlpgzgz8z",
+    "title": "Crise Conscience — Prévention des dérives sectaires, analyses et ressources",
+    "title_len": 75,
+    "meta_description": "Association française indépendante dédiée à la prévention des dérives sectaires. Analyses critiques, ressources vérifiées, signaux d'emprise, accompagnement et esprit critique. Référence sur les mécanismes d'emprise et la manipulation.",
+    "desc_len": 235,
+    "canonical": "https://www.criseconscience.org",
+    "lang": null,
+    "h1": [],
+    "h1_count": 0,
+    "h2_count": 0,
+    "h3_count": 0,
+    "schemas": [],
+    "schema_count": 0,
+    "og_keys": [
+      "og:title",
+      "og:description",
+      "og:url",
+      "og:site_name",
+      "og:locale",
+      "og:type"
+    ],
+    "og_image": "",
+    "tw_keys": [
+      "twitter:card",
+      "twitter:title",
+      "twitter:description"
+    ],
+    "images": 0,
+    "img_alt_missing": 0,
+    "links_internal": 0,
+    "links_external": 0,
+    "word_count": 9,
+    "html_bytes": 17886,
+    "has_skiplink": false,
+    "saved": "pages/articles_cmncy06j5000004jmlpgzgz8z.html"
+  },
+  {
+    "url": "https://www.criseconscience.org/articles/cmlmsj0wg000004l2lx53qk1m",
+    "status": 404,
+    "final_url": "https://www.criseconscience.org/articles/cmlmsj0wg000004l2lx53qk1m",
+    "title": "Crise Conscience — Prévention des dérives sectaires, analyses et ressources",
+    "title_len": 75,
+    "meta_description": "Association française indépendante dédiée à la prévention des dérives sectaires. Analyses critiques, ressources vérifiées, signaux d'emprise, accompagnement et esprit critique. Référence sur les mécanismes d'emprise et la manipulation.",
+    "desc_len": 235,
+    "canonical": "https://www.criseconscience.org",
+    "lang": null,
+    "h1": [],
+    "h1_count": 0,
+    "h2_count": 0,
+    "h3_count": 0,
+    "schemas": [],
+    "schema_count": 0,
+    "og_keys": [
+      "og:title",
+      "og:description",
+      "og:url",
+      "og:site_name",
+      "og:locale",
+      "og:type"
+    ],
+    "og_image": "",
+    "tw_keys": [
+      "twitter:card",
+      "twitter:title",
+      "twitter:description"
+    ],
+    "images": 0,
+    "img_alt_missing": 0,
+    "links_internal": 0,
+    "links_external": 0,
+    "word_count": 9,
+    "html_bytes": 17886,
+    "has_skiplink": false,
+    "saved": "pages/articles_cmlmsj0wg000004l2lx53qk1m.html"
+  },
+  {
+    "url": "https://www.criseconscience.org/articles/cmlf04ldl000004jmvu7kgbrq",
+    "status": 404,
+    "final_url": "https://www.criseconscience.org/articles/cmlf04ldl000004jmvu7kgbrq",
+    "title": "Crise Conscience — Prévention des dérives sectaires, analyses et ressources",
+    "title_len": 75,
+    "meta_description": "Association française indépendante dédiée à la prévention des dérives sectaires. Analyses critiques, ressources vérifiées, signaux d'emprise, accompagnement et esprit critique. Référence sur les mécanismes d'emprise et la manipulation.",
+    "desc_len": 235,
+    "canonical": "https://www.criseconscience.org",
+    "lang": null,
+    "h1": [],
+    "h1_count": 0,
+    "h2_count": 0,
+    "h3_count": 0,
+    "schemas": [],
+    "schema_count": 0,
+    "og_keys": [
+      "og:title",
+      "og:description",
+      "og:url",
+      "og:site_name",
+      "og:locale",
+      "og:type"
+    ],
+    "og_image": "",
+    "tw_keys": [
+      "twitter:card",
+      "twitter:title",
+      "twitter:description"
+    ],
+    "images": 0,
+    "img_alt_missing": 0,
+    "links_internal": 0,
+    "links_external": 0,
+    "word_count": 9,
+    "html_bytes": 17886,
+    "has_skiplink": false,
+    "saved": "pages/articles_cmlf04ldl000004jmvu7kgbrq.html"
+  },
+  {
+    "url": "https://www.criseconscience.org/articles/cmlcvaajx000004jyuvisz6ez",
+    "status": 404,
+    "final_url": "https://www.criseconscience.org/articles/cmlcvaajx000004jyuvisz6ez",
+    "title": "Crise Conscience — Prévention des dérives sectaires, analyses et ressources",
+    "title_len": 75,
+    "meta_description": "Association française indépendante dédiée à la prévention des dérives sectaires. Analyses critiques, ressources vérifiées, signaux d'emprise, accompagnement et esprit critique. Référence sur les mécanismes d'emprise et la manipulation.",
+    "desc_len": 235,
+    "canonical": "https://www.criseconscience.org",
+    "lang": null,
+    "h1": [],
+    "h1_count": 0,
+    "h2_count": 0,
+    "h3_count": 0,
+    "schemas": [],
+    "schema_count": 0,
+    "og_keys": [
+      "og:title",
+      "og:description",
+      "og:url",
+      "og:site_name",
+      "og:locale",
+      "og:type"
+    ],
+    "og_image": "",
+    "tw_keys": [
+      "twitter:card",
+      "twitter:title",
+      "twitter:description"
+    ],
+    "images": 0,
+    "img_alt_missing": 0,
+    "links_internal": 0,
+    "links_external": 0,
+    "word_count": 9,
+    "html_bytes": 17886,
+    "has_skiplink": false,
+    "saved": "pages/articles_cmlcvaajx000004jyuvisz6ez.html"
+  },
+  {
+    "url": "https://www.criseconscience.org/articles/cmlc8ch5z000004l1xr4f52v4",
+    "status": 404,
+    "final_url": "https://www.criseconscience.org/articles/cmlc8ch5z000004l1xr4f52v4",
+    "title": "Crise Conscience — Prévention des dérives sectaires, analyses et ressources",
+    "title_len": 75,
+    "meta_description": "Association française indépendante dédiée à la prévention des dérives sectaires. Analyses critiques, ressources vérifiées, signaux d'emprise, accompagnement et esprit critique. Référence sur les mécanismes d'emprise et la manipulation.",
+    "desc_len": 235,
+    "canonical": "https://www.criseconscience.org",
+    "lang": null,
+    "h1": [],
+    "h1_count": 0,
+    "h2_count": 0,
+    "h3_count": 0,
+    "schemas": [],
+    "schema_count": 0,
+    "og_keys": [
+      "og:title",
+      "og:description",
+      "og:url",
+      "og:site_name",
+      "og:locale",
+      "og:type"
+    ],
+    "og_image": "",
+    "tw_keys": [
+      "twitter:card",
+      "twitter:title",
+      "twitter:description"
+    ],
+    "images": 0,
+    "img_alt_missing": 0,
+    "links_internal": 0,
+    "links_external": 0,
+    "word_count": 9,
+    "html_bytes": 17886,
+    "has_skiplink": false,
+    "saved": "pages/articles_cmlc8ch5z000004l1xr4f52v4.html"
+  }
+]

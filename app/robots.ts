@@ -1,31 +1,43 @@
 import type { MetadataRoute } from "next";
 
 // robots.txt (App Router)
-// - Autorise le crawl standard + bots IA de recherche (ils citent le site)
-// - Bloque les bots d'entraînement IA (scraping sans citation)
-// - Référence llms.txt pour les assistants IA
+//
+// Stratégie :
+// - Crawl public autorisé partout sauf /api/* et /generated/* (interne).
+// - Bots de recherche IA et citations (OAI-SearchBot, ChatGPT-User, PerplexityBot,
+//   ClaudeBot, Google-Extended, Applebot-Extended) : ALLOW. C'est la condition
+//   pour que nos pages soient citées dans les réponses des assistants.
+// - Bots de training (GPTBot, CCBot, etc.) : DISALLOW par défaut. Choix éditorial.
+//   Si vous voulez ouvrir le training, basculez les `disallow` en `allow`.
 
 export default function robots(): MetadataRoute.Robots {
   const base = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.criseconscience.org").replace(/\/$/, "");
 
   return {
     rules: [
-      // Moteurs de recherche classiques
-      { userAgent: "*", allow: "/" },
+      { userAgent: "*", allow: "/", disallow: ["/api/", "/generated/"] },
 
-      // === BOTS IA DE RECHERCHE (AUTORISÉS — citations dans les réponses IA) ===
-      { userAgent: "OAI-SearchBot", allow: "/" },      // OpenAI ChatGPT Search
-      { userAgent: "Google-Extended", allow: "/" },     // Google Gemini / AI Overviews
-      { userAgent: "PerplexityBot", allow: "/" },       // Perplexity AI
-      { userAgent: "anthropic-ai", allow: "/" },        // Anthropic Claude
-      { userAgent: "cohere-ai", allow: "/" },           // Cohere
-      { userAgent: "YouBot", allow: "/" },              // You.com
-      { userAgent: "meta-externalagent", allow: "/" },  // Meta AI
+      // --- Bots IA — Recherche / citations (ALLOW : on veut être cité) ---
+      { userAgent: "OAI-SearchBot", allow: "/" },
+      { userAgent: "ChatGPT-User", allow: "/" },
+      { userAgent: "PerplexityBot", allow: "/" },
+      { userAgent: "Perplexity-User", allow: "/" },
+      { userAgent: "ClaudeBot", allow: "/" },
+      { userAgent: "Claude-Web", allow: "/" },
+      { userAgent: "Google-Extended", allow: "/" },
+      { userAgent: "Applebot-Extended", allow: "/" },
 
-      // === BOTS D'ENTRAÎNEMENT IA (BLOQUÉS — scraping sans citation) ===
-      { userAgent: "GPTBot", disallow: "/" },           // OpenAI training
-      { userAgent: "CCBot", disallow: "/" },            // Common Crawl
-      { userAgent: "Bytespider", disallow: "/" },       // Bytedance / TikTok
+      // --- Bots IA — Entraînement de modèles (DISALLOW par défaut) ---
+      { userAgent: "GPTBot", disallow: "/" },
+      { userAgent: "CCBot", disallow: "/" },
+      { userAgent: "anthropic-ai", disallow: "/" },
+      { userAgent: "Bytespider", disallow: "/" },
+
+      // --- Bots de moteurs de recherche classiques (ALLOW) ---
+      { userAgent: "Googlebot", allow: "/" },
+      { userAgent: "Bingbot", allow: "/" },
+      { userAgent: "DuckDuckBot", allow: "/" },
+      { userAgent: "Qwantify", allow: "/" },
     ],
     sitemap: `${base}/sitemap.xml`,
     host: base,

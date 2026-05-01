@@ -1,0 +1,28 @@
+{
+  "url": "https://www.criseconscience.org/",
+  "psi": {
+    "mobile": {
+      "url": "https://www.criseconscience.org/",
+      "strategy": "mobile",
+      "lighthouse_scores": {},
+      "lab_metrics": {},
+      "field_metrics": {},
+      "opportunities": [],
+      "diagnostics": [],
+      "failed_audits": [],
+      "passed_audits_count": 0,
+      "seo_audits": [],
+      "accessibility_audits": [],
+      "analysis_timestamp": null,
+      "error": "Invalid URL or parameters: {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"API key expired. Please renew the API key.\",\n    \"errors\": [\n      {\n        \"message\": \"API key expired. Please renew the API key.\",\n        \"domain\": \"global\",\n        \"reason\": \"badRequest\"\n      }\n    ],\n    \"status\": \"INVALID_ARGUMENT\",\n    \"details\": [\n      {\n        \"@type\": \"type.googleapis.com/google.rpc.ErrorInfo\",\n        \"reason\": \"API_KEY_INVALID\",\n        \"domain\": \"googleapis.com\",\n        \"metadata\": {\n          \"service\": \"pagespeedonline.googleapis.com\"\n        }\n      },\n      {\n        \"@type\": \"type.googleapis.com/google.rpc.LocalizedMessage\",\n        \"locale\": \"en-US\",\n        \"message\": \"API key expired. Please renew the API key.\"\n      }\n    ]\n  }\n}\n"
+    }
+  },
+  "crux": {
+    "target": "https://www.criseconscience.org/",
+    "metrics": {},
+    "collection_period": null,
+    "form_factor": "ALL",
+    "error": "CrUX API request failed: 400 Client Error: Bad Request for url: https://chromeuxreport.googleapis.com/v1/records:queryRecord?key=AIzaSyBziJEq6ZCigy1fTm0_okNiowc0KRt6q-w"
+  },
+  "error": "Invalid URL or parameters: {\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"API key expired. Please renew the API key.\",\n    \"errors\": [\n      {\n        \"message\": \"API key expired. Please renew the API key.\",\n        \"domain\": \"global\",\n        \"reason\": \"badRequest\"\n      }\n    ],\n    \"status\": \"INVALID_ARGUMENT\",\n    \"details\": [\n      {\n        \"@type\": \"type.googleapis.com/google.rpc.ErrorInfo\",\n        \"reason\": \"API_KEY_INVALID\",\n        \"domain\": \"googleapis.com\",\n        \"metadata\": {\n          \"service\": \"pagespeedonline.googleapis.com\"\n        }\n      },\n      {\n        \"@type\": \"type.googleapis.com/google.rpc.LocalizedMessage\",\n        \"locale\": \"en-US\",\n        \"message\": \"API key expired. Please renew the API key.\"\n      }\n    ]\n  }\n}\n"
+}

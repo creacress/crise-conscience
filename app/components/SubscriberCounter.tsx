@@ -25,14 +25,16 @@ function milestoneCopy(n: number) {
 export function SubscriberCounter({
   className = "",
   compact = false,
-  ctaHref = "/abonnes",
-  ctaLabel = "Voir le compteur",
+  ctaHref = "",
+  ctaLabel = "",
 }: {
   className?: string;
   compact?: boolean;
   ctaHref?: string;
   ctaLabel?: string;
 }) {
+  const showCta = Boolean(ctaHref && ctaLabel);
+
   const { loading, count, error } = useSubscriberCount();
 
   const ref = useRef<HTMLDivElement | null>(null);
@@ -95,12 +97,14 @@ export function SubscriberCounter({
             )}
           </div>
 
-          <a
-            href={ctaHref}
-            className="shrink-0 rounded-2xl bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/15 transition"
-          >
-            {ctaLabel}
-          </a>
+          {showCta ? (
+            <a
+              href={ctaHref}
+              className="shrink-0 rounded-2xl bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/15 transition"
+            >
+              {ctaLabel}
+            </a>
+          ) : null}
         </div>
 
         {!compact && (
