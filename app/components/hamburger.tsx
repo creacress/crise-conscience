@@ -58,7 +58,7 @@ export default function HamburgerNav({
           <div className="leading-tight">
             <div className="text-sm font-semibold tracking-tight">{brand.title}</div>
             {brand.subtitle ? (
-              <div className="text-xs text-white/55">{brand.subtitle}</div>
+              <div className="text-xs text-[var(--color-text-subtle)]">{brand.subtitle}</div>
             ) : null}
           </div>
         </Link>
@@ -111,7 +111,7 @@ export default function HamburgerNav({
             <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
               <div>
                 <div className="text-sm font-semibold">Navigation</div>
-                <div className="text-xs text-white/55">Accès rapide</div>
+                <div className="text-xs text-[var(--color-text-subtle)]">Accès rapide</div>
               </div>
               <button
                 type="button"
@@ -165,7 +165,7 @@ export default function HamburgerNav({
             </nav>
 
             <div className="absolute inset-x-0 bottom-0 border-t border-white/10 p-4">
-              <div className="flex items-center justify-between text-xs text-white/50">
+              <div className="flex items-center justify-between text-xs text-[var(--color-text-subtle)]">
                 <span>criseconscience.org</span>
                 <span className="text-orange-300">—</span>
               </div>

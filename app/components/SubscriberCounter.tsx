@@ -84,7 +84,7 @@ export function SubscriberCounter({
               <div className="text-4xl font-semibold tracking-tight text-white">
                 {format(shown)}
               </div>
-              <div className="text-xs text-white/50">
+              <div className="text-xs text-[var(--color-text-subtle)]">
                 {loading ? "chargement…" : error ? "indisponible" : "mis à jour automatiquement"}
               </div>
             </div>
@@ -109,7 +109,7 @@ export function SubscriberCounter({
 
         {!compact && (
           <div className="mt-6">
-            <div className="flex items-center justify-between text-xs text-white/50">
+            <div className="flex items-center justify-between text-xs text-[var(--color-text-subtle)]">
               <span>0</span><span>100</span><span>300</span><span>1k</span><span>5k</span>
             </div>
             <div className="mt-2 h-2 overflow-hidden rounded-full border border-white/10 bg-black/40">

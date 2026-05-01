@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import KeyTakeaways from "@/app/components/KeyTakeaways";
+import EmergencyBox from "@/app/components/EmergencyBox";
 import { JsonLd } from "@/app/components/JsonLd";
 import { articleSchema, breadcrumbSchema, getSiteBase } from "@/lib/schema";
 
@@ -110,7 +111,7 @@ function Badge({ children }: { children: React.ReactNode }) {
 function SectionTitle({ kicker, title, desc }: { kicker?: string; title: string; desc?: string }) {
   return (
     <div className="mb-5">
-      {kicker ? <p className="text-xs tracking-widest text-white/50">{kicker}</p> : null}
+      {kicker ? <p className="text-xs tracking-widest text-[var(--color-text-subtle)]">{kicker}</p> : null}
       <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white">{title}</h2>
       {desc ? <p className="mt-2 text-white/70">{desc}</p> : null}
     </div>
@@ -242,7 +243,7 @@ export default function Page() {
                 <li>• Pressions / culpabilisation / menaces</li>
                 <li>• Promesses “miracles” + exigences croissantes</li>
               </ul>
-              <p className="mt-4 text-xs text-white/50">
+              <p className="mt-4 text-xs text-[var(--color-text-subtle)]">
                 L’important : regarder la dynamique de contrôle, pas l’étiquette du groupe.
               </p>
             </div>
@@ -391,7 +392,7 @@ export default function Page() {
             </Link>
           </div>
 
-          <p className="mt-4 text-xs text-white/50">
+          <p className="mt-4 text-xs text-[var(--color-text-subtle)]">
             En cas d’urgence / danger immédiat : appelle les services d’urgence adaptés (17/112 en France).
           </p>
         </div>
@@ -445,8 +446,13 @@ export default function Page() {
         ]}
       />
 
+      {/* Urgences (YMYL) */}
+      <div className="mt-10">
+        <EmergencyBox variant="full" />
+      </div>
+
       {/* Footer note */}
-      <footer className="mt-12 border-t border-white/10 pt-6 text-xs text-white/50">
+      <footer className="mt-12 border-t border-white/10 pt-6 text-xs text-[var(--color-text-subtle)]">
         <p>
           Cette page est une reformulation pédagogique basée sur des repères publics. Contenu
           rédigé avec assistance IA, relu par la rédaction Crise Conscience. Pour la version

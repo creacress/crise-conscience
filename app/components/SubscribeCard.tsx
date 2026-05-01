@@ -122,12 +122,12 @@ export function SubscribeCard({
                     </div>
 
                     {!valid && email.length > 0 && (
-                        <div className="mt-2 text-xs text-white/50">Email invalide.</div>
+                        <div className="mt-2 text-xs text-[var(--color-text-subtle)]">Email invalide.</div>
                     )}
 
-                    <div className="mt-4 text-xs text-white/45 leading-relaxed">
+                    <div className="mt-4 text-xs text-[var(--color-text-subtle)] leading-relaxed">
                         Désinscription possible à tout moment. On ne vend pas tes données.
-                        <a href="/desinscription" className="mt-3 inline-block text-xs text-white/55 hover:text-white/75 transition">
+                        <a href="/desinscription" className="mt-3 inline-block text-xs text-[var(--color-text-subtle)] hover:text-white/75 transition">
                             Se désinscrire
                         </a>
                     </div>

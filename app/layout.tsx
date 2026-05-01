@@ -1,9 +1,27 @@
 import "./globals.css";
 import HamburgerNav from "@/app/components/hamburger";
 import SiteFooter from "@/app/components/SiteFooter";
+import SkipLink from "@/app/components/ui/SkipLink";
 
 import type { Metadata, Viewport } from "next";
+import { Inter, Fraunces } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+
+// next/font : auto-host des polices, élimine le fetch externe et la duplication
+// stylesheet/preload, et corrige le double chargement signalé par l'audit perf.
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+  weight: ["400", "500", "600", "700"],
+});
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-fraunces",
+  weight: ["400", "500", "600", "700"],
+});
 
 export const viewport: Viewport = {
   themeColor: "#0b1220",
@@ -81,39 +99,26 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={`${inter.variable} ${fraunces.variable}`}>
       <head>
-        <link rel="dns-prefetch" href="https://cms-imgp.jw-cdn.org" />
-        <link rel="preconnect" href="https://cms-imgp.jw-cdn.org" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
         <link rel="manifest" href="/manifest.json" />
       </head>
-      <body className="min-h-screen bg-[#0b1220] text-white antialiased" style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}>
-        {/* glow background */}
-        <div className="pointer-events-none fixed inset-0 opacity-40 blur-3xl">
-          <div className="absolute -top-24 left-10 h-72 w-72 rounded-full bg-blue-500/30" />
-          <div className="absolute top-40 right-10 h-72 w-72 rounded-full bg-orange-500/25" />
+      <body className="min-h-screen antialiased">
+        <SkipLink />
+
+        {/* Décor : 2 halos discrets, désactivés sur prefers-reduced-motion via globals.css */}
+        <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 opacity-50 blur-3xl">
+          <div className="absolute -top-32 left-10 h-72 w-72 rounded-full bg-[var(--color-info)]/20" />
+          <div className="absolute top-40 right-10 h-72 w-72 rounded-full bg-[var(--color-accent)]/15" />
         </div>
 
         <style>{`
-          /* Page transitions (App Router) */
           @keyframes cc-page-enter {
-            from { opacity: 0; transform: translateY(10px); filter: blur(4px); }
-            to   { opacity: 1; transform: translateY(0);  filter: blur(0); }
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
           }
-
-          /* The layout persists between navigations, so animate the page root element (children) */
           .cc-page-slot > * {
-            animation: cc-page-enter 360ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-          }
-
-          @media (prefers-reduced-motion: reduce) {
-            .cc-page-slot > * { animation: none !important; }
+            animation: cc-page-enter var(--motion-slow, 360ms) var(--motion-ease-soft, cubic-bezier(0.22, 1, 0.36, 1)) both;
           }
         `}</style>
 
@@ -121,7 +126,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="mx-auto w-full max-w-6xl px-4">
             <HamburgerNav />
           </div>
-          <main className="pt-10">
+          <main id="main" className="pt-10">
             <div className="cc-page-slot">{children}</div>
           </main>
           <SiteFooter />

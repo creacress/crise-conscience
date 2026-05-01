@@ -34,7 +34,7 @@ export default function SiteFooter() {
               </span>
               <div className="leading-tight">
                 <div className="text-sm font-semibold text-white">Crise Conscience</div>
-                <div className="text-xs text-white/55">Prévenir • Informer • Aider</div>
+                <div className="text-xs text-[var(--color-text-subtle)]">Prévenir • Informer • Aider</div>
               </div>
             </Link>
 
@@ -67,7 +67,7 @@ export default function SiteFooter() {
 
           {/* Nav columns */}
           <div className="md:col-span-2">
-            <div className="text-xs font-semibold uppercase tracking-widest text-white/50">
+            <div className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-subtle)]">
               Contenus
             </div>
             <ul className="mt-4 space-y-2 text-sm">
@@ -82,7 +82,7 @@ export default function SiteFooter() {
           </div>
 
           <div className="md:col-span-2">
-            <div className="text-xs font-semibold uppercase tracking-widest text-white/50">
+            <div className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-subtle)]">
               Association
             </div>
             <ul className="mt-4 space-y-2 text-sm">
@@ -108,7 +108,7 @@ export default function SiteFooter() {
           </div>
 
           <div className="md:col-span-3">
-            <div className="text-xs font-semibold uppercase tracking-widest text-white/50">
+            <div className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-subtle)]">
               Mentions légales
             </div>
             <ul className="mt-4 space-y-2 text-sm">
@@ -128,7 +128,7 @@ export default function SiteFooter() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-white/10 py-6 text-sm text-white/55 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 border-t border-white/10 py-6 text-sm text-[var(--color-text-subtle)] sm:flex-row sm:items-center sm:justify-between">
           <div>
             © {new Date().getFullYear()} Association Crise Conscience — Tous droits réservés.
           </div>

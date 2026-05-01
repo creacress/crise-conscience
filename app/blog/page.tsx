@@ -112,7 +112,7 @@ export default async function BlogPage() {
         {/* Search (UI only for now) */}
         <div className="flex-1">
           <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-            <span className="text-white/50">🔎</span>
+            <span className="text-[var(--color-text-subtle)]">🔎</span>
             <input
               className="w-full bg-transparent text-sm outline-none placeholder:text-white/40"
               placeholder="Rechercher un article… (bientôt)"
