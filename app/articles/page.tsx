@@ -154,6 +154,7 @@ export default async function ArticlesPage() {
       <JsonLd data={itemListJsonLd} />
       <Container>
       <SectionTitle
+        as="h1"
         eyebrow="Articles"
         title="Dossiers & analyses approfondies"
         desc="Une bibliothèque d’analyses sur les dérives sectaires, les mécanismes d’emprise, la prévention et la reconstruction."

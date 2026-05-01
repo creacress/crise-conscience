@@ -47,5 +47,7 @@
 - [Mentions légales](https://www.criseconscience.org/mentions-legales)
 - [Politique de confidentialité](https://www.criseconscience.org/confidentialite)
 - [Politique de cookies](https://www.criseconscience.org/cookies)
-- [Sitemap XML](https://www.criseconscience.org/sitemap.xml)
+- [Sitemap XML (multi-locale FR + EN)](https://www.criseconscience.org/sitemap.xml)
 - [Version étendue de ce fichier](https://www.criseconscience.org/llms-full.txt)
+- [English version (llms-en.txt)](https://www.criseconscience.org/llms-en.txt)
+- [Extended English version (llms-full-en.txt)](https://www.criseconscience.org/llms-full-en.txt)
