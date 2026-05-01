@@ -1,345 +1,343 @@
-"use client";
+import type { ReactNode } from "react";
+import Container from "@/app/components/Container";
+import DonateTunnel from "@/app/components/DonateTunnel";
+import EmergencyBox from "@/app/components/EmergencyBox";
+import Tag from "@/app/components/ui/Tag";
+import Breadcrumb from "@/app/components/ui/Breadcrumb";
+import { JsonLd } from "@/app/components/JsonLd";
+import { faqSchema } from "@/lib/schema";
 
-import { useMemo, useState } from "react";
+// Cette page reste un Server Component : seul DonateTunnel est client.
+// Le layout (app/don/layout.tsx) injecte le JSON-LD WebPage + DonateAction
+// + BreadcrumbList ; on ajoute ici un FAQPage schema spécifique au don.
 
-const presetAmounts = [5, 10, 25, 50, 100];
-
-type DonateReason = {
-  title: string;
-  text: string;
-  icon: string;
-};
-
-const reasons: DonateReason[] = [
+const REASONS = [
   {
     title: "Infrastructure & sécurité",
-    text: "Hébergement, protection anti‑abus, sauvegardes et durcissement du service.",
-    icon: "🛡️",
+    desc: "Hébergement Vercel, sauvegardes, durcissement RGPD, audit régulier.",
+    icon: "shield",
   },
   {
-    title: "Analyses & contre‑discours",
-    text: "Recherche, recoupement des sources, rédaction et relecture éditoriale.",
-    icon: "🧠",
+    title: "Analyses & rédaction",
+    desc: "Veille, recoupement de sources, écriture, relecture humaine systématique.",
+    icon: "book",
   },
   {
-    title: "Ressources pédagogiques",
-    text: "Guides, fiches, formats courts, et contenus accessibles au grand public.",
-    icon: "📚",
+    title: "Ressources publiques",
+    desc: "Glossaire, FAQ, guides pratiques, traductions vers d'autres langues à venir.",
+    icon: "compass",
   },
   {
-    title: "Automatisation & veille",
-    text: "Collecte, tri, publication et mise à jour via n8n — sans sacrifier la rigueur.",
-    icon: "⚙️",
+    title: "Outils gratuits",
+    desc: "Test BITE, contact anonyme, accompagnement orienté UNADFI/CCMM.",
+    icon: "sparkle",
   },
-];
+] as const;
 
-function clampInt(v: string, min: number, max: number) {
-  const n = Math.floor(Number(v));
-  if (!Number.isFinite(n)) return min;
-  return Math.max(min, Math.min(max, n));
+const TRANSPARENCY = [
+  {
+    title: "Indépendance éditoriale",
+    desc: "Aucune sponsorisation opaque. Aucun lien commercial avec un éditeur, un groupe religieux ou un parti politique.",
+  },
+  {
+    title: "Méthode 70 % IA / 30 % humain",
+    desc: "Brouillons rédigés avec assistance IA, relus et validés par la rédaction. Mention systématique sur chaque article.",
+  },
+  {
+    title: "Sources vérifiables",
+    desc: "MIVILUDES, UNADFI, CCMM, Code pénal (Légifrance), travaux académiques. Liens cliquables, jamais de citation tronquée.",
+  },
+  {
+    title: "Aucun reversement à des tiers commerciaux",
+    desc: "Les dons servent strictement aux frais de fonctionnement de l'association.",
+  },
+] as const;
+
+const FAQ = [
+  {
+    question: "Mon don est-il déductible des impôts ?",
+    answer:
+      "La déductibilité fiscale (66 % du don pour les particuliers, dans la limite de 20 % du revenu imposable — article 200 du Code général des impôts) suppose que l'association soit reconnue d'intérêt général ou d'utilité publique. Le statut fiscal de Crise Conscience est en cours d'instruction. Nous communiquerons par email à tous les donateurs dès que la reconnaissance sera effective.",
+  },
+  {
+    question: "Comment recevoir un reçu pour mon don ?",
+    answer:
+      "Stripe envoie automatiquement un reçu de paiement par email (à l'adresse utilisée pour le don). Pour un justificatif au nom de l'association, écrivez-nous via la page Contact après votre don : nous vous le retournons sous 48 à 72 heures.",
+  },
+  {
+    question: "Puis-je arrêter un don mensuel à tout moment ?",
+    answer:
+      "Oui, en un clic depuis l'email Stripe que vous recevez à la première transaction (lien de gestion d'abonnement). Vous pouvez aussi nous écrire pour résilier — la prise en compte est immédiate, aucun engagement de durée.",
+  },
+  {
+    question: "Comment l'argent est-il utilisé ?",
+    answer:
+      "Quatre postes principaux : hébergement et sécurité du site, analyses et rédaction de contenus (relecture humaine), production de ressources publiques (FAQ, glossaire, guides, futur contenu vidéo et audio), outils gratuits (test, contact anonymisé). Aucun reversement à des tiers commerciaux.",
+  },
+  {
+    question: "Y a-t-il un rapport d'activité public ?",
+    answer:
+      "Le rapport d'activité annuel sera publié sur cette page dès la première clôture d'exercice. Il inclura : recettes (subventions, dons, ressources propres), dépenses détaillées, indicateurs d'impact (pages vues, demandes de contact orientées, nouvelles ressources publiées).",
+  },
+  {
+    question: "Acceptez-vous les dons par chèque ou virement bancaire ?",
+    answer:
+      "Oui. Écrivez-nous via le formulaire de contact en mentionnant « don par chèque » ou « don par virement » : nous vous transmettrons l'adresse postale ou le RIB de l'association. Le reçu de don sera fourni dans tous les cas.",
+  },
+] as const;
+
+const ICON_PATHS: Record<string, ReactNode> = {
+  shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />,
+  book: (
+    <>
+      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+    </>
+  ),
+  compass: (
+    <>
+      <circle cx="12" cy="12" r="10" />
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+    </>
+  ),
+  sparkle: (
+    <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M5.6 18.4l2-2M16.4 7.6l2-2" />
+  ),
+};
+
+function Icon({ name }: { name: keyof typeof ICON_PATHS }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {ICON_PATHS[name]}
+    </svg>
+  );
 }
 
 export default function DonPage() {
-  const [loadingAmount, setLoadingAmount] = useState<number | null>(null);
-  const [custom, setCustom] = useState<string>("15");
-  const [error, setError] = useState<string | null>(null);
-
-  const customAmount = useMemo(() => clampInt(custom, 2, 5000), [custom]);
-
-  async function handleDonate(amount: number) {
-    setError(null);
-    setLoadingAmount(amount);
-
-    try {
-      const res = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount }),
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        const msg =
-          data?.message ||
-          data?.error ||
-          "Impossible de démarrer le paiement. Réessaie dans un instant.";
-        setError(String(msg));
-        return;
-      }
-
-      if (data?.url) {
-        window.location.href = data.url;
-        return;
-      }
-
-      setError("Réponse Stripe inattendue (URL manquante).");
-    } catch {
-      setError("Erreur réseau. Vérifie ta connexion et réessaie.");
-    } finally {
-      setLoadingAmount(null);
-    }
-  }
+  const faqJsonLd = faqSchema(FAQ.map((q) => ({ question: q.question, answer: q.answer })));
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      {/* top glow */}
-      <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-white/10 blur-3xl" />
-        <div className="absolute top-24 right-[-60px] h-[520px] w-[520px] rounded-full bg-orange-500/10 blur-3xl" />
-        <div className="absolute top-40 left-10 h-[320px] w-[320px] rounded-full bg-white/5 blur-3xl" />
-        <div className="absolute bottom-0 right-0 h-[420px] w-[420px] rounded-full bg-white/5 blur-3xl" />
-      </div>
+    <>
+      <JsonLd data={faqJsonLd} />
 
-      <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
-        {/* HERO */}
-        <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 md:p-12">
-          <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent" />
-          <div className="relative">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/30 px-4 py-2 text-xs text-white/70">
-              <span className="h-1.5 w-1.5 rounded-full bg-orange-400" />
-              Soutenir l’association
+      <Container>
+        <div className="mx-auto max-w-5xl">
+          <Breadcrumb
+            className="mb-6"
+            items={[
+              { label: "Accueil", href: "/" },
+              { label: "Faire un don" },
+            ]}
+          />
+
+          {/* ===== HERO ===== */}
+          <header className="mb-10 rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface-1)]/70 p-6 sm:p-8 lg:p-12">
+            <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
+              <div className="lg:col-span-7">
+                <Tag tone="accent" size="md">
+                  Soutenir l&apos;association
+                </Tag>
+                <h1 className="mt-4 font-display text-balance text-3xl font-semibold leading-[1.05] tracking-[-0.02em] text-[var(--color-text)] sm:text-4xl lg:text-5xl">
+                  Soutenir une information{" "}
+                  <span className="bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent-hover)] bg-clip-text text-transparent">
+                    libre et rigoureuse
+                  </span>
+                  .
+                </h1>
+                <p className="mt-4 max-w-xl text-base leading-relaxed text-[var(--color-text-muted)]">
+                  Votre don finance des analyses vérifiables, une veille automatisée, et des
+                  ressources publiques accessibles. Sans dépendre d&apos;intérêts extérieurs.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  <Tag tone="calm" size="sm">Paiement Stripe sécurisé</Tag>
+                  <Tag tone="info" size="sm">Reçu envoyé par email</Tag>
+                  <Tag tone="neutral" size="sm">Résiliation en 1 clic</Tag>
+                </div>
+              </div>
+
+              <div className="lg:col-span-5">
+                <div className="rounded-[var(--radius-xl)] border border-[var(--color-border-strong)] bg-[var(--color-surface-2)]/80 p-6 backdrop-blur-sm">
+                  <div className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-subtle)]">
+                    Concrètement
+                  </div>
+                  <ul className="mt-3 space-y-3 text-sm leading-6 text-[var(--color-text-muted)]">
+                    <li className="flex items-baseline gap-3">
+                      <span className="font-display text-2xl font-semibold text-[var(--color-accent)]">
+                        10€
+                      </span>
+                      <span>1 mois d&apos;hébergement de notre veille automatisée.</span>
+                    </li>
+                    <li className="flex items-baseline gap-3">
+                      <span className="font-display text-2xl font-semibold text-[var(--color-accent)]">
+                        25€
+                      </span>
+                      <span>1 article long sourcé (relecture humaine incluse).</span>
+                    </li>
+                    <li className="flex items-baseline gap-3">
+                      <span className="font-display text-2xl font-semibold text-[var(--color-accent)]">
+                        60€
+                      </span>
+                      <span>1 mois de fonctionnement complet du site.</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
+          </header>
 
-            <h1 className="mt-5 text-3xl font-bold tracking-tight md:text-5xl">
-              Soutenir une information libre,
-              <span className="block text-orange-400">rigoureuse et indépendante</span>
-            </h1>
+          {/* ===== TUNNEL + REASONS ===== */}
+          <div className="grid gap-8 lg:grid-cols-12">
+            <div className="lg:col-span-7">
+              {/* Pourquoi donner */}
+              <section className="rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface-1)]/70 p-6 sm:p-8">
+                <Tag tone="info" size="sm">À quoi servent les dons</Tag>
+                <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-0.01em] text-[var(--color-text)]">
+                  Quatre postes, c&apos;est tout.
+                </h2>
+                <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+                  Pas de marketing de la peur, pas d&apos;intermédiaire commercial.
+                </p>
 
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/70 md:text-base">
-              Ton don aide Crise Conscience à produire des analyses vérifiables, à maintenir une veille
-              automatisée, et à publier des ressources utiles — sans dépendre d’intérêts extérieurs.
-            </p>
-
-            <div className="mt-6 flex flex-wrap items-center gap-3 text-xs text-white/60">
-              <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 transition hover:bg-white/10">
-                Paiement Stripe sécurisé
-              </span>
-              <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 transition hover:bg-white/10">
-                Aucune donnée bancaire stockée
-              </span>
-              <span className="rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1.5 text-orange-200 transition hover:bg-orange-500/15">
-                Transparence & utilité publique
-              </span>
-            </div>
-          </div>
-        </section>
-
-        {/* GRID */}
-        <div className="mt-10 grid gap-8 lg:grid-cols-12">
-          {/* LEFT */}
-          <div className="lg:col-span-7">
-            {/* WHY */}
-            <section className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
-              <h2 className="text-lg font-semibold md:text-xl">À quoi servent les dons ?</h2>
-              <p className="mt-2 text-sm text-white/70">
-                On préfère être clair : ton soutien finance du concret, mesurable, et utile.
-              </p>
-
-              <div className="mt-6 grid gap-4 md:grid-cols-2">
-                {reasons.map((r) => (
-                  <div
-                    key={r.title}
-                    className="group rounded-2xl border border-white/10 bg-black/20 p-5 transition hover:bg-white/10"
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-lg">
-                        {r.icon}
-                      </div>
-                      <div>
-                        <div className="font-semibold">{r.title}</div>
-                        <div className="mt-1 text-sm text-white/70">{r.text}</div>
+                <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {REASONS.map((r) => (
+                    <div
+                      key={r.title}
+                      className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/40 p-5"
+                    >
+                      <div className="flex items-start gap-3">
+                        <span
+                          aria-hidden="true"
+                          className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-accent)]/40 bg-[var(--color-accent-soft)] text-[var(--color-accent)]"
+                        >
+                          <Icon name={r.icon} />
+                        </span>
+                        <div className="min-w-0">
+                          <div className="font-display text-base font-semibold text-[var(--color-text)]">
+                            {r.title}
+                          </div>
+                          <p className="mt-1 text-sm leading-6 text-[var(--color-text-muted)]">
+                            {r.desc}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-5 text-sm text-white/70">
-                <div className="font-semibold text-white">Notre promesse</div>
-                <p className="mt-2 leading-relaxed">
-                  Pas de marketing de la peur, pas d’approximation : des sources, du contexte, et des
-                  explications. Le don sert à garder ce niveau d’exigence.
-                </p>
-              </div>
-            </section>
-
-            {/* FAQ */}
-            <section className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
-              <h2 className="text-lg font-semibold md:text-xl">FAQ</h2>
-
-              <div className="mt-5 space-y-3">
-                <details className="rounded-2xl border border-orange-500/30 bg-orange-500/5 p-5">
-                  <summary className="cursor-pointer font-semibold text-white/95">
-                    Mon don est‑il déductible des impôts ?
-                  </summary>
-                  <div className="mt-2 text-sm text-white/75 leading-relaxed">
-                    <p>
-                      Crise Conscience est une association loi 1901. La déductibilité fiscale (66 %
-                      du don pour les particuliers, dans la limite de 20 % du revenu imposable —
-                      article 200 du Code général des impôts) n&apos;est possible que si
-                      l&apos;association est <strong>reconnue d&apos;intérêt général</strong> ou
-                      d&apos;utilité publique.
-                    </p>
-                    <p className="mt-2">
-                      <strong>Statut actuel :</strong>{" "}
-                      <span className="rounded-md bg-orange-500/15 px-1.5 py-0.5 text-orange-200">
-                        [reconnaissance fiscale en cours d&apos;instruction — à confirmer]
-                      </span>
-                      . Tant que ce statut n&apos;est pas confirmé, nous n&apos;émettons pas de reçu
-                      fiscal CERFA. Vous serez informé·e dès que la reconnaissance sera effective.
-                    </p>
-                  </div>
-                </details>
-
-                <details className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                  <summary className="cursor-pointer font-semibold text-white/90">
-                    Est‑ce que je reçois un reçu ?
-                  </summary>
-                  <p className="mt-2 text-sm text-white/70 leading-relaxed">
-                    Stripe vous envoie automatiquement un reçu de paiement par email. Pour un
-                    justificatif au nom de l&apos;association, écrivez‑nous via la page Contact
-                    après le don.
-                  </p>
-                </details>
-
-                <details className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                  <summary className="cursor-pointer font-semibold text-white/90">
-                    Comment l&apos;argent est‑il utilisé ?
-                  </summary>
-                  <p className="mt-2 text-sm text-white/70 leading-relaxed">
-                    Hébergement, outils de veille et d&apos;analyse, frais de fonctionnement
-                    (assurance, juridique), production de ressources pédagogiques. Le rapport
-                    d&apos;activité annuel sera publié sur cette page dès la première clôture
-                    d&apos;exercice.
-                  </p>
-                </details>
-
-                <details className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                  <summary className="cursor-pointer font-semibold text-white/90">
-                    Puis‑je donner un autre montant ?
-                  </summary>
-                  <p className="mt-2 text-sm text-white/70 leading-relaxed">
-                    Oui : vous pouvez choisir un montant personnalisé juste à droite. Minimum 2€.
-                  </p>
-                </details>
-
-                <details className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                  <summary className="cursor-pointer font-semibold text-white/90">
-                    Vos analyses sont‑elles partisanes ?
-                  </summary>
-                  <p className="mt-2 text-sm text-white/70 leading-relaxed">
-                    Notre boussole : méthode, sources, esprit critique. Nous parlons de
-                    comportements et de dommages observables, pas de croyances individuelles.
-                  </p>
-                </details>
-              </div>
-            </section>
-          </div>
-
-          {/* RIGHT */}
-          <aside className="lg:col-span-5">
-            <div className="sticky top-6 space-y-6">
-              {/* DONATE */}
-              <section className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
-                <div className="flex items-center justify-between gap-3">
-                  <h2 className="text-lg font-semibold md:text-xl">Faire un don</h2>
-                  <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-white/70">
-                    1 paiement
-                  </span>
-                </div>
-
-                <p className="mt-2 text-sm text-white/70">
-                  Choisis un montant — redirection vers Stripe.
-                </p>
-
-                {error ? (
-                  <div className="mt-4 rounded-2xl border border-red-500/40 bg-red-500/10 p-4 text-sm text-red-200">
-                    {error}
-                  </div>
-                ) : null}
-
-                <div className="mt-5 grid grid-cols-2 gap-3">
-                  {presetAmounts.map((amount) => (
-                    <button
-                      key={amount}
-                      onClick={() => handleDonate(amount)}
-                      disabled={loadingAmount === amount}
-                      className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm font-semibold text-white transition hover:border-orange-500/40 hover:bg-orange-500/10 focus:outline-none focus:ring-2 focus:ring-orange-500/30 disabled:opacity-60"
-                    >
-                      {loadingAmount === amount ? "Chargement…" : `${amount} €`}
-                    </button>
                   ))}
                 </div>
-
-                <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4">
-                  <label className="block text-xs font-semibold text-white/80">
-                    Montant personnalisé
-                  </label>
-                  <div className="mt-2 flex items-center gap-3">
-                    <div className="relative flex-1">
-                      <input
-                        value={custom}
-                        onChange={(e) => setCustom(e.target.value)}
-                        inputMode="numeric"
-                        className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 pr-12 text-sm text-white placeholder:text-white/30 outline-none focus:border-white/20"
-                        placeholder="15"
-                        aria-label="Montant personnalisé"
-                      />
-                      <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[var(--color-text-subtle)]">
-                        €
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => handleDonate(customAmount)}
-                      disabled={loadingAmount === customAmount}
-                      className="rounded-2xl bg-orange-500 px-4 py-3 text-sm font-semibold text-black transition hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-500/30 disabled:opacity-60"
-                    >
-                      {loadingAmount === customAmount ? "…" : "Donner"}
-                    </button>
-                  </div>
-                  <p className="mt-2 text-xs text-[var(--color-text-subtle)]">
-                    Minimum 2€ — maximum 5000€ (sécurité).
-                  </p>
-                </div>
-
-                <div className="mt-5 text-xs text-white/60 leading-relaxed">
-                  Paiement sécurisé via Stripe. Aucune donnée bancaire n’est stockée sur notre site.
-                </div>
               </section>
 
-              {/* TRUST */}
-              <section className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
-                <h3 className="text-base font-semibold">Transparence</h3>
-                <ul className="mt-4 space-y-3 text-sm text-white/70">
-                  <li className="flex gap-3">
-                    <span className="mt-0.5">✓</span>
-                    <span>Objectifs clairs : prévention, analyse, ressources.</span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="mt-0.5">✓</span>
-                    <span>Automatisation utile (n8n) + vérification humaine.</span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="mt-0.5">✓</span>
-                    <span>Indépendance éditoriale : pas de sponsorisation opaque.</span>
-                  </li>
-                </ul>
+              {/* Transparence */}
+              <section className="mt-6 rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface-1)]/70 p-6 sm:p-8">
+                <Tag tone="calm" size="sm">Engagement de transparence</Tag>
+                <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-0.01em] text-[var(--color-text)]">
+                  Notre cadre.
+                </h2>
 
-                <div className="mt-5 rounded-2xl border border-white/10 bg-black/20 p-4 text-xs text-white/60">
-                  Astuce : un petit don régulier (même rare) est parfois plus puissant qu’un gros don
-                  unique.
+                <ul className="mt-5 space-y-3">
+                  {TRANSPARENCY.map((t) => (
+                    <li
+                      key={t.title}
+                      className="flex items-start gap-3 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/40 p-4"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        viewBox="0 0 24 24"
+                        className="mt-1 h-4 w-4 shrink-0 text-[var(--color-accent)]"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                      <div className="min-w-0">
+                        <div className="font-semibold text-[var(--color-text)]">{t.title}</div>
+                        <p className="mt-1 text-sm leading-6 text-[var(--color-text-muted)]">
+                          {t.desc}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              {/* FAQ */}
+              <section id="faq" className="mt-6 scroll-mt-24">
+                <Tag tone="info" size="sm">FAQ</Tag>
+                <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-0.01em] text-[var(--color-text)]">
+                  Questions fréquentes sur le don
+                </h2>
+                <div className="mt-5 space-y-3">
+                  {FAQ.map((q, i) => (
+                    <details
+                      key={i}
+                      className="group rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface-1)]/70 p-5 open:bg-[var(--color-surface-2)]/70"
+                    >
+                      <summary className="flex cursor-pointer items-start gap-3 text-base font-semibold text-[var(--color-text)] marker:hidden">
+                        <span
+                          aria-hidden="true"
+                          className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-accent-soft)] text-[var(--color-accent)] transition-transform duration-[var(--motion-fast)] group-open:rotate-90"
+                        >
+                          <svg
+                            viewBox="0 0 24 24"
+                            className="h-3.5 w-3.5"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </span>
+                        <span className="flex-1">{q.question}</span>
+                      </summary>
+                      <p className="mt-3 pl-9 text-sm leading-7 text-[var(--color-text-muted)]">
+                        {q.answer}
+                      </p>
+                    </details>
+                  ))}
                 </div>
               </section>
             </div>
-          </aside>
-        </div>
 
-        {/* FOOTER NOTE */}
-        <footer className="mt-12 text-center text-xs text-[var(--color-text-subtle)]">
-          Merci pour ton soutien — il finance la rigueur, pas le bruit.
-        </footer>
-      </div>
-    </main>
+            {/* ===== Sidebar : tunnel sticky desktop ===== */}
+            <aside className="lg:col-span-5">
+              <div className="lg:sticky lg:top-[6rem]">
+                <DonateTunnel />
+
+                <div className="mt-4 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-bg)]/30 p-4 text-xs leading-6 text-[var(--color-text-muted)]">
+                  <strong className="text-[var(--color-text)]">Petit don régulier ou gros don
+                  unique&nbsp;?</strong> Les deux nous aident — mais un don mensuel, même
+                  modeste, donne de la visibilité budgétaire et permet de planifier sereinement.
+                </div>
+              </div>
+            </aside>
+          </div>
+
+          {/* ===== Urgences ===== */}
+          <div className="mt-12">
+            <EmergencyBox variant="banner" />
+          </div>
+
+          <footer className="mt-10 border-t border-[var(--color-border)] pt-6 text-xs leading-6 text-[var(--color-text-subtle)]">
+            <p>
+              Crise Conscience est une association loi 1901, partenaire de l&apos;UNADFI. Le
+              statut fiscal d&apos;intérêt général est en cours d&apos;instruction.
+              N&apos;hésitez pas à nous écrire pour toute question.
+            </p>
+          </footer>
+        </div>
+      </Container>
+    </>
   );
 }
