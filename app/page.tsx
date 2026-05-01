@@ -217,8 +217,7 @@ const HUBS = [
   {
     title: "Aider un proche",
     desc: "Que dire, que faire, qui appeler. Sans clash frontal.",
-    // TODO: pointer vers /aider-un-proche dès la création (Lot 3)
-    href: "/contact",
+    href: "/aider-un-proche",
     icon: "users",
     tone: "calm" as const,
   },
@@ -337,8 +336,8 @@ export default async function HomePage() {
                   >
                     Reconnaître les signaux d&apos;emprise
                   </Button>
-                  <Button href="/contact" variant="secondary" size="lg">
-                    Aider un proche / nous contacter
+                  <Button href="/aider-un-proche" variant="secondary" size="lg">
+                    Aider un proche
                   </Button>
                 </div>
 

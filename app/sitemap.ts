@@ -25,6 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/articles", lastModified: editorialLastMod },
     { path: "/blog", lastModified: editorialLastMod },
     { path: "/ressources", lastModified: editorialLastMod },
+    { path: "/aider-un-proche", lastModified: editorialLastMod },
     { path: "/a-propos", lastModified: stableLastMod },
     { path: "/contact", lastModified: stableLastMod },
     { path: "/inscription", lastModified: stableLastMod },
