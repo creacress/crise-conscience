@@ -1,58 +1,72 @@
 import type { MetadataRoute } from "next";
 
-// Sitemap Next.js (App Router)
-// - inclut routes statiques
+// Sitemap Next.js (App Router) — multi-locale FR + EN
+// - inclut routes statiques (FR canonique + EN)
 // - inclut routes dynamiques /articles/[slug] (filtrées sur status=published)
-// - base URL via NEXT_PUBLIC_SITE_URL (fallback prod)
+// - chaque entrée FR avec une traduction EN expose `alternates.languages`
+//   pour aider Google à comprendre le mapping (hreflang dans le sitemap).
 //
-// Note : on omet volontairement changeFrequency et priority — Google les ignore
-// depuis ~2017 et les autres moteurs s'appuient surtout sur lastModified.
+// Note : on omet volontairement changeFrequency et priority — Google les ignore.
 
-// Revalidation horaire pour refléter les nouveaux articles sans rebuild complet.
 export const revalidate = 3600;
+
+type LocalePair = {
+  fr: string;
+  en?: string; // si défini, la page existe en EN
+};
+
+const LOCALIZED: LocalePair[] = [
+  { fr: "/", en: "/en" },
+  { fr: "/a-propos", en: "/en/about" },
+  { fr: "/faq", en: "/en/faq" },
+  { fr: "/contact", en: "/en/contact" },
+  { fr: "/don", en: "/en/donate" },
+  { fr: "/blog/signaux-emprise" }, // EN-only stub à venir
+  { fr: "/aider-un-proche" },
+  { fr: "/test-emprise" },
+  { fr: "/glossaire" },
+  { fr: "/se-reconstruire" },
+  { fr: "/temoignages" },
+  { fr: "/articles" },
+  { fr: "/blog" },
+  { fr: "/ressources" },
+  { fr: "/inscription" },
+  { fr: "/desinscription" },
+  { fr: "/abonnes" },
+  { fr: "/mentions-legales" },
+  { fr: "/confidentialite" },
+  { fr: "/cookies" },
+];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.criseconscience.org").replace(/\/$/, "");
-
-  // Pages stables (faible churn) — date manuelle, à incrémenter en cas de refonte importante.
-  const stableLastMod = new Date("2026-05-01");
-
-  // Pages éditoriales (mises à jour de temps en temps).
   const editorialLastMod = new Date("2026-05-01");
 
-  const staticRoutes: { path: string; lastModified: Date }[] = [
-    { path: "/", lastModified: editorialLastMod },
-    { path: "/articles", lastModified: editorialLastMod },
-    { path: "/blog", lastModified: editorialLastMod },
-    { path: "/ressources", lastModified: editorialLastMod },
-    { path: "/aider-un-proche", lastModified: editorialLastMod },
-    { path: "/test-emprise", lastModified: editorialLastMod },
-    { path: "/glossaire", lastModified: editorialLastMod },
-    { path: "/faq", lastModified: editorialLastMod },
-    { path: "/se-reconstruire", lastModified: editorialLastMod },
-    { path: "/temoignages", lastModified: editorialLastMod },
-    { path: "/a-propos", lastModified: stableLastMod },
-    { path: "/contact", lastModified: stableLastMod },
-    { path: "/inscription", lastModified: stableLastMod },
-    { path: "/desinscription", lastModified: stableLastMod },
-    { path: "/abonnes", lastModified: stableLastMod },
-    { path: "/don", lastModified: stableLastMod },
-  ];
+  function entry(path: string, alt?: string): MetadataRoute.Sitemap[number] {
+    const url = `${base}${path === "/" ? "" : path}`;
+    if (!alt) {
+      return { url, lastModified: editorialLastMod };
+    }
+    return {
+      url,
+      lastModified: editorialLastMod,
+      alternates: {
+        languages: {
+          "fr-FR": `${base}${path === "/" ? "" : path}`,
+          en: `${base}${alt}`,
+        },
+      },
+    };
+  }
 
-  const legalRoutes: { path: string; lastModified: Date }[] = [
-    { path: "/mentions-legales", lastModified: stableLastMod },
-    { path: "/confidentialite", lastModified: stableLastMod },
-    { path: "/cookies", lastModified: stableLastMod },
-  ];
+  const localizedSitemap: MetadataRoute.Sitemap = LOCALIZED.flatMap((p) => {
+    if (p.en) {
+      return [entry(p.fr, p.en), entry(p.en, p.fr)];
+    }
+    return [entry(p.fr)];
+  });
 
-  // Pages éditoriales statiques sous /blog/*
-  const staticBlogRoutes: { path: string; lastModified: Date }[] = [
-    { path: "/blog/signaux-emprise", lastModified: editorialLastMod },
-  ];
-
-  // Articles dynamiques depuis la DB (Prisma). En cas d'erreur, on retombe sur statique.
-  // CORRECTIF V2-01 : on émet le SLUG (la route /articles/[id] résout par slug),
-  // et on filtre sur les articles "published" pour éviter d'exposer des brouillons.
+  // Articles dynamiques depuis la DB (Prisma). FR uniquement pour l'instant.
   let articleRoutes: MetadataRoute.Sitemap = [];
   try {
     const { prisma } = await import("@/lib/prisma");
@@ -74,15 +88,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // noop (build/prod safe : si Prisma indisponible, on n'expose pas de route 404)
   }
 
-  const staticSitemap: MetadataRoute.Sitemap = [...staticRoutes, ...staticBlogRoutes].map((r) => ({
-    url: `${base}${r.path === "/" ? "" : r.path}`,
-    lastModified: r.lastModified,
-  }));
-
-  const legalSitemap: MetadataRoute.Sitemap = legalRoutes.map((r) => ({
-    url: `${base}${r.path}`,
-    lastModified: r.lastModified,
-  }));
-
-  return [...staticSitemap, ...legalSitemap, ...articleRoutes];
+  return [...localizedSitemap, ...articleRoutes];
 }

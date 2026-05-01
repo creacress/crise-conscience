@@ -11,7 +11,10 @@ export const metadata: Metadata = {
   title: "FAQ — Toutes les questions sur les dérives sectaires",
   description:
     "Questions fréquentes sur les dérives sectaires : reconnaître l'emprise, aider un proche, sortir d'un groupe, se reconstruire, signaler. Réponses sourcées MIVILUDES, UNADFI, Code pénal.",
-  alternates: { canonical: "/faq" },
+  alternates: {
+    canonical: "/faq",
+    languages: { "fr-FR": "/faq", en: "/en/faq", "x-default": "/faq" },
+  },
   openGraph: {
     type: "website",
     url: "/faq",

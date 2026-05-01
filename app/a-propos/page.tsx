@@ -12,7 +12,10 @@ export const metadata: Metadata = {
   title: "À propos",
   description:
     "Crise Conscience est une association loi 1901, partenaire de l’UNADFI, dédiée à la prévention des dérives sectaires : analyse critique, ressources fiables et accompagnement.",
-  alternates: { canonical: "/a-propos" },
+  alternates: {
+    canonical: "/a-propos",
+    languages: { "fr-FR": "/a-propos", en: "/en/about", "x-default": "/a-propos" },
+  },
 };
 
 const FAQ = [

@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import LanguageSwitcher from "@/app/components/ui/LanguageSwitcher";
+import { detectLocale, t, type Locale } from "@/lib/i18n";
 
 type NavGroup = {
   label: string;
@@ -10,40 +12,92 @@ type NavGroup = {
   items: { href: string; label: string; desc: string }[];
 };
 
-const NAV_GROUPS: NavGroup[] = [
-  {
-    label: "Comprendre",
-    description: "Mécanismes, signaux, repères pédagogiques.",
-    items: [
-      { href: "/blog/signaux-emprise", label: "Signaux d'emprise", desc: "17 critères MIVILUDES" },
-      { href: "/glossaire", label: "Glossaire", desc: "18 termes clés sourcés" },
-      { href: "/faq", label: "FAQ", desc: "Toutes vos questions" },
-      { href: "/articles", label: "Articles", desc: "Dossiers et analyses" },
-    ],
-  },
-  {
-    label: "Agir",
-    description: "Que faire, qui contacter, comment se protéger.",
-    items: [
-      { href: "/aider-un-proche", label: "Aider un proche", desc: "Guide pratique en 5 étapes" },
-      { href: "/test-emprise", label: "Test d'emprise", desc: "Auto-évaluation BITE, 5 min" },
-      { href: "/se-reconstruire", label: "Se reconstruire", desc: "Guide post-sortie en 4 phases" },
-      { href: "/ressources", label: "Ressources", desc: "Institutions, associations" },
-    ],
-  },
-  {
-    label: "Soutenir",
-    description: "Lettre d'information, don, suivre l'association.",
-    items: [
-      { href: "/temoignages", label: "Témoignages", desc: "Récits de sortie anonymisés" },
-      { href: "/inscription", label: "Lettre d'information", desc: "Analyses et ressources" },
-      { href: "/don", label: "Faire un don", desc: "Paiement Stripe sécurisé" },
-      { href: "/a-propos", label: "À propos", desc: "Mission & UNADFI" },
-    ],
-  },
-];
-
-const FLAT_LINKS = NAV_GROUPS.flatMap((g) => g.items);
+function buildNavGroups(locale: Locale): NavGroup[] {
+  const isEn = locale === "en";
+  return [
+    {
+      label: t(locale, "nav.understand"),
+      description: t(locale, "nav.understand_desc"),
+      items: [
+        {
+          href: isEn ? "/en/recognize-coercive-control" : "/blog/signaux-emprise",
+          label: t(locale, "page.signals"),
+          desc: t(locale, "page.signals_desc"),
+        },
+        {
+          href: isEn ? "/en/glossary" : "/glossaire",
+          label: t(locale, "page.glossary"),
+          desc: t(locale, "page.glossary_desc"),
+        },
+        {
+          href: isEn ? "/en/faq" : "/faq",
+          label: t(locale, "page.faq"),
+          desc: t(locale, "page.faq_desc"),
+        },
+        // Articles dynamiques : pas (encore) traduits, on garde la version FR
+        // pour ne pas créer de 404. Le LanguageSwitcher pointera vers /en
+        // (home) pour une page non traduite.
+        {
+          href: isEn ? "/en" : "/articles",
+          label: t(locale, "page.articles"),
+          desc: t(locale, "page.articles_desc"),
+        },
+      ],
+    },
+    {
+      label: t(locale, "nav.act"),
+      description: t(locale, "nav.act_desc"),
+      items: [
+        {
+          href: isEn ? "/en/help-a-loved-one" : "/aider-un-proche",
+          label: t(locale, "page.help_loved_one"),
+          desc: t(locale, "page.help_loved_one_desc"),
+        },
+        {
+          href: isEn ? "/en/coercion-test" : "/test-emprise",
+          label: t(locale, "page.test"),
+          desc: t(locale, "page.test_desc"),
+        },
+        {
+          href: isEn ? "/en/recovering" : "/se-reconstruire",
+          label: t(locale, "page.recovering"),
+          desc: t(locale, "page.recovering_desc"),
+        },
+        {
+          href: isEn ? "/en/resources" : "/ressources",
+          label: t(locale, "page.resources"),
+          desc: t(locale, "page.resources_desc"),
+        },
+      ],
+    },
+    {
+      label: t(locale, "nav.support"),
+      description: t(locale, "nav.support_desc"),
+      items: [
+        {
+          href: isEn ? "/en/testimonies" : "/temoignages",
+          label: t(locale, "page.testimonies"),
+          desc: t(locale, "page.testimonies_desc"),
+        },
+        {
+          href: isEn ? "/en/subscribe" : "/inscription",
+          label: t(locale, "page.subscribe"),
+          desc: t(locale, "page.subscribe_desc"),
+        },
+        {
+          href: isEn ? "/en/donate" : "/don",
+          label: t(locale, "page.donate"),
+          desc: t(locale, "page.donate_desc"),
+        },
+        {
+          href: isEn ? "/en/about" : "/a-propos",
+          label: t(locale, "page.about"),
+          desc: t(locale, "page.about_desc"),
+        },
+      ],
+    },
+  ];
+}
 
 function Logo() {
   return (
@@ -84,9 +138,13 @@ function ChevronIcon({ open }: { open: boolean }) {
 
 export default function HamburgerNav() {
   const pathname = usePathname();
+  const locale = useMemo<Locale>(() => detectLocale(pathname ?? "/"), [pathname]);
+  const navGroups = useMemo(() => buildNavGroups(locale), [locale]);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef<HTMLDivElement | null>(null);
+  const homeHref = locale === "en" ? "/en" : "/";
+  const contactHref = locale === "en" ? "/en/contact" : "/contact";
 
   // Fermer en navigation
   useEffect(() => {
@@ -129,24 +187,24 @@ export default function HamburgerNav() {
     <header className="w-full" ref={navRef}>
       <div className="flex items-center justify-between rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface-1)]/85 px-4 py-3 backdrop-blur-md">
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)] rounded-md">
+        <Link href={homeHref} className="flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)] rounded-md">
           <Logo />
           <span className="leading-tight">
             <span className="block font-display text-sm font-semibold text-[var(--color-text)]">
               Crise Conscience
             </span>
             <span className="block text-xs text-[var(--color-text-subtle)]">
-              Prévenir • Informer • Aider
+              {t(locale, "brand.tagline")}
             </span>
           </span>
         </Link>
 
         {/* Desktop nav (méga-menu) */}
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Navigation principale">
-          {NAV_GROUPS.map((g, idx) => {
+          {navGroups.map((g, idx) => {
             const isOpen = openGroup === g.label;
             const isActive = g.items.some((it) => pathname?.startsWith(it.href));
-            const isLast = idx === NAV_GROUPS.length - 1;
+            const isLast = idx === navGroups.length - 1;
             return (
               <div key={g.label} className="relative">
                 <button
@@ -204,18 +262,20 @@ export default function HamburgerNav() {
             );
           })}
 
+          <LanguageSwitcher className="ml-2" />
+
           <Link
-            href="/contact"
+            href={contactHref}
             className="ml-2 inline-flex h-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-accent)] px-4 text-sm font-semibold text-black transition-colors duration-[var(--motion-fast)] hover:bg-[var(--color-accent-hover)] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
           >
-            Nous contacter
+            {t(locale, "nav.contact_us")}
           </Link>
         </nav>
 
         {/* Mobile hamburger */}
         <button
           type="button"
-          aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-label={mobileOpen ? t(locale, "nav.menu_close") : t(locale, "nav.menu_open")}
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav"
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -243,44 +303,47 @@ export default function HamburgerNav() {
         <>
           <button
             type="button"
-            aria-label="Fermer le menu"
+            aria-label={t(locale, "nav.menu_close")}
             onClick={() => setMobileOpen(false)}
             className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
           />
           <nav
             id="mobile-nav"
-            aria-label="Navigation mobile"
+            aria-label={t(locale, "nav.menu_open")}
             className="fixed right-0 top-0 z-50 h-dvh w-[88vw] max-w-sm overflow-y-auto border-l border-[var(--color-border-strong)] bg-[var(--color-surface-1)] px-5 py-6 lg:hidden"
           >
             <div className="mb-5 flex items-center justify-between">
-              <Link href="/" className="flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)] rounded-md">
+              <Link href={homeHref} className="flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)] rounded-md">
                 <Logo />
                 <span className="font-display text-sm font-semibold text-[var(--color-text)]">
                   Crise Conscience
                 </span>
               </Link>
-              <button
-                type="button"
-                onClick={() => setMobileOpen(false)}
-                aria-label="Fermer"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface-2)] text-[var(--color-text-muted)] hover:text-[var(--color-text)] cursor-pointer"
-              >
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
+              <div className="flex items-center gap-2">
+                <LanguageSwitcher />
+                <button
+                  type="button"
+                  onClick={() => setMobileOpen(false)}
+                  aria-label={t(locale, "nav.menu_close")}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface-2)] text-[var(--color-text-muted)] hover:text-[var(--color-text)] cursor-pointer"
+                >
+                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             <Link
-              href="/"
+              href={homeHref}
               className="mb-3 block rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface-2)] px-4 py-3 text-sm font-medium text-[var(--color-text-muted)] transition-colors duration-[var(--motion-fast)] hover:text-[var(--color-text)]"
             >
-              Accueil
+              {t(locale, "nav.home")}
             </Link>
 
             <div className="space-y-5">
-              {NAV_GROUPS.map((g) => (
+              {navGroups.map((g) => (
                 <div key={g.label}>
                   <div className="mb-2 px-1 text-xs font-semibold uppercase tracking-widest text-[var(--color-text-subtle)]">
                     {g.label}
@@ -311,14 +374,14 @@ export default function HamburgerNav() {
             </div>
 
             <Link
-              href="/contact"
+              href={contactHref}
               className="mt-6 inline-flex w-full items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-accent)] px-4 py-3 text-sm font-semibold text-black hover:bg-[var(--color-accent-hover)]"
             >
-              Nous contacter
+              {t(locale, "nav.contact_us")}
             </Link>
 
             <div className="mt-6 rounded-[var(--radius-md)] border border-[var(--color-alert-border)] bg-[var(--color-alert-bg)] px-4 py-3 text-xs leading-6 text-[var(--color-text-muted)]">
-              <strong className="text-[var(--color-text)]">Urgence ?</strong> 15 / 17 / 18 / 112 — prévention suicide 3114.
+              {t(locale, "nav.urgency")}
             </div>
           </nav>
         </>
@@ -328,4 +391,3 @@ export default function HamburgerNav() {
 }
 
 export type { NavGroup };
-export { FLAT_LINKS };
