@@ -17,6 +17,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: "/blog/signaux-emprise", label: "Signaux d'emprise", desc: "17 critères MIVILUDES" },
       { href: "/glossaire", label: "Glossaire", desc: "18 termes clés sourcés" },
+      { href: "/faq", label: "FAQ", desc: "Toutes vos questions" },
       { href: "/articles", label: "Articles", desc: "Dossiers et analyses" },
     ],
   },
@@ -26,6 +27,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: "/aider-un-proche", label: "Aider un proche", desc: "Guide pratique en 5 étapes" },
       { href: "/test-emprise", label: "Test d'emprise", desc: "Auto-évaluation BITE, 5 min" },
+      { href: "/se-reconstruire", label: "Se reconstruire", desc: "Guide post-sortie en 4 phases" },
       { href: "/ressources", label: "Ressources", desc: "Institutions, associations" },
     ],
   },
@@ -33,6 +35,7 @@ const NAV_GROUPS: NavGroup[] = [
     label: "Soutenir",
     description: "Lettre d'information, don, suivre l'association.",
     items: [
+      { href: "/temoignages", label: "Témoignages", desc: "Récits de sortie anonymisés" },
       { href: "/inscription", label: "Lettre d'information", desc: "Analyses et ressources" },
       { href: "/don", label: "Faire un don", desc: "Paiement Stripe sécurisé" },
       { href: "/a-propos", label: "À propos", desc: "Mission & UNADFI" },

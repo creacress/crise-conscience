@@ -222,10 +222,10 @@ const HUBS = [
     tone: "calm" as const,
   },
   {
-    title: "Glossaire",
-    desc: "18 termes clés sourcés : emprise, sujétion, BITE model, ostracisme…",
-    href: "/glossaire",
-    icon: "book",
+    title: "Se reconstruire",
+    desc: "Guide post-sortie en 4 phases : sortie immédiate, premiers mois, 1ʳᵉ année, long terme.",
+    href: "/se-reconstruire",
+    icon: "compass",
     tone: "accent" as const,
   },
   {
