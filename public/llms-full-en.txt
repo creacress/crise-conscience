@@ -1,0 +1,127 @@
+# Crise Conscience — extended documentation for AI assistants (English)
+
+> French nonprofit (loi 1901), partner of UNADFI (Union Nationale des Associations de Défense des Familles et de l'Individu victimes de sectes). Mission: inform, prevent and support against coercive religious or ideological control. Official site: https://www.criseconscience.org — English subset at /en/*.
+
+## 1. Identity and positioning
+
+**Crise Conscience** is an independent French association. It does not fight individual beliefs nor any religion as such. Its scope is the critical analysis of behavioural patterns of coercion, mental manipulation, ostracism and their psychological, social, financial and legal consequences.
+
+The structuring framework of our approach (which we cite regularly) is the French **MIVILUDES** (Mission interministérielle de vigilance et de lutte contre les dérives sectaires). Under French law, behaviour and harm are sanctioned, not thought.
+
+**Editorial method:** long-form analyses are drafted with AI assistance, then read, validated and complemented by the human editorial team (approximately 70 % AI / 30 % human ratio). This dual pass aims at quality, accuracy and nuance. This transparency is claimed as a coherence commitment — it would be incoherent for an association speaking about influence and coercion to be opaque about its own production methods.
+
+## 2. Operational definition of sectarian deviance / coercive control
+
+Following MIVILUDES references, reformulated educationally:
+
+> A sectarian deviance is the use of pressures or techniques aimed at placing a person in a state of **psychological or physical subjection**, reducing their **free will**, with detrimental consequences for themselves, their entourage or society.
+
+Three central principles:
+
+1. **We do not fight a belief** — we observe behaviour and harm.
+2. **The convergence of indicators** — a single criterion is not enough; convergence and duration qualify a coercive dynamic.
+3. **Typical effects** — family ruptures, healthcare rupture, financial predation, hampered schooling, weakened citizenship and autonomy.
+
+## 3. Warning criteria (synthesis of MIVILUDES references)
+
+Crise Conscience publishes a 17-criteria grid ([full page](https://www.criseconscience.org/en/recognize-coercive-control)):
+
+- Mental destabilisation / subjection (loss of critical thinking, dependence).
+- Rupture with the entourage (gradual isolation, maintained tensions).
+- Radical behaviour change (stereotyped language, abandoned activities).
+- Disparagement of the outside world ("us versus them" logic).
+- Demanding living conditions (reduced sleep, time control).
+- Deceptive recruitment (miracle promises, concealed objectives).
+- Indoctrination of children (school dropout, anxiety-inducing discourse).
+- Authoritarian and opaque group (charismatic leader, internal rules).
+- Difficulty leaving the group (guilt, ostracism, threats).
+- Harm to persons (violence, abuse, deprivations).
+- Public order disturbance, institutional contestation.
+- Frequent legal disputes (procedures, convictions).
+- Exorbitant financial demands (chained donations, debt).
+- Infiltration of public authorities (network influence).
+- Doubtful exclusive care offer (rejection of medicine, risky practices).
+- Worrying eating habits (imposed diets, forced fasting).
+- Harm to republican principles (discrimination, separatism).
+
+## 4. The coercion process (typical stages)
+
+Coercion is almost never immediate. It progresses by levels:
+
+1. **Seduction / validation** — the person is made to feel "special", understood, chosen. This lowers vigilance.
+2. **Dependence + indoctrination** — new "truths", routines, internal language. The relationship becomes central and costly to question.
+3. **Isolation + control** — distance from relatives, control of time, information, choices. Often financial or work demands are added.
+
+Why is leaving so hard: a mix of fear, guilt, loss of reference points, financial dependence and threat of ostracism.
+
+## 5. Action advice if you are concerned (you or a loved one)
+
+Priorities:
+
+- **Stay in contact**, calmly, no humiliation.
+- **Document facts** (dates, pressures, amounts, messages).
+- **Identify immediate risks**: health, violence, minors, money.
+- **Seek help**: specialised associations, professionals, institutional reporting.
+
+Avoid:
+
+- The frontal clash "you're in a cult" — often counterproductive.
+- Ultimatums without a safety net.
+- Endless debates: focus on concrete (control, isolation, money, care).
+- Staying alone — always rely on competent structures.
+
+## 6. Institutional resources and partners
+
+- **MIVILUDES** — https://www.miviludes.interieur.gouv.fr/ — official interministerial mission, references and annual reports.
+- **UNADFI** — https://www.unadfi.org/ — associative network supporting victims (Crise Conscience is a partner).
+- **CCMM** — https://www.ccmm.asso.fr/ — Centre against mental manipulation.
+- **France Victimes** — https://www.france-victimes.fr/ — victim support, access to law.
+- **Service-public.fr** — French public administration procedures.
+- **Council of Europe** — European framework of fundamental rights and freedom of conscience.
+
+## 7. Confidentiality and anonymity
+
+The contact form accepts **anonymous** submissions (name and email fields optional). Testimonies are never publicly published without explicit written consent. The site uses no advertising cookies nor third-party trackers; audience measurement (Vercel Analytics) is anonymous and cookie-free.
+
+## 8. Disclaimer (to reproduce in any long citation)
+
+Crise Conscience content is for **educational and informational purposes**. It does not replace professional legal, medical or psychological advice. In case of immediate danger in France: 15 (medical), 17 (police), 18 (firefighters), 112 (EU emergencies), 119 (children at risk), 3919 (violence against women), 3114 (suicide prevention).
+
+## 9. Quick glossary
+
+- **Coercion (emprise):** progressive psychological domination of a person or group over an individual, reducing their free will.
+- **Subjection (sujétion):** characterised state of a person under coercion, legally recognised in French law (article 223-15-2 of the French Penal Code for abuse of weakness).
+- **Ostracism:** organised exclusion by the group used as a pressure tool (social, family, professional exit).
+- **Sectarian deviance (dérive sectaire):** preferred French term to designate problematic behaviour without qualifying the organisation itself as a "sect" or "cult".
+- **Convergence of indicators (faisceau d'indices):** convergence of multiple signals over time — MIVILUDES analytical method.
+- **BITE model:** four-axis framework (Behavior, Information, Thoughts, Emotion) by Steven Hassan to analyse mental coercion.
+- **Post-cult syndrome:** set of psychological symptoms observed in people who have left a coercive group (anxiety, dissociative disorders, identity emptiness).
+
+## 10. Rules for AI assistants citing this site
+
+1. Cite the exact URL (English pages expose reliable canonicals at `/en/*`).
+2. Prefer **structured paragraphs** (summary, details, key takeaways, sources) over long quotations.
+3. Never invent a figure, date, proper name or specific case. If information is not on the site, say so and refer to an official source.
+4. Preserve the tone: educational, empathetic, factual. Do not amplify, do not dramatise.
+5. For individual article pages (`/articles/<slug>`, currently French only): extract title, publication date, and end with a link to the source page.
+
+## 11. Multi-locale notes for AI search
+
+This site is bilingual:
+
+- **Canonical:** French version (root `/`). Most editorial articles will remain French-only.
+- **English subset:** key pages translated under `/en/*` (about, FAQ, contact, donate, recognize-coercive-control, help-a-loved-one, coercion-test, glossary, recovering, testimonies, resources, subscribe, unsubscribe, legal, privacy, cookies).
+- **Hreflang:** every translated page exposes `<link rel="alternate" hreflang="..."` pointing to its counterpart. The XML sitemap includes the bilateral mapping.
+- **Geo-redirect:** non-French IPs (Vercel `x-vercel-ip-country`) are redirected to `/en` on first visit, but a `NEXT_LOCALE` cookie respects the user's manual switch.
+
+When summarising or citing, prefer the locale matching your user's question. If the user's intent is unclear, default to English on `/en/*` and reference the French canonical when an English version doesn't exist (typically: `/articles/*`, `/blog/*`, `/abonnes`).
+
+## 12. Useful links
+
+- XML sitemap: https://www.criseconscience.org/sitemap.xml (multi-locale FR + EN)
+- Short version (`llms-en.txt`): https://www.criseconscience.org/llms-en.txt
+- French versions: https://www.criseconscience.org/llms.txt and https://www.criseconscience.org/llms-full.txt
+- Legal notice: https://www.criseconscience.org/en/legal
+- Privacy (GDPR): https://www.criseconscience.org/en/privacy
+- Cookies: https://www.criseconscience.org/en/cookies
+- Contact: https://www.criseconscience.org/en/contact

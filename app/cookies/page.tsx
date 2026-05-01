@@ -5,7 +5,10 @@ export const metadata: Metadata = {
   title: "Politique de cookies",
   description:
     "Politique d’utilisation des cookies et traceurs sur le site Crise Conscience. Approche minimale et respectueuse de la vie privée.",
-  alternates: { canonical: "/cookies" },
+  alternates: {
+    canonical: "/cookies",
+    languages: { "fr-FR": "/cookies", en: "/en/cookies", "x-default": "/cookies" },
+  },
   robots: { index: true, follow: true },
 };
 

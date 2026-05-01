@@ -5,7 +5,10 @@ export const metadata: Metadata = {
   title: "Politique de confidentialité",
   description:
     "Politique de confidentialité et traitement des données personnelles sur le site Crise Conscience, conformément au RGPD.",
-  alternates: { canonical: "/confidentialite" },
+  alternates: {
+    canonical: "/confidentialite",
+    languages: { "fr-FR": "/confidentialite", en: "/en/privacy", "x-default": "/confidentialite" },
+  },
   robots: { index: true, follow: true },
 };
 

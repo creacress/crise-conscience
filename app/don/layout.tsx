@@ -11,7 +11,10 @@ export const metadata: Metadata = {
   title: "Soutenir Crise Conscience — Faire un don",
   description:
     "Soutenez l'association Crise Conscience par un don sécurisé via Stripe. Financez des analyses indépendantes, des ressources vérifiées et la prévention des dérives sectaires.",
-  alternates: { canonical: "/don" },
+  alternates: {
+    canonical: "/don",
+    languages: { "fr-FR": "/don", en: "/en/donate", "x-default": "/don" },
+  },
   openGraph: {
     type: "website",
     url: "/don",

@@ -7,7 +7,10 @@ export const metadata: Metadata = {
   title: "Test d'emprise — auto-évaluation gratuite et anonyme",
   description:
     "Outil pédagogique d'auto-évaluation des signaux d'emprise (modèle BITE de Steven Hassan). 16 questions, anonyme, 5 minutes. Cet outil n'est pas un diagnostic médical.",
-  alternates: { canonical: "/test-emprise" },
+  alternates: {
+    canonical: "/test-emprise",
+    languages: { "fr-FR": "/test-emprise", en: "/en/coercion-test", "x-default": "/test-emprise" },
+  },
   openGraph: {
     type: "website",
     url: "/test-emprise",

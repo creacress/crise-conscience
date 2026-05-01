@@ -46,7 +46,7 @@ const nextConfig: NextConfig = {
         headers: securityHeaders,
       },
 
-      // Cache agressif pour fichiers SEO “stables”
+      // Cache agressif pour fichiers SEO "stables"
       {
         source: "/sitemap.xml",
         headers: [{ key: "Cache-Control", value: "public, max-age=0, s-maxage=86400" }],
@@ -58,6 +58,24 @@ const nextConfig: NextConfig = {
       {
         source: "/llms.txt",
         headers: [{ key: "Cache-Control", value: "public, max-age=0, s-maxage=86400" }],
+      },
+      {
+        source: "/llms-full.txt",
+        headers: [{ key: "Cache-Control", value: "public, max-age=0, s-maxage=86400" }],
+      },
+      {
+        source: "/llms-en.txt",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=0, s-maxage=86400" },
+          { key: "Content-Language", value: "en" },
+        ],
+      },
+      {
+        source: "/llms-full-en.txt",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=0, s-maxage=86400" },
+          { key: "Content-Language", value: "en" },
+        ],
       },
     ];
   },

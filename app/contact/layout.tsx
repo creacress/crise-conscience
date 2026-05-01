@@ -8,7 +8,10 @@ export const metadata: Metadata = {
   title: "Contact — Crise Conscience | Questions, témoignages, signalements",
   description:
     "Contactez l'association Crise Conscience : questions sur les dérives sectaires, témoignages, signalements, demandes de partenariat. Réponse sous 48-72h, anonymat possible.",
-  alternates: { canonical: "/contact" },
+  alternates: {
+    canonical: "/contact",
+    languages: { "fr-FR": "/contact", en: "/en/contact", "x-default": "/contact" },
+  },
   openGraph: {
     type: "website",
     url: "/contact",

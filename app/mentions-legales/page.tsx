@@ -5,7 +5,10 @@ export const metadata: Metadata = {
   title: "Mentions légales",
   description:
     "Mentions légales du site Crise Conscience : éditeur, hébergeur, directeur de publication, propriété intellectuelle.",
-  alternates: { canonical: "/mentions-legales" },
+  alternates: {
+    canonical: "/mentions-legales",
+    languages: { "fr-FR": "/mentions-legales", en: "/en/legal", "x-default": "/mentions-legales" },
+  },
   robots: { index: true, follow: true },
 };
 

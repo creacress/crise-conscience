@@ -93,7 +93,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: { canonical: "/" },
+    alternates: {
+      canonical: "/",
+      languages: { "fr-FR": "/", en: "/en", "x-default": "/" },
+    },
     openGraph: { type: "website", url: "/", title, description },
     twitter: { card: "summary_large_image", title, description },
   };
@@ -222,10 +225,10 @@ const HUBS = [
     tone: "calm" as const,
   },
   {
-    title: "Glossaire",
-    desc: "18 termes clés sourcés : emprise, sujétion, BITE model, ostracisme…",
-    href: "/glossaire",
-    icon: "book",
+    title: "Se reconstruire",
+    desc: "Guide post-sortie en 4 phases : sortie immédiate, premiers mois, 1ʳᵉ année, long terme.",
+    href: "/se-reconstruire",
+    icon: "compass",
     tone: "accent" as const,
   },
   {

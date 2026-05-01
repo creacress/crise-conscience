@@ -8,7 +8,10 @@ export const metadata = {
   title: "Newsletter Crise Conscience — Inscription gratuite",
   description:
     "Inscrivez-vous à la newsletter de Crise Conscience : ressources vérifiées sur les dérives sectaires, signaux d’emprise, actualités de prévention. Sans spam, désinscription en un clic.",
-  alternates: { canonical: "/inscription" },
+  alternates: {
+    canonical: "/inscription",
+    languages: { "fr-FR": "/inscription", en: "/en/subscribe", "x-default": "/inscription" },
+  },
 };
 
 export default function Page() {

@@ -6,7 +6,10 @@ export const metadata = {
     title: "Ressources contre les dérives sectaires — Guides, aide et institutions",
     description:
       "Toutes les ressources pour comprendre et agir face aux dérives sectaires : MIVILUDES, UNADFI, CCMM, France Victimes, guides pratiques, kit d’analyse et outils pour développer l’esprit critique.",
-    alternates: { canonical: "/ressources" },
+    alternates: {
+    canonical: "/ressources",
+    languages: { "fr-FR": "/ressources", en: "/en/resources", "x-default": "/ressources" },
+  },
     openGraph: {
       type: "website" as const,
       url: "/ressources",

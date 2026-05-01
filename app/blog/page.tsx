@@ -102,6 +102,7 @@ export default async function BlogPage() {
       <JsonLd data={itemListJsonLd} />
       <Container>
       <SectionTitle
+        as="h1"
         eyebrow="Blog"
         title="Actualités, témoignages et analyses"
         desc="Des contenus clairs, sourcés et accessibles pour comprendre, prévenir et agir."

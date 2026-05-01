@@ -10,7 +10,10 @@ export const metadata: Metadata = {
   title: "Identifier une dérive sectaire : signes d’emprise et critères",
   description:
     "Repères concrets pour identifier une dérive sectaire : critères MIVILUDES, mécanismes d’emprise, signaux d’alerte et conseils pour agir.",
-  alternates: { canonical: "/blog/signaux-emprise" },
+  alternates: {
+    canonical: "/blog/signaux-emprise",
+    languages: { "fr-FR": "/blog/signaux-emprise", en: "/en/recognize-coercive-control", "x-default": "/blog/signaux-emprise" },
+  },
   openGraph: {
     title: "Identifier une dérive sectaire : signes d’emprise et critères",
     description:
