@@ -222,18 +222,16 @@ const HUBS = [
     tone: "calm" as const,
   },
   {
-    title: "Se reconstruire",
-    desc: "Parcours post-emprise, accompagnement, soutien.",
-    // TODO: pointer vers /se-reconstruire dès la création (Lot 3)
-    href: "/contact",
-    icon: "compass",
+    title: "Glossaire",
+    desc: "18 termes clés sourcés : emprise, sujétion, BITE model, ostracisme…",
+    href: "/glossaire",
+    icon: "book",
     tone: "accent" as const,
   },
   {
     title: "Test d'emprise",
-    desc: "Outil d'auto-évaluation (en préparation).",
-    // TODO: pointer vers /test-emprise dès la création (Lot 3)
-    href: "/contact",
+    desc: "16 questions BITE pour auto-évaluer les signaux. Anonyme, 5 min.",
+    href: "/test-emprise",
     icon: "sparkle",
     tone: "info" as const,
   },

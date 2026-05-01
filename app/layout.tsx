@@ -123,10 +123,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}</style>
 
         <div className="relative">
-          <div className="mx-auto w-full max-w-6xl px-4">
+          {/* Header sticky : z-50 pour passer au-dessus du hero / cards */}
+          <div className="sticky top-0 z-50 mx-auto w-full max-w-6xl px-4 pt-3">
             <HamburgerNav />
           </div>
-          <main id="main" className="pt-10">
+          <main id="main" className="pt-6">
             <div className="cc-page-slot">{children}</div>
           </main>
           <SiteFooter />

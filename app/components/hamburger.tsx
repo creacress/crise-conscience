@@ -16,8 +16,8 @@ const NAV_GROUPS: NavGroup[] = [
     description: "Mécanismes, signaux, repères pédagogiques.",
     items: [
       { href: "/blog/signaux-emprise", label: "Signaux d'emprise", desc: "17 critères MIVILUDES" },
+      { href: "/glossaire", label: "Glossaire", desc: "18 termes clés sourcés" },
       { href: "/articles", label: "Articles", desc: "Dossiers et analyses" },
-      { href: "/blog", label: "Blog", desc: "Actualités, témoignages" },
     ],
   },
   {
@@ -25,8 +25,8 @@ const NAV_GROUPS: NavGroup[] = [
     description: "Que faire, qui contacter, comment se protéger.",
     items: [
       { href: "/aider-un-proche", label: "Aider un proche", desc: "Guide pratique en 5 étapes" },
+      { href: "/test-emprise", label: "Test d'emprise", desc: "Auto-évaluation BITE, 5 min" },
       { href: "/ressources", label: "Ressources", desc: "Institutions, associations" },
-      { href: "/contact", label: "Contact", desc: "Anonymat possible" },
     ],
   },
   {
@@ -140,9 +140,10 @@ export default function HamburgerNav() {
 
         {/* Desktop nav (méga-menu) */}
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Navigation principale">
-          {NAV_GROUPS.map((g) => {
+          {NAV_GROUPS.map((g, idx) => {
             const isOpen = openGroup === g.label;
             const isActive = g.items.some((it) => pathname?.startsWith(it.href));
+            const isLast = idx === NAV_GROUPS.length - 1;
             return (
               <div key={g.label} className="relative">
                 <button
@@ -163,7 +164,9 @@ export default function HamburgerNav() {
                 {isOpen ? (
                   <div
                     role="menu"
-                    className="absolute right-0 top-full z-30 mt-2 w-80 rounded-[var(--radius-xl)] border border-[var(--color-border-strong)] bg-[var(--color-surface-2)] p-3 shadow-[var(--shadow-md)]"
+                    className={`absolute top-full z-50 mt-2 w-80 rounded-[var(--radius-xl)] border border-[var(--color-border-strong)] bg-[var(--color-surface-2)] p-3 shadow-[var(--shadow-md)] supports-[backdrop-filter]:bg-[var(--color-surface-2)]/95 supports-[backdrop-filter]:backdrop-blur-md ${
+                      isLast ? "right-0" : "left-0"
+                    }`}
                   >
                     <div className="px-2 pb-3 text-xs text-[var(--color-text-subtle)]">
                       {g.description}
