@@ -43,7 +43,7 @@ export default function NotFound() {
         </Link>
       </div>
 
-      <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-xs leading-6 text-white/55">
+      <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-xs leading-6 text-[var(--color-text-subtle)]">
         <strong className="text-white/80">Urgence ?</strong> Ce site n&apos;est pas un service
         d&apos;urgence. En cas de danger immédiat&nbsp;: 15 / 17 / 18 / 112. Prévention suicide&nbsp;:
         3114.

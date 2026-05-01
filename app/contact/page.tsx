@@ -226,7 +226,7 @@ export default function ContactPage() {
                     placeholder="Ex : alex@mail.com"
                     disabled={loading}
                   />
-                  <p className="mt-2 text-xs text-white/50">Si tu préfères rester anonyme, laisse vide.</p>
+                  <p className="mt-2 text-xs text-[var(--color-text-subtle)]">Si tu préfères rester anonyme, laisse vide.</p>
                 </div>
 
                 <div>
@@ -257,7 +257,7 @@ export default function ContactPage() {
                   placeholder="Décris ta situation, ton contexte, et ce que tu attends de nous…"
                   disabled={loading}
                 />
-                <p className="mt-2 text-xs text-white/50">
+                <p className="mt-2 text-xs text-[var(--color-text-subtle)]">
                   Évite d’indiquer des informations personnelles sensibles si ce n’est pas nécessaire.
                 </p>
               </div>

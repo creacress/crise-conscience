@@ -286,7 +286,7 @@ export default function DonPage() {
                         placeholder="15"
                         aria-label="Montant personnalisé"
                       />
-                      <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-white/50">
+                      <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[var(--color-text-subtle)]">
                         €
                       </span>
                     </div>
@@ -298,7 +298,7 @@ export default function DonPage() {
                       {loadingAmount === customAmount ? "…" : "Donner"}
                     </button>
                   </div>
-                  <p className="mt-2 text-xs text-white/55">
+                  <p className="mt-2 text-xs text-[var(--color-text-subtle)]">
                     Minimum 2€ — maximum 5000€ (sécurité).
                   </p>
                 </div>
@@ -336,7 +336,7 @@ export default function DonPage() {
         </div>
 
         {/* FOOTER NOTE */}
-        <footer className="mt-12 text-center text-xs text-white/55">
+        <footer className="mt-12 text-center text-xs text-[var(--color-text-subtle)]">
           Merci pour ton soutien — il finance la rigueur, pas le bruit.
         </footer>
       </div>

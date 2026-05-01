@@ -1,5 +1,6 @@
 import { Breadcrumb } from "@/app/components/Breadcrumb";
 import { JsonLd } from "@/app/components/JsonLd";
+import EmergencyBox from "@/app/components/EmergencyBox";
 
 export const metadata = {
     title: "Ressources contre les dérives sectaires — Guides, aide et institutions",
@@ -272,7 +273,7 @@ export const metadata = {
                 </div>
                 <a
                   href="#top"
-                  className="text-xs text-white/50 transition hover:text-white/80"
+                  className="text-xs text-[var(--color-text-subtle)] transition hover:text-white/80"
                 >
                   Retour en haut
                 </a>
@@ -309,12 +310,15 @@ export const metadata = {
             </div>
           </section>
   
+          {/* Urgences (YMYL) */}
+          <EmergencyBox variant="full" />
+
           {/* Disclaimer */}
           <section className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
             <h2 className="text-xl font-semibold text-white">Important</h2>
             <p className="mt-3 text-sm leading-6 text-white/70">
               Cette page propose une orientation générale et des ressources. Elle ne remplace pas un avis juridique ou
-              médical. En cas de danger immédiat, contacte les services d’urgence (112 / 15 / 17 / 18).
+              médical. En cas de danger immédiat, consultez les numéros d&apos;urgence ci-dessus.
             </p>
             <div className="mt-5">
               <a
