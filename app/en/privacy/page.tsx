@@ -76,13 +76,33 @@ export default function EnPrivacyPage() {
       </p>
 
       <h3>c. Browsing data and statistics</h3>
+      <p>We use two audience measurement tools:</p>
+      <ul>
+        <li>
+          <strong>
+            <a href="https://vercel.com/docs/analytics" target="_blank" rel="noreferrer">
+              Vercel Analytics
+            </a>
+          </strong>{" "}
+          — <strong>cookie-free</strong>, no browser fingerprinting, aligned with French CNIL
+          guidance for consent-exempt audience measurement. Aggregated, anonymised data, never
+          sold.
+        </li>
+        <li>
+          <strong>Google Analytics 4</strong> (Google Ireland Limited) — fuller audience
+          measurement, deposits persistent cookies <strong>only if you consent</strong>{" "}
+          (consent banner, Consent Mode v2). IP anonymisation, no Google Signals, no
+          advertising personalisation, no sharing with Google advertising services, retention
+          capped at 14 months. See details in our{" "}
+          <a href="/en/cookies">cookie policy</a>.
+        </li>
+      </ul>
       <p>
-        We use{" "}
-        <a href="https://vercel.com/docs/analytics" target="_blank" rel="noreferrer">
-          Vercel Analytics
-        </a>
-        , a <strong>privacy-respecting</strong> audience measurement tool: no cookies, no user
-        profile, no data resale. Statistics are aggregated and anonymised.
+        <strong>Legal basis</strong>: legitimate interest (Vercel Analytics) + explicit
+        consent (GA4, GDPR article 6.1.a).
+        <br />
+        <strong>You can withdraw your consent</strong> to Google Analytics at any time from the{" "}
+        <a href="/en/cookies">Cookies</a> page.
       </p>
 
       <h2>3. Data recipients</h2>
@@ -103,6 +123,11 @@ export default function EnPrivacyPage() {
         <li>
           <strong>n8n</strong> — internal automation (message relay, article processing).
         </li>
+        <li>
+          <strong>Google Ireland Limited</strong> — Google Analytics 4 (audience
+          measurement), only if you consent. Data processed in EU and United States (standard
+          contractual clauses + Data Privacy Framework).
+        </li>
       </ul>
       <p>
         Your data is <strong>never sold, rented or transferred</strong> to third parties for
@@ -111,10 +136,10 @@ export default function EnPrivacyPage() {
 
       <h2>4. Transfers outside the European Union</h2>
       <p>
-        Some of our processors (notably Vercel) may process data in the United States. These
-        transfers are governed by <strong>standard contractual clauses</strong> from the
-        European Commission and, where appropriate, adherence to the <em>Data Privacy
-        Framework</em>.
+        Some of our processors (notably Vercel and Google) may process data in the United
+        States. These transfers are governed by <strong>standard contractual clauses</strong>{" "}
+        from the European Commission and these providers&apos; adherence to the{" "}
+        <em>EU-U.S. Data Privacy Framework</em>.
       </p>
 
       <h2>5. Your rights</h2>
