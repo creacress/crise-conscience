@@ -2,6 +2,8 @@ import "./globals.css";
 import HamburgerNav from "@/app/components/hamburger";
 import SiteFooter from "@/app/components/SiteFooter";
 import SkipLink from "@/app/components/ui/SkipLink";
+import GoogleAnalytics from "@/app/components/GoogleAnalytics";
+import ConsentBanner from "@/app/components/ConsentBanner";
 
 import type { Metadata, Viewport } from "next";
 import { Inter, Fraunces } from "next/font/google";
@@ -105,6 +107,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen antialiased">
         <SkipLink />
+        <GoogleAnalytics />
 
         {/* Décor : 2 halos discrets, désactivés sur prefers-reduced-motion via globals.css */}
         <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 opacity-50 blur-3xl">
@@ -133,6 +136,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SiteFooter />
           <Analytics />
         </div>
+        <ConsentBanner />
       </body>
     </html>
   );

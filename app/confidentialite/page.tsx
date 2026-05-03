@@ -74,13 +74,34 @@ export default function ConfidentialitePage() {
       </p>
 
       <h3>c. Données de navigation et statistiques</h3>
+      <p>Nous utilisons deux outils de mesure d’audience :</p>
+      <ul>
+        <li>
+          <strong>
+            <a href="https://vercel.com/docs/analytics" target="_blank" rel="noreferrer">
+              Vercel Analytics
+            </a>
+          </strong>{" "}
+          — outil <strong>sans cookie</strong> et sans empreinte navigateur, conforme à la
+          position CNIL sur la mesure d’audience exemptée de consentement. Données agrégées,
+          anonymisées, jamais revendues.
+        </li>
+        <li>
+          <strong>Google Analytics 4</strong> (Google Ireland Limited) — outil de mesure
+          d’audience plus complet, qui dépose des cookies persistants{" "}
+          <strong>uniquement si vous y consentez</strong> (bandeau de consentement, Consent
+          Mode v2). Anonymisation IP activée, pas de signaux Google, pas de personnalisation
+          publicitaire, pas de partage avec les services publicitaires Google, conservation
+          limitée à 14 mois maximum. Voir le détail dans notre{" "}
+          <a href="/cookies">politique de cookies</a>.
+        </li>
+      </ul>
       <p>
-        Nous utilisons <a href="https://vercel.com/docs/analytics" target="_blank" rel="noreferrer">
-          Vercel Analytics
-        </a>
-        , un outil de mesure d’audience <strong>respectueux de la vie privée</strong> : pas de
-        cookies, pas de profil utilisateur, pas de revente de données. Les statistiques sont
-        agrégées et anonymisées.
+        <strong>Base légale</strong> : intérêt légitime (Vercel Analytics) + consentement
+        explicite (GA4, article 6.1.a du RGPD).
+        <br />
+        <strong>Vous pouvez retirer votre consentement</strong> à Google Analytics à tout
+        moment depuis la page <a href="/cookies">Cookies</a>.
       </p>
 
       <h2>3. Destinataires des données</h2>
@@ -103,6 +124,11 @@ export default function ConfidentialitePage() {
           <strong>n8n</strong> — automatisation interne (relais de messages, traitement des
           articles).
         </li>
+        <li>
+          <strong>Google Ireland Limited</strong> — Google Analytics 4 (mesure d’audience),
+          uniquement si vous y consentez. Données traitées en UE et aux États-Unis (clauses
+          contractuelles types + Data Privacy Framework).
+        </li>
       </ul>
       <p>
         Vos données ne sont <strong>jamais vendues, louées ou cédées</strong> à des tiers à des
@@ -111,10 +137,10 @@ export default function ConfidentialitePage() {
 
       <h2>4. Transferts hors Union européenne</h2>
       <p>
-        Certains de nos sous-traitants (notamment Vercel) peuvent être amenés à traiter des
-        données aux États-Unis. Ces transferts sont encadrés par les <strong>clauses
-        contractuelles types</strong> de la Commission européenne et, le cas échéant, par
-        l’adhésion au <em>Data Privacy Framework</em>.
+        Certains de nos sous-traitants (notamment Vercel et Google) peuvent être amenés à
+        traiter des données aux États-Unis. Ces transferts sont encadrés par les{" "}
+        <strong>clauses contractuelles types</strong> de la Commission européenne et par
+        l’adhésion de ces fournisseurs au <em>EU-U.S. Data Privacy Framework</em>.
       </p>
 
       <h2>5. Vos droits</h2>
