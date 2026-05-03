@@ -14,35 +14,39 @@ type NavGroup = {
 
 function buildNavGroups(locale: Locale): NavGroup[] {
   const isEn = locale === "en";
+  const understandItems: NavGroup["items"] = [
+    {
+      href: isEn ? "/en/recognize-coercive-control" : "/blog/signaux-emprise",
+      label: t(locale, "page.signals"),
+      desc: t(locale, "page.signals_desc"),
+    },
+    {
+      href: isEn ? "/en/glossary" : "/glossaire",
+      label: t(locale, "page.glossary"),
+      desc: t(locale, "page.glossary_desc"),
+    },
+    {
+      href: isEn ? "/en/faq" : "/faq",
+      label: t(locale, "page.faq"),
+      desc: t(locale, "page.faq_desc"),
+    },
+  ];
+
+  // L'item Articles est ajouté UNIQUEMENT en FR (pas de version EN traduite,
+  // donc on évite de créer un lien qui amène hors du parcours EN).
+  if (!isEn) {
+    understandItems.push({
+      href: "/articles",
+      label: t(locale, "page.articles"),
+      desc: t(locale, "page.articles_desc"),
+    });
+  }
+
   return [
     {
       label: t(locale, "nav.understand"),
       description: t(locale, "nav.understand_desc"),
-      items: [
-        {
-          href: isEn ? "/en/recognize-coercive-control" : "/blog/signaux-emprise",
-          label: t(locale, "page.signals"),
-          desc: t(locale, "page.signals_desc"),
-        },
-        {
-          href: isEn ? "/en/glossary" : "/glossaire",
-          label: t(locale, "page.glossary"),
-          desc: t(locale, "page.glossary_desc"),
-        },
-        {
-          href: isEn ? "/en/faq" : "/faq",
-          label: t(locale, "page.faq"),
-          desc: t(locale, "page.faq_desc"),
-        },
-        // Articles dynamiques : pas (encore) traduits, on garde la version FR
-        // pour ne pas créer de 404. Le LanguageSwitcher pointera vers /en
-        // (home) pour une page non traduite.
-        {
-          href: isEn ? "/en" : "/articles",
-          label: t(locale, "page.articles"),
-          desc: t(locale, "page.articles_desc"),
-        },
-      ],
+      items: understandItems,
     },
     {
       label: t(locale, "nav.act"),
