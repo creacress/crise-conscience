@@ -6,7 +6,7 @@ import Container from "@/app/components/Container";
 import Button from "@/app/components/ui/Button";
 import Tag from "@/app/components/ui/Tag";
 import Breadcrumb from "@/app/components/ui/Breadcrumb";
-import EmergencyBox from "@/app/components/EmergencyBox";
+import ResultModal, { type ResultSeverity } from "@/app/components/ResultModal";
 
 /**
  * /test-emprise — Outil pédagogique d'auto-évaluation.
@@ -128,6 +128,7 @@ function classifyScore(score: number, max: number): Severity {
 export default function TestEmprisePage() {
   const [answers, setAnswers] = useState<Record<string, AnswerValue>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const total = QUESTIONS.length;
   const answered = Object.keys(answers).length;
@@ -165,6 +166,7 @@ export default function TestEmprisePage() {
   function reset() {
     setAnswers({});
     setSubmitted(false);
+    setModalOpen(false);
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -172,11 +174,16 @@ export default function TestEmprisePage() {
 
   function submit() {
     setSubmitted(true);
+    setModalOpen(true);
     if (typeof window !== "undefined") {
       const el = document.getElementById("result");
       if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }
+
+  // La modale ResultModal n'utilise pas le label « alerte » (FR) mais « alert ».
+  const modalSeverity: ResultSeverity =
+    severity === "alerte" ? "alert" : severity;
 
   return (
     <Container>
@@ -455,9 +462,32 @@ export default function TestEmprisePage() {
               </Link>
             </div>
 
-            <EmergencyBox variant="full" />
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface-1)]/40 px-4 py-3 text-sm text-[var(--color-text-subtle)]">
+              <span>
+                Besoin d&apos;un mot d&apos;apaisement ?
+              </span>
+              <button
+                type="button"
+                onClick={() => setModalOpen(true)}
+                className="inline-flex items-center gap-1.5 rounded-[var(--radius-sm)] px-2 py-1 font-medium text-[var(--color-accent)] transition-colors duration-[var(--motion-fast)] hover:bg-[var(--color-accent-soft)] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
+              >
+                Rouvrir le message
+                <svg aria-hidden="true" viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M7 17 17 7" />
+                  <path d="M7 7h10v10" />
+                </svg>
+              </button>
+            </div>
           </section>
         )}
+
+        <ResultModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          severity={modalSeverity}
+          locale="fr"
+          contactHref="/contact"
+        />
 
         <footer className="mt-12 border-t border-[var(--color-border)] pt-6 text-xs leading-6 text-[var(--color-text-subtle)]">
           <p>
