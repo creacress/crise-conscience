@@ -1,7 +1,7 @@
 # Instagram : publication automatique
 
 100 posts prêts, publiés un par un par le workflow GitHub Actions
-`.github/workflows/instagram.yml`, tous les jours à 09:15 UTC.
+`.github/workflows/instagram.yml`, tous les jours à 09:15 UTC (le script ne publie que si un post est prévu, soit un post par semaine, le lundi).
 
 * `posts.json` : la file d'attente (numéro, date prévue, thème, URL de l'image,
   légende, statut). Les images sont servies par le site :
