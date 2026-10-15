@@ -34,7 +34,7 @@ jobs:
       - name: Publier le post du jour
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
-          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          TOKEN_KEY: ${{ secrets.TOKEN_KEY }}
           DRY_RUN: ${{ inputs.dry_run == true && '1' || '' }}
           FORCE_POST: ${{ inputs.force_post }}
         run: python3 instagram/publish.py
@@ -42,12 +42,13 @@ jobs:
       - name: Enregistrer l'état de publication
         if: always()
         run: |
-          if git diff --quiet instagram/posts.json; then
+          git add instagram/posts.json
+          [ -f instagram/token.enc ] && git add instagram/token.enc
+          if git diff --cached --quiet; then
             echo "Aucun changement d'état."
             exit 0
           fi
           git config user.name "crise-conscience-bot"
           git config user.email "contact@criseconscience.org"
-          git add instagram/posts.json
           git commit -m "instagram: état de publication $(date -u +%Y-%m-%d) [vercel skip]"
           git push origin HEAD:main
