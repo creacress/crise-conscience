@@ -1,0 +1,54 @@
+name: Instagram - publication automatique
+
+on:
+  schedule:
+    # Tous les jours à 09:15 UTC (10:15 Paris en hiver, 11:15 en été).
+    # Le script ne publie que si un post est prévu à cette date ou avant.
+    - cron: "15 9 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Simulation (aucune publication)"
+        type: boolean
+        default: false
+      force_post:
+        description: "Numéro de post à publier immédiatement (vide = suivant prévu)"
+        type: string
+        default: ""
+
+concurrency:
+  group: instagram-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Publier le post du jour
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          TOKEN_KEY: ${{ secrets.TOKEN_KEY }}
+          DRY_RUN: ${{ inputs.dry_run == true && '1' || '' }}
+          FORCE_POST: ${{ inputs.force_post }}
+        run: python3 instagram/publish.py
+
+      - name: Enregistrer l'état de publication
+        if: always()
+        run: |
+          git add instagram/posts.json
+          [ -f instagram/token.enc ] && git add instagram/token.enc
+          if git diff --cached --quiet; then
+            echo "Aucun changement d'état."
+            exit 0
+          fi
+          git config user.name "crise-conscience-bot"
+          git config user.email "contact@criseconscience.org"
+          git commit -m "instagram: état de publication $(date -u +%Y-%m-%d) [vercel skip]"
+          git push origin HEAD:main
